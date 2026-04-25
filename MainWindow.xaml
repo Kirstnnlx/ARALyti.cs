@@ -1,0 +1,137 @@
+﻿<Window x:Class="ARALyti.cs.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:ARALyti.cs.views"
+        mc:Ignorable="d"
+        Title="ARALyti.cs"
+        Height="860"
+        Width="1520"
+        WindowStartupLocation="CenterScreen"
+        Background="#050816">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="#060A1F">
+            <Grid Margin="22">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Logo -->
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="6,8,6,28">
+                    <TextBlock Text="&lt;/&gt;"
+                               Foreground="#4C6FFF"
+                               FontSize="30"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="  ARALyti."
+                               Foreground="White"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="cs"
+                               Foreground="#9E42FF"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Menu -->
+                <StackPanel Grid.Row="1">
+                    <Button x:Name="DashboardButton"
+                            Content="Dashboard"
+                            Height="58"
+                            Margin="0,0,0,12"
+                            Background="#5B3DF5"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Click="DashboardButton_Click"/>
+
+                    <Button x:Name="ScanProjectButton"
+                            Content="Scan Project"
+                            Height="58"
+                            Margin="0,0,0,12"
+                            Background="#111734"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Click="ScanProjectButton_Click"/>
+
+                    <Button x:Name="TopicsButton"
+                            Content="Topics"
+                            Height="58"
+                            Margin="0,0,0,12"
+                            Background="#111734"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Click="TopicsButton_Click"/>
+
+                    <Button x:Name="ProjectDiaryButton"
+                            Content="Project Diary"
+                            Height="58"
+                            Margin="0,0,0,12"
+                            Background="#111734"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontSize="18"
+                            FontWeight="SemiBold"
+                            Click="ProjectDiaryButton_Click"/>
+                </StackPanel>
+
+                <!-- Left card -->
+                <Border Grid.Row="2"
+                        Background="#0D1230"
+                        CornerRadius="22"
+                        Padding="22"
+                        Margin="0,34,0,18"
+                        VerticalAlignment="Bottom"
+                        BorderBrush="#1E2A59"
+                        BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="Keep Coding!"
+                                   Foreground="White"
+                                   FontSize="20"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,10,0,12"/>
+                        <TextBlock Text="Scan projects and track your progress."
+                                   Foreground="#B7C0DD"
+                                   FontSize="15"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,10"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock Grid.Row="3"
+                           Text="ARALyti.cs v1.0.0"
+                           Foreground="#8B95B8"
+                           FontSize="14"
+                           HorizontalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- Content -->
+        <Grid Grid.Column="1" Background="#050816">
+            <views:DashboardView x:Name="DashboardPanel" Visibility="Visible"/>
+            <views:ScanProjectView x:Name="ScanProjectPanel" Visibility="Collapsed"/>
+            <views:TopicsView x:Name="TopicsPanel" Visibility="Collapsed"/>
+            <views:ProjectDiaryView x:Name="ProjectDiaryPanel" Visibility="Collapsed"/>
+        </Grid>
+    </Grid>
+</Window>

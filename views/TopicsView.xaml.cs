@@ -1,0 +1,142 @@
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+
+namespace ARALyti.cs.views
+{
+    public partial class TopicsView : UserControl
+    {
+        public TopicsView()
+        {
+            InitializeComponent();
+            LoadTopics();
+        }
+
+        public void LoadTopics()
+        {
+            TopicsPanel.Children.Clear();
+
+            var topicsToDisplay = ScanProjectView.LastDetectedTopicObjects.Count > 0
+                ? ScanProjectView.LastDetectedTopicObjects
+                : ScanProjectView.StarterTopics;
+
+            int total = topicsToDisplay.Count(t => t.Status != "Not Started");
+            int strong = 0;
+            int developing = 0;
+            int weak = 0;
+
+            if (topicsToDisplay.Count == 0)
+            {
+                TotalTopicsText.Text = "0";
+                StrongCountText.Text = "0";
+                DevelopingCountText.Text = "0";
+                WeakCountText.Text = "0";
+                TopicsFooterText.Text = "Showing 0 topics";
+                return;
+            }
+
+            int index = 1;
+
+            foreach (var topic in topicsToDisplay)
+            {
+                string topicId = topic.TopicId;
+                string topicName = topic.Name;
+                int score = topic.Score;
+                string status = topic.Status;
+                string difficulty = topic.Difficulty;
+
+                if (status == "Strong")
+                    strong++;
+                else if (status == "Weak")
+                    weak++;
+                else if (status == "Developing")
+                    developing++;
+
+
+                Border rowBorder = new Border
+                {
+                    Background = (index % 2 == 1)
+                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0A0F28"))
+                        : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#10163A")),
+                    Padding = new Thickness(16),
+                    Margin = new Thickness(0, 1, 0, 0)
+                };
+
+                Grid rowGrid = new Grid();
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(110) });
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) });
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(150) });
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(170) });
+                rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
+
+                TextBlock idText = new TextBlock
+                {
+                    Text = topicId,
+                    Foreground = Brushes.White
+                };
+
+                TextBlock nameText = new TextBlock
+                {
+                    Text = topicName,
+                    Foreground = Brushes.White
+                };
+                Grid.SetColumn(nameText, 1);
+
+                Brush difficultyBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCB47"));
+                if (difficulty == "Easy")
+                    difficultyBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#57D9FF"));
+                else if (difficulty == "Hard")
+                    difficultyBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C86EFF"));
+
+                TextBlock difficultyText = new TextBlock
+                {
+                    Text = difficulty,
+                    Foreground = difficultyBrush
+                };
+                Grid.SetColumn(difficultyText, 2);
+
+                Brush statusBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9AA3C7"));
+
+                if (status == "Strong")
+                    statusBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#45E2A0"));
+                else if (status == "Weak")
+                    statusBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5FA5"));
+                else if (status == "Developing")
+                    statusBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCB47"));
+
+                TextBlock statusText = new TextBlock
+                {
+                    Text = status,
+                    Foreground = statusBrush
+                };
+                Grid.SetColumn(statusText, 3);
+
+                TextBlock scoreText = new TextBlock
+                {
+                    Text = $"{score}%",
+                    Foreground = Brushes.White,
+                    FontWeight = FontWeights.Bold
+                };
+                Grid.SetColumn(scoreText, 4);
+
+                rowGrid.Children.Add(idText);
+                rowGrid.Children.Add(nameText);
+                rowGrid.Children.Add(difficultyText);
+                rowGrid.Children.Add(statusText);
+                rowGrid.Children.Add(scoreText);
+
+                rowBorder.Child = rowGrid;
+                TopicsPanel.Children.Add(rowBorder);
+
+                index++;
+            }
+
+            TotalTopicsText.Text = total.ToString();
+            StrongCountText.Text = strong.ToString();
+            DevelopingCountText.Text = developing.ToString();
+            WeakCountText.Text = weak.ToString();
+
+            TopicsFooterText.Text = $"Showing {topicsToDisplay.Count} topic(s)";
+        }
+    }
+}

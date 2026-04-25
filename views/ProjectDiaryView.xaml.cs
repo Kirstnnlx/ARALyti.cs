@@ -1,0 +1,226 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Linq;
+using ARALyti.cs.Models;
+
+namespace ARALyti.cs.views
+{
+    public partial class ProjectDiaryView : UserControl
+    {
+        public static List<ProjectDiaryEntry> DiaryEntries = new List<ProjectDiaryEntry>();
+
+        public ProjectDiaryView()
+        {
+            InitializeComponent();
+            LoadProjectSelector();
+            LoadEntries();
+        }
+
+        public void LoadProjectSelector()
+        {
+            ProjectSelectorComboBox.Items.Clear();
+
+            foreach (var project in ScanProjectView.ScannedProjects)
+            {
+                ProjectSelectorComboBox.Items.Add(project.Title);
+            }
+
+            if (ProjectSelectorComboBox.Items.Count > 0 && ProjectSelectorComboBox.SelectedIndex == -1)
+            {
+                ProjectSelectorComboBox.SelectedIndex = 0;
+            }
+        }
+
+        private void SaveEntryButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ScanProjectView.LastDetectedTopicObjects.Count == 0)
+            {
+                MessageBox.Show("Please scan a project first before adding a diary entry.");
+                return;
+            }
+
+            if (ProjectSelectorComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a project first.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(DiaryInputTextBox.Text))
+            {
+                MessageBox.Show("Please write a diary entry first.");
+                return;
+            }
+
+            ProjectDiaryEntry entry = new ProjectDiaryEntry
+            {
+                EntryId = $"D{DiaryEntries.Count + 1:000}",
+                ProjectTitle = ProjectSelectorComboBox.SelectedItem?.ToString() ?? "",
+                Note = DiaryInputTextBox.Text,
+                DateCreated = DateTime.Now
+            };
+
+            DiaryEntries.Add(entry);
+
+            DiaryInputTextBox.Text = "";
+            LoadEntries();
+        }
+
+        public void LoadEntries()
+        {
+            DiaryEntriesPanel.Children.Clear();
+
+            int totalEntries = DiaryEntries.Count;
+
+            int thisWeekEntries = DiaryEntries.Count(entry =>
+                entry.DateCreated >= DateTime.Now.AddDays(-7));
+
+            var mostActiveProject = DiaryEntries
+                .GroupBy(entry => entry.ProjectTitle)
+                .OrderByDescending(group => group.Count())
+                .FirstOrDefault();
+
+            if (ScanProjectView.ScannedProjects.Count == 0)
+            {
+                TotalEntriesText.Text = "0";
+                ThisWeekEntriesText.Text = "0";
+                MostActiveProjectText.Text = "No Project";
+                MostActiveProjectCountText.Text = "0 entries";
+
+                TextBlock emptyText = new TextBlock
+                {
+                    Text = "No scanned projects yet.",
+                    Foreground = Brushes.White,
+                    FontSize = 16
+                };
+
+                DiaryEntriesPanel.Children.Add(emptyText);
+                return;
+            }
+
+            TotalEntriesText.Text = totalEntries.ToString();
+            ThisWeekEntriesText.Text = thisWeekEntries.ToString();
+
+            if (mostActiveProject != null)
+            {
+                MostActiveProjectText.Text = mostActiveProject.Key;
+                MostActiveProjectCountText.Text =
+                    $"{mostActiveProject.Count()} entr{(mostActiveProject.Count() == 1 ? "y" : "ies")}";
+            }
+            else
+            {
+                MostActiveProjectText.Text = ScanProjectView.ScannedProjects.Last().Title;
+                MostActiveProjectCountText.Text = "0 entries";
+            }
+
+            foreach (var project in ScanProjectView.ScannedProjects)
+            {
+                Border projectCard = new Border
+                {
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#11183A")),
+                    CornerRadius = new CornerRadius(16),
+                    Padding = new Thickness(18),
+                    Margin = new Thickness(0, 0, 0, 14)
+                };
+
+                StackPanel projectContent = new StackPanel();
+
+                TextBlock projectTitleText = new TextBlock
+                {
+                    Text = project.Title,
+                    Foreground = Brushes.White,
+                    FontSize = 20,
+                    FontWeight = FontWeights.Bold
+                };
+
+                TextBlock projectPathText = new TextBlock
+                {
+                    Text = project.FilePath,
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B7C0DD")),
+                    FontSize = 14,
+                    Margin = new Thickness(0, 6, 0, 0)
+                };
+
+                var projectEntries = DiaryEntries
+                    .Where(entry => entry.ProjectTitle == project.Title)
+                    .ToList();
+
+                TextBlock entryCountText = new TextBlock
+                {
+                    Text = $"{projectEntries.Count} entr{(projectEntries.Count == 1 ? "y" : "ies")}",
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B7C0DD")),
+                    FontSize = 14,
+                    Margin = new Thickness(0, 6, 0, 12)
+                };
+
+                projectContent.Children.Add(projectTitleText);
+                projectContent.Children.Add(projectPathText);
+                projectContent.Children.Add(entryCountText);
+
+                if (projectEntries.Count == 0)
+                {
+                    TextBlock noEntriesText = new TextBlock
+                    {
+                        Text = "No diary entries yet for this project.",
+                        Foreground = Brushes.White,
+                        FontSize = 15,
+                        Margin = new Thickness(0, 8, 0, 0)
+                    };
+
+                    projectContent.Children.Add(noEntriesText);
+                }
+                else
+                {
+                    foreach (var entry in projectEntries)
+                    {
+                        Border entryCard = new Border
+                        {
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#090E27")),
+                            CornerRadius = new CornerRadius(12),
+                            Padding = new Thickness(14),
+                            Margin = new Thickness(0, 0, 0, 12)
+                        };
+
+                        StackPanel entryContent = new StackPanel();
+
+                        TextBlock idText = new TextBlock
+                        {
+                            Text = entry.EntryId,
+                            Foreground = Brushes.White,
+                            FontWeight = FontWeights.Bold,
+                            FontSize = 15
+                        };
+
+                        TextBlock noteText = new TextBlock
+                        {
+                            Text = entry.Note,
+                            Foreground = Brushes.White,
+                            FontSize = 15,
+                            TextWrapping = TextWrapping.Wrap,
+                            Margin = new Thickness(0, 8, 0, 8)
+                        };
+
+                        TextBlock dateText = new TextBlock
+                        {
+                            Text = entry.DateCreated.ToString("MMM dd, yyyy • hh:mm tt"),
+                            Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B7C0DD")),
+                            FontSize = 13
+                        };
+
+                        entryContent.Children.Add(idText);
+                        entryContent.Children.Add(noteText);
+                        entryContent.Children.Add(dateText);
+
+                        entryCard.Child = entryContent;
+                        projectContent.Children.Add(entryCard);
+                    }
+                }
+
+                projectCard.Child = projectContent;
+                DiaryEntriesPanel.Children.Add(projectCard);
+            }
+        }
+    }
+}
