@@ -8,10 +8,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Docs\Flowchart\" />
-    <Folder Include="Docs\DatabaseSchema\" />
-    <Folder Include="Docs\UML\" />
-  </ItemGroup>
-
 </Project>
