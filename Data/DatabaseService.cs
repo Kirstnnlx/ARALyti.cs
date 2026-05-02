@@ -162,5 +162,37 @@ namespace ARALyti.cs.Data
             return projects;
         }
 
+        public static List<ARALyti.cs.Models.Topic> GetTopicsByProjectId(int projectId)
+        {
+            List<ARALyti.cs.Models.Topic> topics = new List<ARALyti.cs.Models.Topic>();
+
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                SELECT Name, Difficulty, Status, Score
+                FROM Topics
+                WHERE ProjectId = @projectId
+            ";
+
+            using var command = new SqliteCommand(query, connection);
+            command.Parameters.AddWithValue("@projectId", projectId);
+
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                topics.Add(new ARALyti.cs.Models.Topic
+                {
+                    Name = reader["Name"].ToString() ?? "",
+                    Difficulty = reader["Difficulty"].ToString() ?? "",
+                    Status = reader["Status"].ToString() ?? "",
+                    Score = Convert.ToInt32(reader["Score"])
+                });
+            }
+
+            return topics;
+        }
+
     }
 }

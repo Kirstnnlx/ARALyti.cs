@@ -143,6 +143,8 @@ namespace ARALyti.cs.views
                         topic.Score
                     );
                 }
+
+                LastDetectedTopicObjects = DatabaseService.GetTopicsByProjectId(projectId);
             }
 
 

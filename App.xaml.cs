@@ -3,6 +3,7 @@ using ARALyti.cs.views;
 using System.Configuration;
 using System.Data;
 using System.Windows;
+using System.Linq;
 
 namespace ARALyti.cs
 {
@@ -13,6 +14,19 @@ namespace ARALyti.cs
             DatabaseService.InitializeDatabase();
 
             ScanProjectView.ScannedProjects = DatabaseService.GetProjects();
+
+            if (ScanProjectView.ScannedProjects.Count > 0)
+            {
+                var latestProject = ScanProjectView.ScannedProjects.Last();
+
+                int projectId = DatabaseService.GetProjectIdByFilePath(latestProject.FilePath);
+
+                if (projectId != -1)
+                {
+                    ScanProjectView.LastDetectedTopicObjects =
+                        DatabaseService.GetTopicsByProjectId(projectId);
+                }
+            }
 
             base.OnStartup(e);
 
