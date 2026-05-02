@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Linq;
 using ARALyti.cs.Models;
+using ARALyti.cs.Data;
 using System.Collections.Generic;
 
 namespace ARALyti.cs.views
@@ -88,6 +89,8 @@ namespace ARALyti.cs.views
                 };
 
                 ScannedProjects.Add(newProject);
+
+                DatabaseService.SaveProject(newProject.Title, newProject.FilePath);
             }
 
             LastDetectedTopicObjects.Clear();
@@ -125,6 +128,23 @@ namespace ARALyti.cs.views
                     matchingTopic.Status = status;
                 }
             }
+
+            int projectId = DatabaseService.GetProjectIdByFilePath(SelectedFileText.Text);
+
+            if (projectId != -1)
+            {
+                foreach (var topic in LastDetectedTopicObjects)
+                {
+                    DatabaseService.SaveTopic(
+                        projectId,
+                        topic.Name,
+                        topic.Difficulty,
+                        topic.Status,
+                        topic.Score
+                    );
+                }
+            }
+
 
             LastDetectedTopics = topics;
 

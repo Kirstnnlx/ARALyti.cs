@@ -88,7 +88,7 @@
                         Margin="0,0,12,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="230"/>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
@@ -123,7 +123,8 @@
                                        Margin="0,26,0,10"/>
                             <TextBlock Text="Keep going! You're making great progress."
                                        Foreground="#B7C0DD"
-                                       FontSize="17"/>
+                                       FontSize="17"
+                                       TextWrapping="Wrap"/>
 
                             <Grid Margin="0,30,0,0">
                                 <Grid.ColumnDefinitions>

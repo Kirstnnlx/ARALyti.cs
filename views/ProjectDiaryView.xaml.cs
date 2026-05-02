@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ARALyti.cs.Data;
+using ARALyti.cs.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Linq;
-using ARALyti.cs.Models;
 
 namespace ARALyti.cs.views
 {
@@ -63,6 +64,16 @@ namespace ARALyti.cs.views
             };
 
             DiaryEntries.Add(entry);
+
+            int projectId = DatabaseService.GetProjectIdByFilePath(
+                ScanProjectView.ScannedProjects
+                    .FirstOrDefault(p => p.Title == entry.ProjectTitle)?.FilePath ?? ""
+            );
+
+            if (projectId != -1)
+            {
+                DatabaseService.SaveDiaryEntry(projectId, entry.Note);
+            }
 
             DiaryInputTextBox.Text = "";
             LoadEntries();
