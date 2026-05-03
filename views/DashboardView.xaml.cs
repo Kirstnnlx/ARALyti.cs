@@ -39,12 +39,18 @@ namespace ARALyti.cs.views
 
             double averageScore = detectedTopics.Average(t => t.Score);
 
-            if (averageScore >= 80)
+            int projectCount = ScanProjectView.ScannedProjects.Count;
+
+            double adjustedScore = averageScore * (projectCount / (projectCount + 2.0));
+
+            if (adjustedScore >= 70)
                 DashboardLevelText.Text = "Advanced";
-            else if (averageScore >= 50)
+            else if (adjustedScore >= 40)
                 DashboardLevelText.Text = "Intermediate";
             else
                 DashboardLevelText.Text = "Beginner";
+
+            averageScore = adjustedScore;
 
             var weakestTopic = detectedTopics
                 .OrderBy(t => t.Score)

@@ -241,11 +241,16 @@ namespace ARALyti.cs.Data
             {
                 int averageScore = Convert.ToInt32(reader["AverageScore"]);
 
-                string status = "Developing";
-                if (averageScore >= 80)
+                string status = "Weak";
+
+                if (averageScore >= 60)
                     status = "Strong";
-                else if (averageScore < 40)
+                else if (averageScore >= 30)
+                    status = "Developing";
+                else if (averageScore > 0)
                     status = "Weak";
+                else
+                    status = "Not Started";
 
                 topics.Add(new ARALyti.cs.Models.Topic
                 {

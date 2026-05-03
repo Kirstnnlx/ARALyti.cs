@@ -63,11 +63,16 @@ namespace ARALyti.cs.Services
 
         private int CalculateScore(int matchCount)
         {
-            if (matchCount >= 6)
-                return 90;
+            if (matchCount >= 8)
+                return 60;
+            if (matchCount >= 5)
+                return 45;
             if (matchCount >= 3)
-                return 70;
-            return 40;
+                return 30;
+            if (matchCount >= 1)
+                return 15;
+
+            return 0;
         }
 
         private string CleanCode(string code)

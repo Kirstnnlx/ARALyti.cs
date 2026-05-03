@@ -113,11 +113,16 @@ namespace ARALyti.cs.views
                 string topicName = detectedTopic.Key;
                 int score = detectedTopic.Value;
 
-                string status = "Developing";
-                if (score >= 80)
+                string status = "Weak";
+
+                if (score >= 60)
                     status = "Strong";
-                else if (score < 40)
+                else if (score >= 30)
+                    status = "Developing";
+                else if (score > 0)
                     status = "Weak";
+                else
+                    status = "Not Started";
 
                 var matchingTopic = LastDetectedTopicObjects
                     .FirstOrDefault(t => t.Name == topicName);
@@ -157,17 +162,22 @@ namespace ARALyti.cs.views
             }
 
             DetectedTopicsPanel.Children.Clear();
-
+            
             foreach (var topic in topics)
             {
                 string topicName = topic.Key;
                 int score = topic.Value;
 
-                string status = "Developing";
-                if (score >= 80)
+                string status = "Weak";
+
+                if (score >= 60)
                     status = "Strong";
-                else if (score < 40)
+                else if (score >= 30)
+                    status = "Developing";
+                else if (score > 0)
                     status = "Weak";
+                else
+                    status = "Not Started";
 
                 StackPanel topicItem = new StackPanel
                 {
