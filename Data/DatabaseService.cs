@@ -37,7 +37,7 @@ namespace ARALyti.cs.Data
                     Difficulty TEXT NOT NULL,
                     Status TEXT NOT NULL,
                     Score INTEGER NOT NULL,
-                    FOREIGN KEY (ProjectId) REFERENCES Projects(ProjectId)
+                    FOREIGN KEY (ProjectId) REFERENCES Projects(ProjectId),
                     UNIQUE(ProjectId, Name)
                 );
 
@@ -188,6 +188,71 @@ namespace ARALyti.cs.Data
                     Difficulty = reader["Difficulty"].ToString() ?? "",
                     Status = reader["Status"].ToString() ?? "",
                     Score = Convert.ToInt32(reader["Score"])
+                });
+            }
+
+            return topics;
+        }
+
+        public static void DeleteProjectByFilePath(string filePath)
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            int projectId = GetProjectIdByFilePath(filePath);
+
+            if (projectId == -1)
+                return;
+
+            string deleteTopicsQuery = "DELETE FROM Topics WHERE ProjectId = @projectId";
+            using var deleteTopicsCommand = new SqliteCommand(deleteTopicsQuery, connection);
+            deleteTopicsCommand.Parameters.AddWithValue("@projectId", projectId);
+            deleteTopicsCommand.ExecuteNonQuery();
+
+            string deleteDiaryQuery = "DELETE FROM ProjectDiaryEntries WHERE ProjectId = @projectId";
+            using var deleteDiaryCommand = new SqliteCommand(deleteDiaryQuery, connection);
+            deleteDiaryCommand.Parameters.AddWithValue("@projectId", projectId);
+            deleteDiaryCommand.ExecuteNonQuery();
+
+            string deleteProjectQuery = "DELETE FROM Projects WHERE ProjectId = @projectId";
+            using var deleteProjectCommand = new SqliteCommand(deleteProjectQuery, connection);
+            deleteProjectCommand.Parameters.AddWithValue("@projectId", projectId);
+            deleteProjectCommand.ExecuteNonQuery();
+        }
+
+        public static List<ARALyti.cs.Models.Topic> GetOverallTopics()
+        {
+            var topics = new List<ARALyti.cs.Models.Topic>();
+
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                SELECT Name, Difficulty, AVG(Score) AS AverageScore
+                FROM Topics
+                WHERE Status != 'Not Started'
+                GROUP BY Name, Difficulty;
+            ";
+
+            using var command = new SqliteCommand(query, connection);
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                int averageScore = Convert.ToInt32(reader["AverageScore"]);
+
+                string status = "Developing";
+                if (averageScore >= 80)
+                    status = "Strong";
+                else if (averageScore < 40)
+                    status = "Weak";
+
+                topics.Add(new ARALyti.cs.Models.Topic
+                {
+                    Name = reader["Name"].ToString() ?? "",
+                    Difficulty = reader["Difficulty"].ToString() ?? "",
+                    Status = status,
+                    Score = averageScore
                 });
             }
 

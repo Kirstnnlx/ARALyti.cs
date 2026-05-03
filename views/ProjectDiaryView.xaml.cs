@@ -138,13 +138,90 @@ namespace ARALyti.cs.views
 
                 StackPanel projectContent = new StackPanel();
 
+                Grid headerGrid = new Grid();
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
+
+                // Project title
                 TextBlock projectTitleText = new TextBlock
                 {
                     Text = project.Title,
                     Foreground = Brushes.White,
                     FontSize = 20,
-                    FontWeight = FontWeights.Bold
+                    FontWeight = FontWeights.Bold,
+                    VerticalAlignment = VerticalAlignment.Center
                 };
+
+                // Delete button
+                Button deleteButton = new Button
+                {
+                    Content = "🗑",
+                    Width = 30,
+                    Height = 30,
+                    Background = Brushes.Transparent,
+                    Foreground = Brushes.White,
+                    BorderBrush = Brushes.Transparent,
+                    FontSize = 16,
+                    Cursor = System.Windows.Input.Cursors.Hand
+                };
+
+                // Click event
+                deleteButton.Click += (s, e) =>
+                {
+                    var result = MessageBox.Show(
+                        "Delete this project and all its data?",
+                        "Confirm Delete",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Warning
+                    );
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        DatabaseService.DeleteProjectByFilePath(project.FilePath);
+
+                        // remove from memory
+                        ScanProjectView.ScannedProjects.Remove(project);
+                        DiaryEntries.RemoveAll(d => d.ProjectTitle == project.Title);
+
+                        ScanProjectView.LastDetectedTopicObjects.Clear();
+
+                        foreach (var starterTopic in ScanProjectView.StarterTopics)
+                        {
+                            ScanProjectView.LastDetectedTopicObjects.Add(new Topic
+                            {
+                                TopicId = starterTopic.TopicId,
+                                Name = starterTopic.Name,
+                                Difficulty = starterTopic.Difficulty,
+                                Status = "Not Started",
+                                Score = 0
+                            });
+                        }
+
+                        var remainingTopics = DatabaseService.GetOverallTopics();
+
+                        foreach (var savedTopic in remainingTopics)
+                        {
+                            var matchingTopic = ScanProjectView.LastDetectedTopicObjects
+                                .FirstOrDefault(t => t.Name == savedTopic.Name);
+
+                            if (matchingTopic != null)
+                            {
+                                matchingTopic.Score = savedTopic.Score;
+                                matchingTopic.Status = savedTopic.Status;
+                            }
+                        }
+
+                        // refresh UI
+                        LoadProjectSelector();
+                        LoadEntries();
+                    }
+                };
+
+                Grid.SetColumn(projectTitleText, 0);
+                Grid.SetColumn(deleteButton, 1);
+
+                headerGrid.Children.Add(projectTitleText);
+                headerGrid.Children.Add(deleteButton);
 
                 TextBlock projectPathText = new TextBlock
                 {
@@ -166,7 +243,7 @@ namespace ARALyti.cs.views
                     Margin = new Thickness(0, 6, 0, 12)
                 };
 
-                projectContent.Children.Add(projectTitleText);
+                projectContent.Children.Add(headerGrid);
                 projectContent.Children.Add(projectPathText);
                 projectContent.Children.Add(entryCountText);
 

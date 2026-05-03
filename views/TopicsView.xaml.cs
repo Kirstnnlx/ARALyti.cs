@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using ARALyti.cs.Models;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -20,6 +22,27 @@ namespace ARALyti.cs.views
                 ? ScanProjectView.LastDetectedTopicObjects
                 : ScanProjectView.StarterTopics;
 
+            topicsToDisplay = ScanProjectView.StarterTopics
+                .Select(starter =>
+                {
+                    var match = ScanProjectView.LastDetectedTopicObjects
+                        .FirstOrDefault(t => t.Name == starter.Name);
+
+                    return match ?? new Topic
+                    {
+                        TopicId = starter.TopicId,
+                        Name = starter.Name,
+                        Difficulty = starter.Difficulty,
+                        Status = "Not Started",
+                        Score = 0
+                    };
+                })
+                .ToList();
+
+            topicsToDisplay = topicsToDisplay
+                .OrderBy(t => t.TopicId)
+                .ToList();
+
             int total = topicsToDisplay.Count(t => t.Status != "Not Started");
             int strong = 0;
             int developing = 0;
@@ -39,7 +62,10 @@ namespace ARALyti.cs.views
 
             foreach (var topic in topicsToDisplay)
             {
-                string topicId = topic.TopicId;
+                var starterMatch = ScanProjectView.StarterTopics
+                    .FirstOrDefault(t => t.Name == topic.Name);
+
+                string topicId = starterMatch?.TopicId ?? "N/A";
                 string topicName = topic.Name;
                 int score = topic.Score;
                 string status = topic.Status;
