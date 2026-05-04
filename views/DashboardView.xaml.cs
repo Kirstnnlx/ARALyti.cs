@@ -1,5 +1,8 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Painting;
+using SkiaSharp;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -22,7 +25,6 @@ namespace ARALyti.cs.views
                 .ToList();
 
             DashboardTotalTopicsCountText.Text = detectedTopics.Count.ToString();
-
             DashboardProjectsScannedText.Text = ScanProjectView.ScannedProjects.Count.ToString();
             DashboardDiaryEntriesText.Text = ProjectDiaryView.DiaryEntries.Count.ToString();
 
@@ -33,6 +35,7 @@ namespace ARALyti.cs.views
                 RecommendationDescriptionText.Text = "Scan a C# project first to see your learning recommendation.";
                 DashboardProgressText.Text = "0%";
 
+                UpdateProgressChart(0);
                 LoadDashboardTopics(topics);
                 return;
             }
@@ -40,7 +43,6 @@ namespace ARALyti.cs.views
             double averageScore = detectedTopics.Average(t => t.Score);
 
             int projectCount = ScanProjectView.ScannedProjects.Count;
-
             double adjustedScore = averageScore * (projectCount / (projectCount + 2.0));
 
             if (adjustedScore >= 70)
@@ -62,7 +64,33 @@ namespace ARALyti.cs.views
 
             DashboardProgressText.Text = $"{(int)averageScore}%";
 
+            UpdateProgressChart(averageScore);
             LoadDashboardTopics(topics);
+        }
+
+        private void UpdateProgressChart(double progress)
+        {
+            double remaining = 100 - progress;
+
+            ProgressChart.Series = new ISeries[]
+            {
+                new PieSeries<double>
+                {
+                    Values = new double[] { progress },
+                    Fill = new SolidColorPaint(SKColor.Parse("#6A3EFF")),
+                    Stroke = null,
+                    DataLabelsSize = 0,
+                    MaxRadialColumnWidth = 18
+                },
+                new PieSeries<double>
+                {
+                    Values = new double[] { remaining },
+                    Fill = new SolidColorPaint(SKColor.Parse("#1E2A59")),
+                    Stroke = null,
+                    DataLabelsSize = 0,
+                    MaxRadialColumnWidth = 18
+                }
+            };
         }
 
         private void LoadDashboardTopics(System.Collections.Generic.List<ARALyti.cs.Models.Topic> topics)
@@ -76,7 +104,7 @@ namespace ARALyti.cs.views
             {
                 StackPanel container = new StackPanel
                 {
-                    Margin = new Thickness(0, 12, 0, 0)
+                    Margin = new System.Windows.Thickness(0, 12, 0, 0)
                 };
 
                 TextBlock nameText = new TextBlock
@@ -91,14 +119,14 @@ namespace ARALyti.cs.views
                     Value = topic.Score,
                     Maximum = 100,
                     Height = 10,
-                    Margin = new Thickness(0, 6, 0, 0)
+                    Margin = new System.Windows.Thickness(0, 6, 0, 0)
                 };
 
                 TextBlock detailsText = new TextBlock
                 {
                     Text = $"{topic.Score}%  •  {topic.Status}",
                     Foreground = GetStatusColor(topic.Status),
-                    Margin = new Thickness(0, 4, 0, 0)
+                    Margin = new System.Windows.Thickness(0, 4, 0, 0)
                 };
 
                 container.Children.Add(nameText);
