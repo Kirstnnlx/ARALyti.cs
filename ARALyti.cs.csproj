@@ -9,8 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\csharp.png" />
+    <None Remove="Assets\folder.png" />
+    <None Remove="Assets\logo.png" />
+    <None Remove="Assets\rocket.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.2" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\csharp.png" />
+    <Resource Include="Assets\folder.png" />
+    <Resource Include="Assets\logo.png" />
+    <Resource Include="Assets\rocket.png" />
   </ItemGroup>
 
 </Project>

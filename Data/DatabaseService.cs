@@ -48,6 +48,13 @@ namespace ARALyti.cs.Data
                     DateCreated TEXT NOT NULL,
                     FOREIGN KEY (ProjectId) REFERENCES Projects(ProjectId)
                 );
+
+                CREATE TABLE IF NOT EXISTS ProgressHistory (
+                    ProgressId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    ProgressScore INTEGER NOT NULL,
+                    DateRecorded TEXT NOT NULL
+                );
+
             ";
 
             using SqliteCommand command = new SqliteCommand(createTablesQuery, connection);
@@ -262,6 +269,95 @@ namespace ARALyti.cs.Data
             }
 
             return topics;
+        }
+
+        public static void SaveProgressRecord(int progressScore)
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                INSERT INTO ProgressHistory (ProgressScore, DateRecorded)
+                VALUES (@progressScore, @dateRecorded);
+            ";
+
+            using var command = new SqliteCommand(query, connection);
+            command.Parameters.AddWithValue("@progressScore", progressScore);
+            command.Parameters.AddWithValue("@dateRecorded", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+
+            command.ExecuteNonQuery();
+        }
+
+        public static List<double> GetRecentProgressScores()
+        {
+            List<double> scores = new List<double>();
+
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                SELECT ProgressScore
+                FROM ProgressHistory
+                ORDER BY ProgressId DESC
+                LIMIT 7;
+            ";
+
+            using var command = new SqliteCommand(query, connection);
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                scores.Add(Convert.ToDouble(reader["ProgressScore"]));
+            }
+
+            scores.Reverse();
+            return scores;
+        }
+
+        public static List<(double Score, string Date)> GetRecentProgressWithDates()
+        {
+            var data = new List<(double Score, string Date)>();
+
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                SELECT 
+                    DATE(DateRecorded) AS RecordDate,
+                    AVG(ProgressScore) AS AverageScore
+                FROM ProgressHistory
+                WHERE DATE(DateRecorded) >= DATE('now', '-6 days')
+                GROUP BY DATE(DateRecorded);
+            ";
+
+            var savedScores = new Dictionary<string, double>();
+
+            using var command = new SqliteCommand(query, connection);
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                string rawDate = reader["RecordDate"]?.ToString() ?? "";
+
+                if (!DateTime.TryParse(rawDate, out DateTime parsedDate))
+                    continue;
+
+                double score = Convert.ToDouble(reader["AverageScore"]);
+                savedScores[parsedDate.ToString("yyyy-MM-dd")] = score;
+            }
+
+            for (int i = 6; i >= 0; i--)
+            {
+                DateTime date = DateTime.Today.AddDays(-i);
+                string key = date.ToString("yyyy-MM-dd");
+                string label = date.ToString("MM/dd");
+
+                double score = savedScores.ContainsKey(key) ? savedScores[key] : 0;
+
+                data.Add((score, label));
+            }
+
+            return data;
         }
 
     }

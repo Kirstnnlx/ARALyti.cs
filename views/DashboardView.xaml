@@ -239,15 +239,15 @@
                             </Border>
                         </DockPanel>
 
-                        <TextBlock Text="Score"
+                        <TextBlock Text="Daily Learning Activity"
                                    Foreground="#B7C0DD"
                                    FontSize="16"
                                    Margin="0,20,0,10"/>
-
-                        <Rectangle Height="220"
-                                   Fill="#131A3D"
-                                   RadiusX="16"
-                                   RadiusY="16"/>
+                       
+                        <lvc:CartesianChart x:Name="ProgressLineChart"
+                                            Height="220"
+                                            Background="Transparent"
+                                            LegendPosition="Hidden"/>
                     </StackPanel>
                 </Border>
             </Grid>

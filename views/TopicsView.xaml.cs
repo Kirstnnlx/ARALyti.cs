@@ -114,12 +114,28 @@ namespace ARALyti.cs.views
                 else if (difficulty == "Hard")
                     difficultyBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#C86EFF"));
 
+                Border difficultyBadge = new Border
+                {
+                    Background = difficulty == "Easy"
+                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#073B5A"))
+                        : difficulty == "Hard"
+                            ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A0B4F"))
+                            : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A270B")),
+                    CornerRadius = new CornerRadius(6),
+                    Padding = new Thickness(10, 4, 10, 4),
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
                 TextBlock difficultyText = new TextBlock
                 {
                     Text = difficulty,
-                    Foreground = difficultyBrush
+                    Foreground = difficultyBrush,
+                    FontSize = 12,
+                    FontWeight = FontWeights.SemiBold
                 };
-                Grid.SetColumn(difficultyText, 2);
+
+                difficultyBadge.Child = difficultyText;
+                Grid.SetColumn(difficultyBadge, 2);
 
                 Brush statusBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#9AA3C7"));
 
@@ -130,12 +146,30 @@ namespace ARALyti.cs.views
                 else if (status == "Developing")
                     statusBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCB47"));
 
+                Border statusBadge = new Border
+                {
+                    Background = status == "Strong"
+                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#063B2E"))
+                        : status == "Weak"
+                            ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A0B2A"))
+                            : status == "Developing"
+                                ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A270B"))
+                                : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1A2145")),
+                    CornerRadius = new CornerRadius(6),
+                    Padding = new Thickness(10, 4, 10, 4),
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
                 TextBlock statusText = new TextBlock
                 {
                     Text = status,
-                    Foreground = statusBrush
+                    Foreground = statusBrush,
+                    FontSize = 12,
+                    FontWeight = FontWeights.SemiBold
                 };
-                Grid.SetColumn(statusText, 3);
+
+                statusBadge.Child = statusText;
+                Grid.SetColumn(statusBadge, 3);
 
                 TextBlock scoreText = new TextBlock
                 {
@@ -147,8 +181,8 @@ namespace ARALyti.cs.views
 
                 rowGrid.Children.Add(idText);
                 rowGrid.Children.Add(nameText);
-                rowGrid.Children.Add(difficultyText);
-                rowGrid.Children.Add(statusText);
+                rowGrid.Children.Add(difficultyBadge);
+                rowGrid.Children.Add(statusBadge);
                 rowGrid.Children.Add(scoreText);
 
                 rowBorder.Child = rowGrid;

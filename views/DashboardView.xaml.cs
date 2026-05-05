@@ -1,10 +1,12 @@
-﻿using LiveChartsCore;
+﻿using ARALyti.cs.Data;
+using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Collections.Generic;
 
 namespace ARALyti.cs.views
 {
@@ -37,6 +39,7 @@ namespace ARALyti.cs.views
 
                 UpdateProgressChart(0);
                 LoadDashboardTopics(topics);
+                UpdateProgressLineChart();
                 return;
             }
 
@@ -66,6 +69,7 @@ namespace ARALyti.cs.views
 
             UpdateProgressChart(averageScore);
             LoadDashboardTopics(topics);
+            UpdateProgressLineChart();
         }
 
         private void UpdateProgressChart(double progress)
@@ -89,6 +93,54 @@ namespace ARALyti.cs.views
                     Stroke = null,
                     DataLabelsSize = 0,
                     MaxRadialColumnWidth = 18
+                }
+            };
+        }
+
+        private void UpdateProgressLineChart()
+        {
+            var data = DatabaseService.GetRecentProgressWithDates();
+
+            var values = data.Select(d => d.Score).ToList();
+            var labels = data.Select(d => d.Date).ToList();
+
+            if (values.Count == 0)
+            {
+                values = new List<double> { 0 };
+                labels = new List<string> { "No Data" };
+            }
+
+            ProgressLineChart.Series = new ISeries[]
+            {
+                new LineSeries<double>
+                {
+                    Values = values,
+                    Stroke = new SolidColorPaint(SKColor.Parse("#6A3EFF"), 4),
+                    GeometrySize = 10,
+                    GeometryFill = new SolidColorPaint(SKColor.Parse("#6A3EFF")),
+                    Fill = null,
+                    LineSmoothness = 0.7
+                }
+                    };
+
+                    ProgressLineChart.XAxes = new Axis[]
+                    {
+                new Axis
+                {
+                    Labels = labels,
+                    LabelsPaint = new SolidColorPaint(SKColor.Parse("#AAAAAA")),
+                    SeparatorsPaint = null
+                }
+                    };
+
+            ProgressLineChart.YAxes = new Axis[]
+            {
+                new Axis
+                {
+                    LabelsPaint = new SolidColorPaint(SKColor.Parse("#AAAAAA")),
+                    SeparatorsPaint = null,
+                    MinLimit = -10,
+                    MaxLimit = 100
                 }
             };
         }

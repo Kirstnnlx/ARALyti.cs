@@ -152,6 +152,26 @@ namespace ARALyti.cs.views
                 LastDetectedTopicObjects = DatabaseService.GetTopicsByProjectId(projectId);
             }
 
+            var detectedTopics = LastDetectedTopicObjects
+                .Where(t => t.Status != "Not Started")
+                .ToList();
+
+            if (detectedTopics.Count > 0)
+            {
+                double average = detectedTopics.Average(t => t.Score);
+
+                int projectCount = ScanProjectView.ScannedProjects.Count;
+                double adjustedScore = average * (projectCount / (projectCount + 2.0));
+
+                // usage/activity bonus based on detected topics
+                int scanBonus = Math.Min(detectedTopics.Count * 2, 20);
+
+                // final daily learning activity score
+                int progressScore = (int)Math.Min(100, adjustedScore + scanBonus);
+
+                DatabaseService.SaveProgressRecord(progressScore);
+            }
+
 
             LastDetectedTopics = topics;
 
