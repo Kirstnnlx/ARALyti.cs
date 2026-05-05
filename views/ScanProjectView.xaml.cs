@@ -182,101 +182,112 @@ namespace ARALyti.cs.views
             }
 
             DetectedTopicsPanel.Children.Clear();
-            
-            foreach (var topic in topics)
+
+            foreach (var topic in LastDetectedTopicObjects
+                .Where(t => t.Status != "Not Started")
+                .OrderByDescending(t => t.Score)
+                .Take(4))
             {
-                string topicName = topic.Key;
-                int score = topic.Value;
-
-                string status = "Weak";
-
-                if (score >= 60)
-                    status = "Strong";
-                else if (score >= 30)
-                    status = "Developing";
-                else if (score > 0)
-                    status = "Weak";
-                else
-                    status = "Not Started";
-
-                StackPanel topicItem = new StackPanel
+                Grid row = new Grid
                 {
-                    Margin = new Thickness(0, 10, 0, 0)
+                    Margin = new Thickness(0, 0, 0, 18)
                 };
 
-                Grid topicRow = new Grid();
-                topicRow.ColumnDefinitions.Add(new ColumnDefinition());
-                topicRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
-                topicRow.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(110) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(45) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
 
-                TextBlock topicNameText = new TextBlock
+                StackPanel leftPanel = new StackPanel();
+
+                TextBlock nameText = new TextBlock
                 {
-                    Text = topicName,
+                    Text = topic.Name,
                     Foreground = Brushes.White,
-                    FontSize = 16
+                    FontSize = 15,
+                    Margin = new Thickness(0, 0, 0, 8)
                 };
+
+                ProgressBar progressBar = new ProgressBar
+                {
+                    Value = topic.Score,
+                    Maximum = 100,
+                    Height = 7,
+                    Margin = new Thickness(0, 0, 12, 0),
+                    Foreground = GetStatusColor(topic.Status),
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#151B45"))
+                };
+
+                leftPanel.Children.Add(nameText);
+                leftPanel.Children.Add(progressBar);
 
                 TextBlock scoreText = new TextBlock
                 {
-                    Text = $"{score}%",
+                    Text = topic.Score.ToString(),
                     Foreground = Brushes.White,
-                    FontSize = 16,
+                    FontSize = 14,
+                    FontWeight = FontWeights.Bold,
+                    VerticalAlignment = VerticalAlignment.Center,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
                 Border statusBadge = new Border
                 {
-                    CornerRadius = new CornerRadius(12),
-                    Padding = new Thickness(10, 4, 10, 4),
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    CornerRadius = new CornerRadius(10),
+                    Padding = new Thickness(12, 7, 12, 7),
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Background = GetStatusBackground(topic.Status)
                 };
 
                 TextBlock statusText = new TextBlock
                 {
-                    Text = status,
-                    FontSize = 14,
-                    FontWeight = FontWeights.SemiBold,
-                    HorizontalAlignment = HorizontalAlignment.Center
+                    Text = topic.Status,
+                    Foreground = GetStatusColor(topic.Status),
+                    FontSize = 12,
+                    FontWeight = FontWeights.SemiBold
                 };
-
-                if (status == "Strong")
-                {
-                    statusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0B3A33"));
-                    statusText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#45E2A0"));
-                }
-                else if (status == "Weak")
-                {
-                    statusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A0B2A"));
-                    statusText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5FA5"));
-                }
-                else
-                {
-                    statusBadge.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A270B"));
-                    statusText.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCB47"));
-                }
 
                 statusBadge.Child = statusText;
 
-                Grid.SetColumn(topicNameText, 0);
+                Grid.SetColumn(leftPanel, 0);
                 Grid.SetColumn(scoreText, 1);
                 Grid.SetColumn(statusBadge, 2);
 
-                topicRow.Children.Add(topicNameText);
-                topicRow.Children.Add(scoreText);
-                topicRow.Children.Add(statusBadge);
+                row.Children.Add(leftPanel);
+                row.Children.Add(scoreText);
+                row.Children.Add(statusBadge);
 
-                ProgressBar progress = new ProgressBar
-                {
-                    Value = score,
-                    Maximum = 100,
-                    Height = 10,
-                    Margin = new Thickness(0, 8, 0, 0)
-                };
+                DetectedTopicsPanel.Children.Add(row);
+            }
+        }
 
-                topicItem.Children.Add(topicRow);
-                topicItem.Children.Add(progress);
+        private Brush GetStatusColor(string status)
+        {
+            switch (status)
+            {
+                case "Strong":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#45E2A0"));
+                case "Developing":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFCB47"));
+                case "Weak":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5FA5"));
+                default:
+                    return Brushes.Gray;
+            }
+        }
 
-                DetectedTopicsPanel.Children.Add(topicItem);
+        private Brush GetStatusBackground(string status)
+        {
+            switch (status)
+            {
+                case "Strong":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#063B2E"));
+                case "Developing":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A270B"));
+                case "Weak":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A0B2A"));
+                default:
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1A2145"));
             }
         }
     }

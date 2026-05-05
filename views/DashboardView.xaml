@@ -52,14 +52,14 @@
     </UserControl.Resources>
 
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="Transparent">
+    <Grid Background="Transparent">
         <Grid Margin="28">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="22"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="22"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
             <!-- Header -->
@@ -121,8 +121,9 @@
             <!-- Top cards -->
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Column="0"
@@ -130,8 +131,8 @@
                         BorderBrush="#1E2A59"
                         BorderThickness="1"
                         CornerRadius="22"
-                        Padding="24"
-                        Margin="0,0,12,0">
+                        Padding="18"
+                        Margin="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200"/>
@@ -181,7 +182,9 @@
                             <Grid Margin="0,30,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="1"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
@@ -190,39 +193,57 @@
                                                Text="12"
                                                Foreground="White"
                                                FontSize="28"
-                                               FontWeight="Bold"/>  
-                                    <TextBlock Text="Total Topics" Foreground="#B7C0DD" FontSize="15"/>
+                                               FontWeight="Bold"/>
+                                    <TextBlock Text="Total Topics"
+                                               Foreground="#B7C0DD"
+                                               FontSize="15"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="1">
+                                <Border Grid.Column="1"
+                                        Width="1"
+                                        Margin="0,4"
+                                        Background="#1E2A59"/>
+
+                                <StackPanel Grid.Column="2"
+                                            Margin="24,0,0,0">
                                     <TextBlock x:Name="DashboardProjectsScannedText"
                                                Text="0"
                                                Foreground="White"
                                                FontSize="28"
                                                FontWeight="Bold"/>
-                                    <TextBlock Text="Projects&#10;Scanned" Foreground="#B7C0DD" FontSize="15"/>
+                                    <TextBlock Text="Projects&#10;Scanned"
+                                               Foreground="#B7C0DD"
+                                               FontSize="15"/>
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="2">
+                                <Border Grid.Column="3"
+                                        Width="1"
+                                        Margin="0,4"
+                                        Background="#1E2A59"/>
+
+                                <StackPanel Grid.Column="4"
+                                            Margin="24,0,0,0">
                                     <TextBlock x:Name="DashboardDiaryEntriesText"
                                                Text="0"
                                                Foreground="White"
                                                FontSize="28"
                                                FontWeight="Bold"/>
-                                    <TextBlock Text="Diary&#10;Entries" Foreground="#B7C0DD" FontSize="15"/>
+                                    <TextBlock Text="Diary&#10;Entries"
+                                               Foreground="#B7C0DD"
+                                               FontSize="15"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Grid>
                 </Border>
 
-                <Border Grid.Column="1"
+                <Border Grid.Column="2"
                         Background="#0D1230"
                         BorderBrush="#1E2A59"
                         BorderThickness="1"
                         CornerRadius="22"
-                        Padding="24"
-                        Margin="12,0,0,0">
+                        Padding="18"
+                        Margin="0">
                     <StackPanel>
                         <DockPanel>
                             <TextBlock Text="PROGRESS REPORT"
@@ -245,7 +266,7 @@
                                    Margin="0,20,0,10"/>
                        
                         <lvc:CartesianChart x:Name="ProgressLineChart"
-                                            Height="220"
+                                            Height="190"
                                             Background="Transparent"
                                             LegendPosition="Hidden"/>
                     </StackPanel>
@@ -255,8 +276,9 @@
             <!-- Bottom cards -->
             <Grid Grid.Row="4">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.05*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="12"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Column="0"
@@ -264,8 +286,8 @@
                         BorderBrush="#1E2A59"
                         BorderThickness="1"
                         CornerRadius="22"
-                        Padding="24"
-                        Margin="0,0,12,0">
+                        Padding="18"
+                        Margin="0">
                     <StackPanel>
                         <DockPanel Margin="0,0,0,18">
                             <TextBlock Text="TOPIC STATUS"
@@ -283,18 +305,29 @@
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Column="1"
+                <Border Grid.Column="2"
                         Background="#0D1230"
                         BorderBrush="#1E2A59"
                         BorderThickness="1"
                         CornerRadius="22"
-                        Padding="24"
-                        Margin="12,0,0,0">
+                        Padding="18"
+                        Margin="0">
                     <StackPanel>
-                        <TextBlock Text="RECOMMENDATION"
-                                   Foreground="White"
-                                   FontSize="18"
-                                   FontWeight="SemiBold"/>
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center">
+
+                            <TextBlock Text="💡"
+                                       Foreground="Yellow"
+                                       FontSize="18"
+                                       Margin="0,0,8,0"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Text="RECOMMENDATION"
+                                       Foreground="White"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
 
                         <Border Background="#131A3D"
                                 CornerRadius="18"
@@ -304,7 +337,7 @@
                                 <TextBlock x:Name="RecommendationTitleText"
                                            Text="Focus on Recursion"
                                            Foreground="#D14BFF"
-                                           FontSize="30"
+                                           FontSize="24"
                                            FontWeight="Bold"/>
                                 <TextBlock x:Name="RecommendationDescriptionText"
                                            Text="Practice recursive functions and understand base cases. Try solving factorial or Fibonacci problems."
@@ -327,5 +360,5 @@
                 </Border>
             </Grid>
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </UserControl>

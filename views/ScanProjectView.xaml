@@ -239,11 +239,11 @@
                                 Padding="18"
                                 Margin="0,18,0,0">
                             <TextBlock x:Name="CodePreviewText"
-           Foreground="#D8E0FF"
-           FontFamily="Consolas"
-           FontSize="14"
-           TextWrapping="Wrap"
-           Text="Code preview will appear here..."/>
+                                       Foreground="#D8E0FF"
+                                       FontFamily="Consolas"
+                                       FontSize="14"
+                                       TextWrapping="Wrap"
+                                       Text="Code preview will appear here..."/>
 
                         </Border>
                     </StackPanel>

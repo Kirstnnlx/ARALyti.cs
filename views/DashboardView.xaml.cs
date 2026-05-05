@@ -3,10 +3,11 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Painting;
 using SkiaSharp;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Collections.Generic;
 
 namespace ARALyti.cs.views
 {
@@ -154,38 +155,76 @@ namespace ARALyti.cs.views
                 .OrderByDescending(t => t.Score)
                 .Take(4))
             {
-                StackPanel container = new StackPanel
+                Grid row = new Grid
                 {
-                    Margin = new System.Windows.Thickness(0, 12, 0, 0)
+                    Margin = new System.Windows.Thickness(0, 0, 0, 18)
                 };
+
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(45) });
+                row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
+
+                StackPanel leftPanel = new StackPanel();
 
                 TextBlock nameText = new TextBlock
                 {
                     Text = topic.Name,
                     Foreground = Brushes.White,
-                    FontSize = 17
+                    FontSize = 15,
+                    Margin = new System.Windows.Thickness(0, 0, 0, 8)
                 };
 
                 ProgressBar progressBar = new ProgressBar
                 {
                     Value = topic.Score,
                     Maximum = 100,
-                    Height = 10,
-                    Margin = new System.Windows.Thickness(0, 6, 0, 0)
-                };
-
-                TextBlock detailsText = new TextBlock
-                {
-                    Text = $"{topic.Score}%  •  {topic.Status}",
+                    Height = 7,
+                    Margin = new System.Windows.Thickness(0, 0, 12, 0),
                     Foreground = GetStatusColor(topic.Status),
-                    Margin = new System.Windows.Thickness(0, 4, 0, 0)
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#151B45"))
                 };
 
-                container.Children.Add(nameText);
-                container.Children.Add(progressBar);
-                container.Children.Add(detailsText);
+                leftPanel.Children.Add(nameText);
+                leftPanel.Children.Add(progressBar);
 
-                DashboardTopicsPanel.Children.Add(container);
+                TextBlock scoreText = new TextBlock
+                {
+                    Text = topic.Score.ToString(),
+                    Foreground = Brushes.White,
+                    FontSize = 14,
+                    FontWeight = System.Windows.FontWeights.Bold,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Center
+                };
+
+                Border statusBadge = new Border
+                {
+                    CornerRadius = new System.Windows.CornerRadius(10),
+                    Padding = new System.Windows.Thickness(12, 7, 12, 7),
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Center,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    Background = GetStatusBackground(topic.Status)
+                };
+
+                TextBlock statusText = new TextBlock
+                {
+                    Text = topic.Status,
+                    Foreground = GetStatusColor(topic.Status),
+                    FontSize = 12,
+                    FontWeight = System.Windows.FontWeights.SemiBold
+                };
+
+                statusBadge.Child = statusText;
+
+                Grid.SetColumn(leftPanel, 0);
+                Grid.SetColumn(scoreText, 1);
+                Grid.SetColumn(statusBadge, 2);
+
+                row.Children.Add(leftPanel);
+                row.Children.Add(scoreText);
+                row.Children.Add(statusBadge);
+
+                DashboardTopicsPanel.Children.Add(row);
             }
         }
 
@@ -205,5 +244,21 @@ namespace ARALyti.cs.views
                     return Brushes.White;
             }
         }
+
+        private Brush GetStatusBackground(string status)
+        {
+            switch (status)
+            {
+                case "Strong":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#063B2E"));
+                case "Developing":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A270B"));
+                case "Weak":
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A0B2A"));
+                default:
+                    return new SolidColorBrush((Color)ColorConverter.ConvertFromString("#1A2145"));
+            }
+        }
+
     }
 }
