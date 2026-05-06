@@ -13,7 +13,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="270"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -39,51 +39,143 @@
                 </StackPanel>
 
                 <!-- Menu -->
-                <StackPanel Grid.Row="1">
+                <StackPanel Grid.Row="1"
+            Margin="0,10,0,0">
+
+                    <!-- Dashboard -->
                     <Button x:Name="DashboardButton"
-                            Content="Dashboard"
-                            Height="58"
-                            Margin="0,0,0,12"
-                            Background="#5B3DF5"
-                            Foreground="White"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Background="Transparent"
+                            Foreground="#C7D2FE"
                             BorderThickness="0"
-                            FontSize="18"
-                            FontWeight="SemiBold"
-                            Click="DashboardButton_Click"/>
+                            HorizontalContentAlignment="Left"
+                            Padding="38,0,0,0"
+                            Click="DashboardButton_Click">
 
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="14">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="  💻"
+                                       FontSize="16"
+                                       Width="40"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Text="Dashboard"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Scan Project -->
                     <Button x:Name="ScanProjectButton"
-                            Content="Scan Project"
-                            Height="58"
-                            Margin="0,0,0,12"
-                            Background="#111734"
-                            Foreground="White"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Background="Transparent"
+                            Foreground="#C7D2FE"
                             BorderThickness="0"
-                            FontSize="18"
-                            FontWeight="SemiBold"
-                            Click="ScanProjectButton_Click"/>
+                            HorizontalContentAlignment="Left"
+                            Padding="38,0,0,0"
+                            Click="ScanProjectButton_Click">
 
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="14">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="  📁"
+                                       FontSize="16"
+                                       Width="40"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Text="Scan Project"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Topics -->
                     <Button x:Name="TopicsButton"
-                            Content="Topics"
-                            Height="58"
-                            Margin="0,0,0,12"
-                            Background="#111734"
-                            Foreground="White"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Background="Transparent"
+                            Foreground="#C7D2FE"
                             BorderThickness="0"
-                            FontSize="18"
-                            FontWeight="SemiBold"
-                            Click="TopicsButton_Click"/>
+                            HorizontalContentAlignment="Left"
+                            Padding="38,0,0,0"
+                            Click="TopicsButton_Click">
 
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="14">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="  📖"
+                                       FontSize="16"
+                                       Width="40"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Text="Topics"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <!-- Project Diary -->
                     <Button x:Name="ProjectDiaryButton"
-                            Content="Project Diary"
-                            Height="58"
-                            Margin="0,0,0,12"
-                            Background="#111734"
-                            Foreground="White"
+                            Height="50"
+                            Margin="0,0,0,10"
+                            Background="Transparent"
+                            Foreground="#C7D2FE"
                             BorderThickness="0"
-                            FontSize="18"
-                            FontWeight="SemiBold"
-                            Click="ProjectDiaryButton_Click"/>
+                            HorizontalContentAlignment="Left"
+                            Padding="38,0,0,0"
+                            Click="ProjectDiaryButton_Click">
+
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="14">
+                                    <ContentPresenter VerticalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="  📝"
+                                       FontSize="16"
+                                       Width="40"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Text="Project Diary"
+                                       FontSize="15"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
                 </StackPanel>
+
 
                 <!-- Left card -->
                 <Border Grid.Row="2"

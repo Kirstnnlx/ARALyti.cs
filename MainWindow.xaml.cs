@@ -6,7 +6,7 @@ namespace ARALyti.cs
     public partial class MainWindow : Window
     {
         private Brush activeBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5B3DF5"));
-        private Brush inactiveBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#111734"));
+        private Brush inactiveBrush = Brushes.Transparent;
 
         public MainWindow()
         {

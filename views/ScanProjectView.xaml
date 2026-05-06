@@ -38,20 +38,7 @@
                                Margin="0,8,0,0"/>
                 </StackPanel>
 
-                <Border Grid.Column="1"
-                        Height="48"
-                        Background="#0D1230"
-                        BorderBrush="#1E2A59"
-                        BorderThickness="1"
-                        CornerRadius="24"
-                        Margin="0,6,0,0">
-                    <TextBox Text="Search topics, projects..."
-                             Background="Transparent"
-                             Foreground="#B7C0DD"
-                             BorderThickness="0"
-                             Padding="18,10"
-                             VerticalContentAlignment="Center"/>
-                </Border>
+              
 
                 <Border Grid.Column="2"
                         Width="50"
