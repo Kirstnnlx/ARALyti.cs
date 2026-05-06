@@ -199,58 +199,92 @@
                                FontSize="15"
                                Margin="0,6,0,18"/>
 
-                    <ComboBox x:Name="ProjectSelectorComboBox"
-                              Height="40"
-                              Margin="0,0,0,10"
-                              HorizontalAlignment="Stretch"
-                              Background="#131A3D"
-                              Foreground="#0D1230"
-                              BorderBrush="#1E2A59"
-                              BorderThickness="1"
-                              Padding="8">
+                    <Grid Margin="0,18,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
 
-                        <ComboBox.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#131A3D"/>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
-                        </ComboBox.Resources>
+                        <!-- Write Entry Panel -->
+                        <Border Background="#11183A"
+                                CornerRadius="16"
+                                Padding="18">
+                            <StackPanel>
+                                <TextBlock Text="WRITE ENTRY"
+                                           Foreground="White"
+                                           FontSize="16"
+                                           FontWeight="Bold"/>
 
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="ComboBoxItem">
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="Background" Value="#131A3D"/>
-                                <Setter Property="Padding" Value="6"/>
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
+                                <TextBlock Text="Choose a project and write your reflection."
+                                           Foreground="#B7C0DD"
+                                           FontSize="13"
+                                           Margin="0,4,0,14"/>
 
-                    </ComboBox>
+                                <Grid Margin="0,0,0,12">
 
-                    <TextBox x:Name="DiaryInputTextBox"
-                             Height="100"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             Background="#131A3D"
-                             Foreground="White"
-                             BorderBrush="#1E2A59"
-                             BorderThickness="1"
-                             Padding="12"
-                             Margin="0,0,0,10"
-                             Tag="Write your diary entry here..."
-                             Loaded="DiaryInputTextBox_Loaded"
-                             GotFocus="DiaryInputTextBox_GotFocus"
-                             LostFocus="DiaryInputTextBox_LostFocus"/>
+                                    <ComboBox x:Name="ProjectSelectorComboBox"
+                                              Height="42"
+                                              Background="#131A3D"
+                                              Foreground="Black"
+                                              BorderBrush="#1E2A59"
+                                              BorderThickness="1"
+                                              Padding="8"
+                                              SelectionChanged="ProjectSelectorComboBox_SelectionChanged">
 
-                    <Button x:Name="SaveEntryButton"
-                               Content="Save Entry"
-                               Height="42"
-                               Width="150"
-                               HorizontalAlignment="Left"
-                               Background="#5B3DF5"
-                               Foreground="White"
-                               BorderThickness="0"
-                               FontSize="15"
-                               FontWeight="SemiBold"
-                               Click="SaveEntryButton_Click"/>
+                                        <ComboBox.Resources>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#131A3D"/>
+                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                                        </ComboBox.Resources>
 
+                                        <ComboBox.ItemContainerStyle>
+                                            <Style TargetType="ComboBoxItem">
+                                                <Setter Property="Foreground" Value="White"/>
+                                                <Setter Property="Background" Value="#131A3D"/>
+                                                <Setter Property="Padding" Value="6"/>
+                                            </Style>
+                                        </ComboBox.ItemContainerStyle>
+
+                                    </ComboBox>
+
+                                    <TextBlock x:Name="ProjectSelectorPlaceholder"
+                                               Text="Select a project..."
+                                               Foreground="Black"
+                                               Margin="12,0,0,0"
+                                               VerticalAlignment="Center"
+                                               IsHitTestVisible="False"/>
+                                </Grid>
+
+                                <TextBox x:Name="DiaryInputTextBox"
+                                         Height="120"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         Background="#131A3D"
+                                         Foreground="White"
+                                         BorderBrush="#1E2A59"
+                                         BorderThickness="1"
+                                         Padding="12"
+                                         Margin="0,0,0,14"
+                                         Tag="Write your diary entry here..."
+                                         Loaded="DiaryInputTextBox_Loaded"
+                                         GotFocus="DiaryInputTextBox_GotFocus"
+                                         LostFocus="DiaryInputTextBox_LostFocus"/>
+
+                                <Button x:Name="SaveEntryButton"
+                                        Content="Save Entry"
+                                        Height="42"
+                                        Width="150"
+                                        HorizontalAlignment="Left"
+                                        Background="#5B3DF5"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        FontSize="15"
+                                        FontWeight="SemiBold"
+                                        Click="SaveEntryButton_Click"/>
+                            </StackPanel>
+                        </Border>
+
+                    </Grid>
+
+                    
                     <StackPanel x:Name="DiaryEntriesPanel"
                                Margin="0,20,0,0"/>
 

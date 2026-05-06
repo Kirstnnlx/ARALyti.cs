@@ -29,10 +29,6 @@ namespace ARALyti.cs.views
                 ProjectSelectorComboBox.Items.Add(project.Title);
             }
 
-            if (ProjectSelectorComboBox.Items.Count > 0 && ProjectSelectorComboBox.SelectedIndex == -1)
-            {
-                ProjectSelectorComboBox.SelectedIndex = 0;
-            }
         }
 
         private void SaveEntryButton_Click(object sender, RoutedEventArgs e)
@@ -342,6 +338,14 @@ namespace ARALyti.cs.views
                 projectCard.Child = projectContent;
                 DiaryEntriesPanel.Children.Add(projectCard);
             }
+        }
+
+        private void ProjectSelectorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ProjectSelectorPlaceholder.Visibility =
+                ProjectSelectorComboBox.SelectedItem == null
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
         }
     }
 }
