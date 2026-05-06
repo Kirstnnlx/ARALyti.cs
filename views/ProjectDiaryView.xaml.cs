@@ -116,7 +116,14 @@ namespace ARALyti.cs.views
 
             if (mostActiveProject != null)
             {
-                MostActiveProjectText.Text = mostActiveProject.Key;
+                string projectName = mostActiveProject.Key;
+
+                string displayName = projectName.Length > 30
+                    ? projectName.Substring(0, 30) + "..."
+                    : projectName;
+
+                MostActiveProjectText.Text = displayName;
+
                 MostActiveProjectCountText.Text =
                     $"{mostActiveProject.Count()} entr{(mostActiveProject.Count() == 1 ? "y" : "ies")}";
             }
