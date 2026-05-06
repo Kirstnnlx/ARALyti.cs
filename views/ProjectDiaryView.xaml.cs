@@ -79,6 +79,32 @@ namespace ARALyti.cs.views
             LoadEntries();
         }
 
+        private void DiaryInputTextBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            DiaryInputTextBox.Text = DiaryInputTextBox.Tag.ToString();
+            DiaryInputTextBox.Foreground = Brushes.Gray;
+        }
+
+        private void DiaryInputTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (DiaryInputTextBox.Text == DiaryInputTextBox.Tag.ToString())
+            {
+                DiaryInputTextBox.Text = "";
+                DiaryInputTextBox.Foreground = Brushes.White;
+            }
+        }
+
+        private void DiaryInputTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(DiaryInputTextBox.Text) ||
+                DiaryInputTextBox.Text == DiaryInputTextBox.Tag.ToString())
+            {
+                DiaryInputTextBox.Text = DiaryInputTextBox.Tag.ToString();
+                DiaryInputTextBox.Foreground = Brushes.Gray;
+            }
+        }
+
+
         public void LoadEntries()
         {
             DiaryEntriesPanel.Children.Clear();

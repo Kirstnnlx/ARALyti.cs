@@ -225,16 +225,19 @@
                     </ComboBox>
 
                     <TextBox x:Name="DiaryInputTextBox"
-                               Height="100"
-                               TextWrapping="Wrap"
-                               AcceptsReturn="True"
-                               Background="#131A3D"
-                               Foreground="White"
-                               BorderBrush="#1E2A59"
-                               BorderThickness="1"
-                               Padding="12"
-                               Margin="0,0,0,10"
-                               Text="Write your diary entry here..."/>
+                             Height="100"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             Background="#131A3D"
+                             Foreground="White"
+                             BorderBrush="#1E2A59"
+                             BorderThickness="1"
+                             Padding="12"
+                             Margin="0,0,0,10"
+                             Tag="Write your diary entry here..."
+                             Loaded="DiaryInputTextBox_Loaded"
+                             GotFocus="DiaryInputTextBox_GotFocus"
+                             LostFocus="DiaryInputTextBox_LostFocus"/>
 
                     <Button x:Name="SaveEntryButton"
                                Content="Save Entry"
