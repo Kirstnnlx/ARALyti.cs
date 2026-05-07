@@ -65,6 +65,16 @@ namespace ARALyti.cs.views
             }
         }
 
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+
+            if (mainWindow != null)
+            {
+                mainWindow.ShowProfilePopup((UIElement)sender);
+            }
+        }
+
         private void StartScanningButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(selectedFileContent))

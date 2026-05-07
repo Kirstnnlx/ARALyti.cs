@@ -19,6 +19,16 @@ namespace ARALyti.cs.views
             LoadDashboardData();
         }
 
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+
+            if (mainWindow != null)
+            {
+                mainWindow.ShowProfilePopup((UIElement)sender);
+            }
+        }
+
         private void ViewAllTopicsText_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Window.GetWindow(this);

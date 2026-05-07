@@ -378,68 +378,46 @@
                 <views:TopicsView x:Name="TopicsPanel" Visibility="Collapsed"/>
                 <views:ProjectDiaryView x:Name="ProjectDiaryPanel" Visibility="Collapsed"/>
 
-
-                <Button x:Name="ProfileButton"
-        Panel.ZIndex="999"
-        Width="58"
-        Height="58"
-        Background="Transparent"
-        BorderThickness="0"
-        HorizontalAlignment="Right"
-        VerticalAlignment="Top"
-        Margin="0,28,38,0"
-        Cursor="Hand"
-        Click="ProfileButton_Click">
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Image Source="/Assets/user_icon.png"
-                   Width="58"
-                   Height="58"
-                   Stretch="Uniform"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-
                 <Popup x:Name="ProfilePopup"
-                       PlacementTarget="{Binding ElementName=ProfileButton}"
                        Placement="Bottom"
                        StaysOpen="False"
                        AllowsTransparency="True"
-                       PopupAnimation="Fade">
+                       PopupAnimation="Fade"
+                       VerticalOffset="10">
 
                     <Border Width="330"
-            Background="#0D1230"
-            BorderBrush="White"
-            BorderThickness="1"
-            CornerRadius="20"
-            Padding="20"
-            Margin="0,10,0,0">
+                            Background="#0D1230"
+                            BorderBrush="White"
+                            BorderThickness="1"
+                            CornerRadius="20"
+                            Padding="20"
+                            Margin="0,10,0,0">
 
                         <StackPanel>
                             <Grid>
                                 <TextBlock Text="User Info"
-                           Foreground="White"
-                           FontSize="20"
-                           FontWeight="Bold"/>
+                                           Foreground="White"
+                                           FontSize="20"
+                                           FontWeight="Bold"/>
 
                                 <Button Content="×"
-                        Width="28"
-                        Height="28"
-                        HorizontalAlignment="Right"
-                        Background="Transparent"
-                        Foreground="#B7C0DD"
-                        BorderThickness="0"
-                        FontSize="20"
-                        Click="CloseProfilePopup_Click"/>
+                                        Width="28"
+                                        Height="28"
+                                        HorizontalAlignment="Right"
+                                        Background="Transparent"
+                                        Foreground="#B7C0DD"
+                                        BorderThickness="0"
+                                        FontSize="20"
+                                        Click="CloseProfilePopup_Click"/>
                             </Grid>
 
                             <Border Height="1"
-                    Background="#1E2A59"
-                    Margin="0,14,0,16"/>
+                                    Background="#1E2A59"
+                                    Margin="0,14,0,16"/>
 
                             <Border Background="#11183A"
-                    CornerRadius="16"
-                    Padding="16">
+                                    CornerRadius="16"
+                                    Padding="16">
 
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -454,64 +432,64 @@
 
                                     <StackPanel Grid.Row="0">
                                         <TextBlock Text="Name"
-                                   Foreground="#B7C0DD"
-                                   FontSize="13"
-                                   Margin="0,0,0,6"/>
+                                                   Foreground="#B7C0DD"
+                                                   FontSize="13"
+                                                   Margin="0,0,0,6"/>
                                         <Border Background="#0D1230"
-                                CornerRadius="12"
-                                Padding="12,9">
+                                                CornerRadius="12"
+                                                Padding="12,9">
                                             <TextBlock x:Name="ProfileNameText"
-                                       Text="🙋🏻 Name"
-                                       Foreground="White"
-                                       FontSize="16"/>
+                                                       Text="🙋🏻 Name"
+                                                       Foreground="White"
+                                                       FontSize="16"/>
                                         </Border>
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="2">
                                         <TextBlock Text="Skill Level"
-                                   Foreground="#B7C0DD"
-                                   FontSize="13"
-                                   Margin="0,0,0,6"/>
+                                                   Foreground="#B7C0DD"
+                                                   FontSize="13"
+                                                   Margin="0,0,0,6"/>
                                         <Border Background="#0D1230"
-                                CornerRadius="12"
-                                Padding="12,9">
+                                                CornerRadius="12"
+                                                Padding="12,9">
                                             <TextBlock x:Name="ProfileSkillLevelText"
-                                       Text="🏅 Beginner"
-                                       Foreground="White"
-                                       FontSize="16"/>
+                                                       Text="🏅 Beginner"
+                                                       Foreground="White"
+                                                       FontSize="16"/>
                                         </Border>
                                     </StackPanel>
 
                                     <StackPanel Grid.Row="4">
                                         <TextBlock Text="Date Joined"
-                                   Foreground="#B7C0DD"
-                                   FontSize="13"
-                                   Margin="0,0,0,6"/>
+                                                   Foreground="#B7C0DD"
+                                                   FontSize="13"
+                                                   Margin="0,0,0,6"/>
                                         <Border Background="#0D1230"
-                                CornerRadius="12"
-                                Padding="12,9">
+                                                CornerRadius="12"
+                                                Padding="12,9">
                                             <TextBlock x:Name="ProfileDateJoinedText"
-                                       Text="🗓️ 2026-05-08"
-                                       Foreground="White"
-                                       FontSize="16"/>
+                                                       Text="🗓️ 2026-05-08"
+                                                       Foreground="White"
+                                                       FontSize="16"/>
                                         </Border>
                                     </StackPanel>
 
                                     <Button Grid.Row="6"
-                            Width="55"
-                            Height="55"
-                            HorizontalAlignment="Right"
-                            Background="#3A0B2A"
-                            BorderThickness="0"
-                            Click="LogoutIcon_Click">
+                                            Width="55"
+                                            Height="55"
+                                            HorizontalAlignment="Right"
+                                            Background="#3A0B2A"
+                                            BorderThickness="0"
+                                            Click="LogoutIcon_Click">
                                         <Button.Template>
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
-                                        CornerRadius="14">
+                                                        CornerRadius="14">
                                                     <Image Source="/Assets/logout.png"
-                                           Width="24"
-                                           Height="24"
-                                           Stretch="Uniform"/>
+                                                           Width="24"
+                                                           Height="24"
+                                                           Stretch="Uniform"/>
                                                 </Border>
                                             </ControlTemplate>
                                         </Button.Template>

@@ -14,6 +14,16 @@ namespace ARALyti.cs.views
             LoadTopics();
         }
 
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+
+            if (mainWindow != null)
+            {
+                mainWindow.ShowProfilePopup((UIElement)sender);
+            }
+        }
+
         public void LoadTopics()
         {
             TopicsPanel.Children.Clear();

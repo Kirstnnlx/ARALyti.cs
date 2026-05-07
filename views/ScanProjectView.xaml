@@ -23,8 +23,6 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="380"/>
-                    <ColumnDefinition Width="70"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
 
@@ -39,6 +37,28 @@
                                FontSize="18"
                                Margin="0,8,0,0"/>
                 </StackPanel>
+
+                <Button Grid.Column="1"
+                        Width="60"
+                        Height="60"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="0,2,0,0"
+                        Cursor="Hand"
+                        Click="ProfileButton_Click">
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Image Source="/Assets/user_icon.png"
+                                   Width="60"
+                                   Height="60"
+                                   Stretch="Uniform"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
 
             </Grid>
 
