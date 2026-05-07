@@ -11,39 +11,170 @@
         WindowStartupLocation="CenterScreen"
         Background="#050816">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="270"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
-        <!-- Sidebar -->
-        <Border Grid.Column="0" Background="#060A1F">
-            <Grid Margin="22,22,22,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+    <Grid Background="#050816">
 
-                <!-- Logo -->
-                <StackPanel Grid.Row="0"
+
+        <!-- LOGIN PAGE -->
+    <Grid x:Name="LoginPage"
+            Background="#050816">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.85*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Side -->
+            <Grid Grid.Column="0"
+                  VerticalAlignment="Center"
+                  Margin="170,0,-40,0">
+
+                <StackPanel HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Width="700">
+
+                    <!-- Logo + Welcome -->
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center">
+
+                        <TextBlock Text="Welcome to "
+                                   Foreground="White"
+                                   FontSize="45"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"/>
+
+                        <Image Source="/Assets/logo.png"
+                               Width="420"
+                               Margin="0,4,0,0"
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <Border Background="#111734"
+                            BorderBrush="#1E2A59"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="18"
+                            Width="620"
+                            Margin="0,34,0,0">
+
+                        <StackPanel Orientation="Horizontal">
+
+                            <Image Source="/Assets/rocket.png"
+                                   Width="70"
+                                   Height="70"
+                                   Margin="0,0,14,0"/>
+
+                            <StackPanel VerticalAlignment="Center">
+
+                                <TextBlock Text="Track your learning journey, scan your projects, and monitor your programming growth through interactive insights."
+                                           Foreground="#B7C0DD"
+                                           FontSize="18"
+                                           Width="480"
+                                           TextWrapping="Wrap"
+                                           Margin="12,4,0,0"/>
+
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+            </Grid>
+
+            <!-- Right Login Card -->
+        <Border Grid.Column="1"
+            Width="420"
+            Height="370"
+            Background="#0D1230"
+            BorderBrush="#1E2A59"
+            BorderThickness="1"
+            CornerRadius="26"
+            Padding="34"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+
+            <StackPanel>
+
+                <TextBlock Text="Get Started"
+                       Foreground="White"
+                       FontSize="32"
+                       FontWeight="Bold"/>
+
+                <TextBlock Text="Enter your name to continue to your dashboard."
+                       Foreground="#B7C0DD"
+                       FontSize="15"
+                       Margin="0,8,0,30"/>
+
+                <TextBlock Text="Name"
+                       Foreground="#B7C0DD"
+                       FontSize="14"
+                       Margin="0,0,0,8"/>
+
+                <TextBox x:Name="LoginNameTextBox"
+                     Height="46"
+                     Background="#131A3D"
+                     Foreground="White"
+                     BorderBrush="#1E2A59"
+                     BorderThickness="1"
+                     Padding="12"
+                     FontSize="15"
+                     CaretBrush="White"/>
+
+                <TextBlock x:Name="LoginErrorText"
+                       Text="Please enter your name."
+                       Foreground="#FF5FA5"
+                       FontSize="13"
+                       Visibility="Collapsed"
+                       Margin="0,10,0,0"/>
+
+                <Button Content="Enter Dashboard"
+                    Height="50"
+                    Margin="0,34,0,0"
+                    Background="#5B3DF5"
+                    Foreground="White"
+                    BorderThickness="0"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Click="LoginButton_Click"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+
+
+        <Grid x:Name="AppShell" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="270"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Sidebar -->
+            <Border Grid.Column="0" Background="#060A1F">
+                <Grid Margin="22,22,22,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Logo -->
+                    <StackPanel Grid.Row="0"
                             Margin="6,8,6,28"
                             HorizontalAlignment="Center">
 
-                    <Image Source="/Assets/logo.png"
+                        <Image Source="/Assets/logo.png"
                            Height="70"
                            Stretch="Uniform"
                            HorizontalAlignment="Center"/>
-                </StackPanel>
+                    </StackPanel>
 
-                <!-- Menu -->
-                <StackPanel Grid.Row="1"
+                    <!-- Menu -->
+                    <StackPanel Grid.Row="1"
             Margin="0,10,0,0">
 
-                    <!-- Dashboard -->
-                    <Button x:Name="DashboardButton"
+                        <!-- Dashboard -->
+                        <Button x:Name="DashboardButton"
                             Height="50"
                             Margin="0,0,0,10"
                             Background="Transparent"
@@ -53,30 +184,30 @@
                             Padding="38,0,0,0"
                             Click="DashboardButton_Click">
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}"
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
                                         CornerRadius="14">
-                                    <ContentPresenter VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="  💻"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="  💻"
                                        FontSize="16"
                                        Width="40"
                                        VerticalAlignment="Center"/>
 
-                            <TextBlock Text="Dashboard"
+                                <TextBlock Text="Dashboard"
                                        FontSize="15"
                                        FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                            </StackPanel>
+                        </Button>
 
-                    <!-- Scan Project -->
-                    <Button x:Name="ScanProjectButton"
+                        <!-- Scan Project -->
+                        <Button x:Name="ScanProjectButton"
                             Height="50"
                             Margin="0,0,0,10"
                             Background="Transparent"
@@ -86,30 +217,30 @@
                             Padding="38,0,0,0"
                             Click="ScanProjectButton_Click">
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}"
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
                                         CornerRadius="14">
-                                    <ContentPresenter VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="  📁"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="  📁"
                                        FontSize="16"
                                        Width="40"
                                        VerticalAlignment="Center"/>
 
-                            <TextBlock Text="Scan Project"
+                                <TextBlock Text="Scan Project"
                                        FontSize="15"
                                        FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                            </StackPanel>
+                        </Button>
 
-                    <!-- Topics -->
-                    <Button x:Name="TopicsButton"
+                        <!-- Topics -->
+                        <Button x:Name="TopicsButton"
                             Height="50"
                             Margin="0,0,0,10"
                             Background="Transparent"
@@ -119,30 +250,30 @@
                             Padding="38,0,0,0"
                             Click="TopicsButton_Click">
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}"
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
                                         CornerRadius="14">
-                                    <ContentPresenter VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="  📖"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="  📖"
                                        FontSize="16"
                                        Width="40"
                                        VerticalAlignment="Center"/>
 
-                            <TextBlock Text="Topics"
+                                <TextBlock Text="Topics"
                                        FontSize="15"
                                        FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                            </StackPanel>
+                        </Button>
 
-                    <!-- Project Diary -->
-                    <Button x:Name="ProjectDiaryButton"
+                        <!-- Project Diary -->
+                        <Button x:Name="ProjectDiaryButton"
                             Height="50"
                             Margin="0,0,0,10"
                             Background="Transparent"
@@ -152,49 +283,49 @@
                             Padding="38,0,0,0"
                             Click="ProjectDiaryButton_Click">
 
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <Border Background="{TemplateBinding Background}"
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}"
                                         CornerRadius="14">
-                                    <ContentPresenter VerticalAlignment="Center"/>
-                                </Border>
-                            </ControlTemplate>
-                        </Button.Template>
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Button.Template>
 
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="  📝"
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="  📝"
                                        FontSize="16"
                                        Width="40"
                                        VerticalAlignment="Center"/>
 
-                            <TextBlock Text="Project Diary"
+                                <TextBlock Text="Project Diary"
                                        FontSize="15"
                                        FontWeight="SemiBold"
                                        VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Button>
+                            </StackPanel>
+                        </Button>
 
-                </StackPanel>
+                    </StackPanel>
 
-                <!-- Motivation section -->
-                <Grid Grid.Row="2"
+                    <!-- Motivation section -->
+                    <Grid Grid.Row="2"
                       VerticalAlignment="Bottom"
                       Margin="-22,20,-22,60">
- 
-                    <StackPanel Grid.Row="2"
+
+                        <StackPanel Grid.Row="2"
                             VerticalAlignment="Bottom"
                             Margin="0,20,0,60">
 
-                        <Image Source="/Assets/arko.png"
+                            <Image Source="/Assets/arko.png"
                            Width="235"
                            HorizontalAlignment="Left"
                            Margin="-3,-24,0,-32"/>
 
-                    </StackPanel>
+                        </StackPanel>
 
 
-                    <!-- Small floating card -->
-                    <Border Width="190"
+                        <!-- Small floating card -->
+                        <Border Width="190"
                             Height="60"
                             Background="#111734"
                             BorderBrush="#1E2A59"
@@ -205,46 +336,48 @@
                             Margin="0,0,0,-45"
                             Padding="12,8">
 
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="40"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <!-- Rocket -->
-                            <Image Source="/Assets/rocket.png"
+                                <!-- Rocket -->
+                                <Image Source="/Assets/rocket.png"
                                    Width="34"
                                    Height="34"
                                    VerticalAlignment="Center"/>
 
-                            <!-- Text -->
-                            <TextBlock Grid.Column="1"
+                                <!-- Text -->
+                                <TextBlock Grid.Column="1"
                                        Text="Scan projects and track your progress"
                                        Foreground="White"
                                        FontSize="10.5"
                                        TextWrapping="Wrap"
                                        VerticalAlignment="Center"
                                        Margin="6,0,0,0"/>
-                        </Grid>
-                    </Border>
+                            </Grid>
+                        </Border>
 
-                </Grid>
+                    </Grid>
 
-                <TextBlock Grid.Row="3"
+                    <TextBlock Grid.Row="3"
                            Text="ARALyti.cs v1.0.0"
                            Foreground="#8B95B8"
                            FontSize="12"
                            Margin="0,14,0,14"
                            HorizontalAlignment="Center"/>
-            </Grid>
-        </Border>
+                </Grid>
+            </Border>
 
-        <!-- Content -->
-        <Grid Grid.Column="1" Background="#050816">
-            <views:DashboardView x:Name="DashboardPanel" Visibility="Visible"/>
-            <views:ScanProjectView x:Name="ScanProjectPanel" Visibility="Collapsed"/>
-            <views:TopicsView x:Name="TopicsPanel" Visibility="Collapsed"/>
-            <views:ProjectDiaryView x:Name="ProjectDiaryPanel" Visibility="Collapsed"/>
+            <!-- Content -->
+            <Grid Grid.Column="1" Background="#050816">
+                <views:DashboardView x:Name="DashboardPanel" Visibility="Visible"/>
+                <views:ScanProjectView x:Name="ScanProjectPanel" Visibility="Collapsed"/>
+                <views:TopicsView x:Name="TopicsPanel" Visibility="Collapsed"/>
+                <views:ProjectDiaryView x:Name="ProjectDiaryPanel" Visibility="Collapsed"/>
+            </Grid>
         </Grid>
+
     </Grid>
 </Window>

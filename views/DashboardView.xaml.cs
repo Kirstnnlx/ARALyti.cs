@@ -19,6 +19,16 @@ namespace ARALyti.cs.views
             LoadDashboardData();
         }
 
+        private void ViewAllTopicsText_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+
+            if (mainWindow != null)
+            {
+                mainWindow.ShowPanel("Topics");
+            }
+        }
+
         public void LoadDashboardData()
         {
             var topics = ScanProjectView.LastDetectedTopicObjects;
@@ -139,9 +149,16 @@ namespace ARALyti.cs.views
                 new Axis
                 {
                     LabelsPaint = new SolidColorPaint(SKColor.Parse("#AAAAAA")),
-                    SeparatorsPaint = null,
+
+                    SeparatorsPaint = new SolidColorPaint(new SKColor(255, 255, 255, 20))
+                    {
+                        StrokeThickness = 1
+                    },
+
                     MinLimit = -10,
-                    MaxLimit = 100
+                    MaxLimit = 100,
+                    MinStep = 50,
+                    ForceStepToMin = true
                 }
             };
         }

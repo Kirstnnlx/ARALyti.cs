@@ -58,9 +58,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="14"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="14"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <!-- Header -->
@@ -73,10 +73,12 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
-					<TextBlock Text="{Binding Source={x:Static local:LoginWindow.StudentName}, StringFormat='Hello, {0}!'}"
-                       Foreground="White"
-                       FontSize="36"
-                       FontWeight="Bold"/>
+                    <TextBlock x:Name="HelloUserText"
+                               Text="Hello, User!"
+                               Foreground="White"
+                               FontSize="36"
+                               FontWeight="Bold"/>
+                               
                     <TextBlock Text="Welcome back! Ready to analyze your progress today?"
                                Foreground="#B7C0DD"
                                FontSize="18"
@@ -128,10 +130,10 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Grid Width="200" Height="200">
+                            <Grid Width="190" Height="190">
                                 <lvc:PieChart x:Name="ProgressChart"
-                                              Width="200"
-                                              Height="200"
+                                              Width="190"
+                                              Height="190"
                                               LegendPosition="Hidden"
                                               Background="Transparent"/>
 
@@ -148,7 +150,7 @@
                                        Foreground="#B7C0DD"
                                        FontSize="16"
                                        HorizontalAlignment="Center"
-                                       Margin="0,28,0,0"/>
+                                       Margin="0,14,0,0"/>
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Margin="12,0,0,0">
@@ -252,9 +254,10 @@
                                    Foreground="#B7C0DD"
                                    FontSize="16"
                                    Margin="0,20,0,10"/>
-                       
+
                         <lvc:CartesianChart x:Name="ProgressLineChart"
-                                            Height="190"
+                                            Height="210"
+                                            Margin="0,8,0,0"
                                             Background="Transparent"
                                             LegendPosition="Hidden"/>
                     </StackPanel>
@@ -285,7 +288,9 @@
                             <TextBlock Text="View All Topics →"
                                        Foreground="#8E58FF"
                                        FontSize="16"
-                                       HorizontalAlignment="Right"/>
+                                       HorizontalAlignment="Right"
+                                       Cursor="Hand"
+                                       MouseLeftButtonDown="ViewAllTopicsText_MouseLeftButtonDown"/>
                         </DockPanel>
 
                         <StackPanel x:Name="DashboardTopicsPanel"

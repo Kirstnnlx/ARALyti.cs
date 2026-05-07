@@ -27,10 +27,11 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
-                    <TextBlock Text="{Binding Source={x:Static local:LoginWindow.StudentName}, StringFormat='Hello, {0}!'}"
-                                Foreground="White"
-                                FontSize="36"
-                                FontWeight="Bold"/>
+                    <TextBlock x:Name="HelloUserText"
+                               Text="Hello, User!"
+                               Foreground="White"
+                               FontSize="36"
+                               FontWeight="Bold"/>
                     <TextBlock Text="Browse all tracked topics and monitor your progress."
                                Foreground="#B7C0DD"
                                FontSize="18"

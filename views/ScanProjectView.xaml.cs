@@ -185,8 +185,7 @@ namespace ARALyti.cs.views
 
             foreach (var topic in LastDetectedTopicObjects
                 .Where(t => t.Status != "Not Started")
-                .OrderByDescending(t => t.Score)
-                .Take(4))
+                .OrderByDescending(t => t.Score))
             {
                 Grid row = new Grid
                 {
