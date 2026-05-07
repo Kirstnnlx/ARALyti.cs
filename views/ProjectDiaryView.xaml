@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:ARALyti.cs"
              mc:Ignorable="d"
              Background="Transparent">
 
@@ -26,10 +27,10 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel>
-                    <TextBlock Text="Hello, Kirsten!"
-                               Foreground="White"
-                               FontSize="36"
-                               FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Source={x:Static local:LoginWindow.StudentName}, StringFormat='Hello, {0}!'}"
+                                Foreground="White"
+                                FontSize="36"
+                                FontWeight="Bold"/>
                     <TextBlock Text="Review your learning journey and reflect on your progress."
                                Foreground="#B7C0DD"
                                FontSize="18"
