@@ -1,4 +1,5 @@
 ﻿using ARALyti.cs.Data;
+using ARALyti.cs.views;
 using System.Windows;
 using System.Windows.Media;
 
@@ -62,6 +63,55 @@ namespace ARALyti.cs
             DashboardPanel.LoadDashboardData();
             ShowPanel("Dashboard");
         }
+
+
+        public void ConfirmLogout()
+        {
+            MessageBoxResult result = MessageBox.Show(
+                "Logging out will reset all user data, including your profile, scanned projects, topics, diary entries, and progress history.\n\nDo you want to continue?",
+                "Confirm Logout",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Warning
+            );
+
+            if (result == MessageBoxResult.Yes)
+            {
+                DatabaseService.ResetAllData();
+
+                ScanProjectView.ScannedProjects.Clear();
+                ScanProjectView.LastDetectedTopicObjects.Clear();
+                ProjectDiaryView.DiaryEntries.Clear();
+
+                StudentName = "";
+
+                LoginNameTextBox.Text = "";
+                LoginErrorText.Visibility = Visibility.Collapsed;
+
+                AppShell.Visibility = Visibility.Collapsed;
+                LoginPage.Visibility = Visibility.Visible;
+            }
+        }
+
+
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            ProfileNameText.Text = $"🙋🏻 {StudentName}";
+            ProfileSkillLevelText.Text = $"🏅 {DashboardPanel.DashboardLevelText.Text}";
+            ProfileDateJoinedText.Text = $"🗓️ {DatabaseService.GetDateJoined()}";
+
+            ProfilePopup.IsOpen = true;
+        }
+
+        private void CloseProfilePopup_Click(object sender, RoutedEventArgs e)
+        {
+            ProfilePopup.IsOpen = false;
+        }
+
+        private void LogoutIcon_Click(object sender, RoutedEventArgs e)
+        {
+            ConfirmLogout();
+        }
+
 
         public void ShowPanel(string panelName)
         {

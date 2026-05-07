@@ -94,6 +94,44 @@ namespace ARALyti.cs.Data
             return result?.ToString() ?? "";
         }
 
+
+        public static string GetDateJoined()
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = "SELECT LastOpenedDate FROM UserProfile LIMIT 1";
+
+            using var command = new SqliteCommand(query, connection);
+            object? result = command.ExecuteScalar();
+
+            return result?.ToString() ?? DateTime.Now.ToString("yyyy-MM-dd");
+        }
+
+
+        public static void ResetAllData()
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                DELETE FROM ProjectDiaryEntries;
+                DELETE FROM ProgressHistory;
+                DELETE FROM Topics;
+                DELETE FROM Projects;
+                DELETE FROM UserProfile;
+
+                DELETE FROM sqlite_sequence WHERE name='ProjectDiaryEntries';
+                DELETE FROM sqlite_sequence WHERE name='ProgressHistory';
+                DELETE FROM sqlite_sequence WHERE name='Topics';
+                DELETE FROM sqlite_sequence WHERE name='Projects';
+                DELETE FROM sqlite_sequence WHERE name='UserProfile';
+            ";
+
+            using var command = new SqliteCommand(query, connection);
+            command.ExecuteNonQuery();
+        }
+
         public static void SaveProject(string title, string filePath)
         {
             using var connection = new SqliteConnection(ConnectionString);

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+	<TargetFramework>net10.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -13,6 +13,7 @@
     <None Remove="Assets\csharp.png" />
     <None Remove="Assets\folder.png" />
     <None Remove="Assets\logo.png" />
+    <None Remove="Assets\logout.png" />
     <None Remove="Assets\rocket.png" />
   </ItemGroup>
 
@@ -26,7 +27,9 @@
     <Resource Include="Assets\csharp.png" />
     <Resource Include="Assets\folder.png" />
     <Resource Include="Assets\logo.png" />
+    <Resource Include="Assets\logout.png" />
     <Resource Include="Assets\rocket.png" />
+    <Resource Include="Assets\user_icon.png" />
   </ItemGroup>
 
 </Project>

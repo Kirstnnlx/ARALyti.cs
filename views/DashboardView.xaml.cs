@@ -47,6 +47,7 @@ namespace ARALyti.cs.views
                 RecommendationTitleText.Text = "No scan results yet";
                 RecommendationDescriptionText.Text = "Scan a C# project first to see your learning recommendation.";
                 DashboardProgressText.Text = "0%";
+                DashboardMessageText.Text = "Your coding journey begins here.";
 
                 UpdateProgressChart(0);
                 LoadDashboardTopics(topics);
@@ -65,6 +66,8 @@ namespace ARALyti.cs.views
                 DashboardLevelText.Text = "Intermediate";
             else
                 DashboardLevelText.Text = "Beginner";
+
+            DashboardMessageText.Text = "Keep going! You're making great progress.";
 
             averageScore = adjustedScore;
 
@@ -163,9 +166,69 @@ namespace ARALyti.cs.views
             };
         }
 
+
         private void LoadDashboardTopics(System.Collections.Generic.List<ARALyti.cs.Models.Topic> topics)
         {
             DashboardTopicsPanel.Children.Clear();
+
+
+            if (!topics.Any(t => t.Status != "Not Started"))
+            {
+                Border emptyCard = new Border
+                {
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#11183A")),
+                    CornerRadius = new CornerRadius(18),
+                    Padding = new Thickness(24),
+                    Margin = new Thickness(0, 10, 0, 0)
+                };
+
+                StackPanel emptyPanel = new StackPanel
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
+
+                TextBlock iconText = new TextBlock
+                {
+                    Text = "📂",
+                    FontSize = 42,
+                    Foreground = Brushes.White,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 12)
+                };
+
+                TextBlock titleText = new TextBlock
+                {
+                    Text = "No topics detected yet",
+                    Foreground = Brushes.White,
+                    FontSize = 20,
+                    FontWeight = FontWeights.Bold,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 8)
+                };
+
+                TextBlock descriptionText = new TextBlock
+                {
+                    Text = "Scan a C# project first to analyze your strongest and weakest programming topics.",
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B7C0DD")),
+                    FontSize = 15,
+                    TextAlignment = TextAlignment.Center,
+                    TextWrapping = TextWrapping.Wrap,
+                    Width = 320
+                };
+
+                emptyPanel.Children.Add(iconText);
+                emptyPanel.Children.Add(titleText);
+                emptyPanel.Children.Add(descriptionText);
+
+                emptyCard.Child = emptyPanel;
+
+                DashboardTopicsPanel.Children.Add(emptyCard);
+
+                return;
+            }
+
+
 
             foreach (var topic in topics
                 .Where(t => t.Status != "Not Started")

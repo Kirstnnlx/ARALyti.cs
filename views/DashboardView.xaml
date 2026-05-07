@@ -78,36 +78,16 @@
                                Foreground="White"
                                FontSize="36"
                                FontWeight="Bold"/>
-                               
+
                     <TextBlock Text="Welcome back! Ready to analyze your progress today?"
                                Foreground="#B7C0DD"
                                FontSize="18"
                                Margin="0,8,0,0"/>
                 </StackPanel>
 
-                
-
-                <Border Grid.Column="1"
-                        Width="50"
-                        Height="50"
-                        Background="#0D1230"
-                        BorderBrush="#1E2A59"
-                        BorderThickness="1"
-                        CornerRadius="25"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Margin="0,4,0,0"/>
-
-                <Border Grid.Column="2"
-                        Width="54"
-                        Height="54"
-                        Background="#3B63FF"
-                        CornerRadius="27"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Margin="0,2,0,0"/>
             </Grid>
 
+            
             <!-- Top cards -->
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
@@ -164,7 +144,8 @@
                                        FontSize="30"
                                        FontWeight="Bold"
                                        Margin="0,26,0,10"/>
-                            <TextBlock Text="Keep going! You're making great progress."
+                            <TextBlock x:Name="DashboardMessageText"
+                                       Text="Your coding journey begins here."
                                        Foreground="#B7C0DD"
                                        FontSize="17"
                                        TextWrapping="Wrap"/>
@@ -253,11 +234,11 @@
                         <TextBlock Text="Daily Learning Activity"
                                    Foreground="#B7C0DD"
                                    FontSize="16"
-                                   Margin="0,20,0,10"/>
+                                   Margin="0,10,0,2"/>
 
                         <lvc:CartesianChart x:Name="ProgressLineChart"
-                                            Height="210"
-                                            Margin="0,8,0,0"
+                                            Height="215"
+                                            Margin="0,5,0,0"
                                             Background="Transparent"
                                             LegendPosition="Hidden"/>
                     </StackPanel>
