@@ -221,6 +221,14 @@ namespace ARALyti.cs.Data
             deleteDiaryCommand.Parameters.AddWithValue("@projectId", projectId);
             deleteDiaryCommand.ExecuteNonQuery();
 
+            string resetDiaryIdQuery = @"
+                DELETE FROM sqlite_sequence 
+                WHERE name = 'ProjectDiaryEntries';
+            ";
+
+            using var resetDiaryIdCommand = new SqliteCommand(resetDiaryIdQuery, connection);
+            resetDiaryIdCommand.ExecuteNonQuery();
+
             string deleteProjectQuery = "DELETE FROM Projects WHERE ProjectId = @projectId";
             using var deleteProjectCommand = new SqliteCommand(deleteProjectQuery, connection);
             deleteProjectCommand.Parameters.AddWithValue("@projectId", projectId);
@@ -359,6 +367,42 @@ namespace ARALyti.cs.Data
 
             return data;
         }
+
+        public static List<ARALyti.cs.Models.ProjectDiaryEntry> GetDiaryEntries()
+        {
+            var entries = new List<ARALyti.cs.Models.ProjectDiaryEntry>();
+
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                SELECT 
+                    d.EntryId,
+                    p.Title AS ProjectTitle,
+                    d.Note,
+                    d.DateCreated
+                FROM ProjectDiaryEntries d
+                INNER JOIN Projects p ON d.ProjectId = p.ProjectId
+                ORDER BY d.DateCreated DESC;
+    ";
+
+            using var command = new SqliteCommand(query, connection);
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                entries.Add(new ARALyti.cs.Models.ProjectDiaryEntry
+                {
+                    EntryId = $"D{Convert.ToInt32(reader["EntryId"]):000}",
+                    ProjectTitle = reader["ProjectTitle"].ToString() ?? "",
+                    Note = reader["Note"].ToString() ?? "",
+                    DateCreated = DateTime.Parse(reader["DateCreated"].ToString() ?? DateTime.Now.ToString())
+                });
+            }
+
+            return entries;
+        }
+
 
     }
 }

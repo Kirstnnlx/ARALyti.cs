@@ -198,7 +198,7 @@
                     <TextBlock Text="Browse your learning journey grouped by project."
                                Foreground="#B7C0DD"
                                FontSize="15"
-                               Margin="0,6,0,18"/>
+                               Margin="0,6,0,4"/>
 
                     <Grid Margin="0,18,0,0">
                         <Grid.ColumnDefinitions>
@@ -213,11 +213,7 @@
                                 <TextBlock Text="WRITE ENTRY"
                                            Foreground="White"
                                            FontSize="16"
-                                           FontWeight="Bold"/>
-
-                                <TextBlock Text="Choose a project and write your reflection."
-                                           Foreground="#B7C0DD"
-                                           FontSize="13"
+                                           FontWeight="Bold"
                                            Margin="0,4,0,14"/>
 
                                 <Grid Margin="0,0,0,12">

@@ -103,6 +103,8 @@ namespace ARALyti.cs.views
 
         public void LoadEntries()
         {
+            DiaryEntries = DatabaseService.GetDiaryEntries();
+
             DiaryEntriesPanel.Children.Clear();
 
             int totalEntries = DiaryEntries.Count;
@@ -302,13 +304,23 @@ namespace ARALyti.cs.views
 
                         StackPanel entryContent = new StackPanel();
 
+                        Border idBadge = new Border
+                        {
+                            Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5B3DF5")),
+                            CornerRadius = new CornerRadius(10),
+                            Padding = new Thickness(12, 5, 12, 5),
+                            HorizontalAlignment = HorizontalAlignment.Left
+                        };
+
                         TextBlock idText = new TextBlock
                         {
                             Text = entry.EntryId,
                             Foreground = Brushes.White,
                             FontWeight = FontWeights.Bold,
-                            FontSize = 15
+                            FontSize = 13
                         };
+
+                        idBadge.Child = idText;
 
                         TextBlock noteText = new TextBlock
                         {
@@ -326,7 +338,7 @@ namespace ARALyti.cs.views
                             FontSize = 13
                         };
 
-                        entryContent.Children.Add(idText);
+                        entryContent.Children.Add(idBadge);
                         entryContent.Children.Add(noteText);
                         entryContent.Children.Add(dateText);
 
