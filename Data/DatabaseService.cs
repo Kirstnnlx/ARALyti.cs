@@ -61,6 +61,39 @@ namespace ARALyti.cs.Data
             command.ExecuteNonQuery();
         }
 
+        public static void SaveUserName(string name)
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = @"
+                DELETE FROM UserProfile;
+
+                INSERT INTO UserProfile (Name, Streak, LastOpenedDate)
+                VALUES (@name, 0, @date);
+            ";
+
+            using var command = new SqliteCommand(query, connection);
+            command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd"));
+
+            command.ExecuteNonQuery();
+        }
+
+        public static string GetSavedUserName()
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = "SELECT Name FROM UserProfile LIMIT 1";
+
+            using var command = new SqliteCommand(query, connection);
+
+            object? result = command.ExecuteScalar();
+
+            return result?.ToString() ?? "";
+        }
+
         public static void SaveProject(string title, string filePath)
         {
             using var connection = new SqliteConnection(ConnectionString);

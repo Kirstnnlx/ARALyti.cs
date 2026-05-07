@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using ARALyti.cs.Data;
+using System.Windows;
 using System.Windows.Media;
 
 namespace ARALyti.cs
@@ -8,13 +9,61 @@ namespace ARALyti.cs
         private Brush activeBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5B3DF5"));
         private Brush inactiveBrush = Brushes.Transparent;
 
+        public static string StudentName { get; private set; } = "";
+
         public MainWindow()
         {
+            DatabaseService.InitializeDatabase();
             InitializeComponent();
+
+            string savedName = DatabaseService.GetSavedUserName();
+
+            if (!string.IsNullOrWhiteSpace(savedName))
+            {
+                StudentName = savedName;
+
+                UpdateHelloTexts();
+
+                LoginPage.Visibility = Visibility.Collapsed;
+                AppShell.Visibility = Visibility.Visible;
+
+                DashboardPanel.LoadDashboardData();
+                ShowPanel("Dashboard");
+            }
+        }
+
+        private void UpdateHelloTexts()
+        {
+            DashboardPanel.HelloUserText.Text = $"Hello, {StudentName}!";
+            ScanProjectPanel.HelloUserText.Text = $"Hello, {StudentName}!";
+            TopicsPanel.HelloUserText.Text = $"Hello, {StudentName}!";
+            ProjectDiaryPanel.HelloUserText.Text = $"Hello, {StudentName}!";
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            string name = LoginNameTextBox.Text.Trim();
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                LoginErrorText.Visibility = Visibility.Visible;
+                return;
+            }
+
+            StudentName = name;
+
+            DatabaseService.SaveUserName(StudentName);
+
+            UpdateHelloTexts();
+
+            LoginPage.Visibility = Visibility.Collapsed;
+            AppShell.Visibility = Visibility.Visible;
+
+            DashboardPanel.LoadDashboardData();
             ShowPanel("Dashboard");
         }
 
-        private void ShowPanel(string panelName)
+        public void ShowPanel(string panelName)
         {
             DashboardPanel.Visibility = Visibility.Collapsed;
             ScanProjectPanel.Visibility = Visibility.Collapsed;
