@@ -40,6 +40,18 @@ namespace ARALyti.cs.views
             InitializeComponent();
         }
 
+        public void ClearScanView()
+        {
+            selectedFileContent = "";
+            LastScannedFileName = "";
+
+            FileNameText.Text = "No file selected";
+            SelectedFileText.Text = "No file selected";
+            CodePreviewText.Text = "Code preview will appear here...";
+
+            DetectedTopicsPanel.Children.Clear();
+        }
+
         private void ChooseFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -47,6 +59,9 @@ namespace ARALyti.cs.views
 
             if (openFileDialog.ShowDialog() == true)
             {
+                DetectedTopicsPanel.Children.Clear();
+                CodePreviewText.Text = "Code preview will appear here...";
+
                 SelectedFileText.Text = openFileDialog.FileName;
                 FileNameText.Text = Path.GetFileName(openFileDialog.FileName);
                 LastScannedFileName = Path.GetFileName(openFileDialog.FileName);

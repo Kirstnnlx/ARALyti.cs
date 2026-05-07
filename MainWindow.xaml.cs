@@ -163,6 +163,7 @@ namespace ARALyti.cs
 
         private void ScanProjectButton_Click(object sender, RoutedEventArgs e)
         {
+            ScanProjectPanel.ClearScanView();
             ShowPanel("ScanProject");
         }
 
