@@ -234,7 +234,7 @@ namespace ARALyti.cs.views
                 leftPanel.Children.Add(nameText);
                 leftPanel.Children.Add(progressBar);
 
-                // Middle column: numeric score
+
                 TextBlock scoreText = new TextBlock
                 {
                     Text = topic.Score.ToString(),
@@ -245,7 +245,7 @@ namespace ARALyti.cs.views
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
-                // Right column: status badge (Strong / Developing / Weak)
+
                 Border statusBadge = new Border
                 {
                     CornerRadius = new CornerRadius(10),
@@ -275,7 +275,6 @@ namespace ARALyti.cs.views
             }
         }
 
-        // Returns text color based on status (used for progress bar and badge text)
         private Brush GetStatusColor(string status)
         {
             switch (status)
@@ -287,7 +286,6 @@ namespace ARALyti.cs.views
             }
         }
 
-        // Returns background color for the status badge
         private Brush GetStatusBackground(string status)
         {
             switch (status)
