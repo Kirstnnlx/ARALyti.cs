@@ -66,7 +66,7 @@ namespace ARALyti.cs.Services
         public override void VisitBaseList(BaseListSyntax node)
         {
             Add("Object-Oriented Programming", 35);
-            Add("Inheritance", 100); // presence-based: once inheritance is used, full score
+            Add("Inheritance", 100); // oresence based for inheritance
             base.VisitBaseList(node);
         }
 
@@ -283,7 +283,7 @@ namespace ARALyti.cs.Services
             base.VisitUsingDirective(node);
         }
 
-        // ==================== OUTPUT ====================
+        // ==================== OUTPUT ===================
         public List<TopicResult> GetResults()
         {
             return _scores
