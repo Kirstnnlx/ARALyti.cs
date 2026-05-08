@@ -88,6 +88,11 @@ namespace ARALyti.cs
 
                 StudentName = "";
 
+                DashboardPanel.UpdateStreakDisplay(0);
+                ScanProjectPanel.UpdateStreakDisplay(0);
+                TopicsPanel.UpdateStreakDisplay(0);
+                ProjectDiaryPanel.UpdateStreakDisplay(0);
+
                 LoginNameTextBox.Text = "";
                 LoginErrorText.Visibility = Visibility.Collapsed;
 

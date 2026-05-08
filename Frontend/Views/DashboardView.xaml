@@ -92,7 +92,7 @@
 
                     <TextBlock x:Name="StreakDaysText"
                                Text="0"
-                               Foreground="White"
+                               Foreground="#8E58FF"
                                FontSize="18"
                                FontWeight="Bold"
                                VerticalAlignment="Center"
@@ -361,7 +361,7 @@
 
                                     <TextBlock x:Name="RecommendationTitleText"
                                                Text="Focus on Object-Oriented Programming"
-                                               Foreground="#D14BFF"
+                                               Foreground="#8E58FF"
                                                FontSize="22"
                                                FontWeight="Bold"
                                                TextWrapping="Wrap"

@@ -8,6 +8,11 @@ namespace ARALyti.cs.views
 {
     public partial class TopicsView : UserControl
     {
+
+        private List<Topic> allTopics = new List<Topic>();
+        private int currentPage = 1;
+        private const int TopicsPerPage = 6;
+
         public TopicsView()
         {
             InitializeComponent();
@@ -73,9 +78,21 @@ namespace ARALyti.cs.views
                 return;
             }
 
+            allTopics = topicsToDisplay;
+
+            int totalPages = (int)Math.Ceiling(allTopics.Count / (double)TopicsPerPage);
+
+            if (currentPage > totalPages)
+                currentPage = 1;
+
+            var pagedTopics = allTopics
+                .Skip((currentPage - 1) * TopicsPerPage)
+                .Take(TopicsPerPage)
+                .ToList();
+
             int index = 1;
 
-            foreach (var topic in topicsToDisplay)
+            foreach (var topic in pagedTopics)
             {
                 var starterMatch = ScanProjectView.StarterTopics
                     .FirstOrDefault(t => t.Name == topic.Name);
@@ -99,7 +116,7 @@ namespace ARALyti.cs.views
                     Background = (index % 2 == 1)
                         ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#0A0F28"))
                         : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#10163A")),
-                    Padding = new Thickness(16),
+                    Padding = new Thickness(12),
                     Margin = new Thickness(0, 1, 0, 0)
                 };
 
@@ -211,7 +228,51 @@ namespace ARALyti.cs.views
             DevelopingCountText.Text = developing.ToString();
             WeakCountText.Text = weak.ToString();
 
-            TopicsFooterText.Text = $"Showing {topicsToDisplay.Count} topic(s)";
+            int showingCount = pagedTopics.Count;
+
+            TopicsFooterText.Text =
+                $"Showing {showingCount} topics • Page {currentPage} of {totalPages}";
+
+            PageOneButton.Background = currentPage == 1
+                ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5B3DF5"))
+                : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#11183A"));
+
+            PageTwoButton.Background = currentPage == 2
+                ? new SolidColorBrush((Color)ColorConverter.ConvertFromString("#5B3DF5"))
+                : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#11183A"));
+
+        }
+
+        private void PreviousPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (currentPage > 1)
+            {
+                currentPage--;
+                LoadTopics();
+            }
+        }
+
+        private void NextPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            int totalPages = (int)Math.Ceiling(allTopics.Count / (double)TopicsPerPage);
+
+            if (currentPage < totalPages)
+            {
+                currentPage++;
+                LoadTopics();
+            }
+        }
+
+        private void PageOneButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentPage = 1;
+            LoadTopics();
+        }
+
+        private void PageTwoButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentPage = 2;
+            LoadTopics();
         }
     }
 }

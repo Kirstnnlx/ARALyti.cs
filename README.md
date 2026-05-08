@@ -1,5 +1,22 @@
-# ARALyti.cs
-Study and Project Insight System
+<div align="center">
+
+<img src="./Frontend/Assets/logo.png" alt="ARALyti.cs" width="520"/>
+
+<br/>
+
+*a system that studies you, studying.*
+
+<br/>
+
+[![C#](https://img.shields.io/badge/C%23+WPF-512BD4?style=flat-square&logo=csharp&logoColor=white)](https://dotnet.microsoft.com/)
+[![LiveCharts2](https://img.shields.io/badge/LiveCharts2-6A3EFF?style=flat-square)](https://livecharts.dev/)
+[![Single User](https://img.shields.io/badge/Single--User-1E2A59?style=flat-square)]()
+[![AOOP](https://img.shields.io/badge/AOOP%20Subject-6A3EFF?style=flat-square)]()
+[![Rule Based](https://img.shields.io/badge/Rule--Based%20Logic-1D9E75?style=flat-square)]()
+[![Status](https://img.shields.io/badge/Status-In%20Development-FFCB47?style=flat-square)]()
+
+</div>
+<br/>
 
 # Project Description
 A Study and Project Insight System that analyzes your C# projects to track your progress and guide what to learn next.

@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+	<NoWarn>$(NoWarn);NU1701</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
     <None Remove="Frontend\Assets\logout.png" />
     <None Remove="Frontend\Assets\recommendation.png" />
     <None Remove="Frontend\Assets\rocket.png" />
+    <None Remove="Frontend\Assets\user_icon.png" />
   </ItemGroup>
 
   <ItemGroup>

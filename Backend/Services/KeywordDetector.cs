@@ -6,9 +6,9 @@ namespace ARALyti.cs.Services
 {
     public class TopicResult
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
         public int Score { get; set; }
-        public string Level { get; set; }
+        public string Level { get; set; } = "";
     }
 
     public class KeywordDetector
@@ -248,7 +248,7 @@ namespace ARALyti.cs.Services
                 {
                     IdentifierNameSyntax id => id.Identifier.Text,
                     MemberAccessExpressionSyntax ma when ma.Expression is ThisExpressionSyntax => ma.Name.Identifier.Text,
-                    _ => null
+                    _ => ""
                 };
                 if (called != null && called == current)
                     Add("Recursion", 100);
