@@ -9,13 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\arko.png" />
-    <None Remove="Assets\csharp.png" />
-    <None Remove="Assets\folder.png" />
-    <None Remove="Assets\logo.png" />
-    <None Remove="Assets\logout.png" />
-    <None Remove="Assets\recommendation.png" />
-    <None Remove="Assets\rocket.png" />
+    <None Remove="Frontend\Assets\arko.png" />
+    <None Remove="Frontend\Assets\csharp.png" />
+    <None Remove="Frontend\Assets\folder.png" />
+    <None Remove="Frontend\Assets\logo.png" />
+    <None Remove="Frontend\Assets\logout.png" />
+    <None Remove="Frontend\Assets\recommendation.png" />
+    <None Remove="Frontend\Assets\rocket.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,14 +25,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Assets\arko.png" />
-    <Resource Include="Assets\csharp.png" />
-    <Resource Include="Assets\folder.png" />
-    <Resource Include="Assets\logo.png" />
-    <Resource Include="Assets\logout.png" />
-    <Resource Include="Assets\recommendation.png" />
-    <Resource Include="Assets\rocket.png" />
-    <Resource Include="Assets\user_icon.png" />
+    <Resource Include="Frontend\Assets\arko.png" />
+    <Resource Include="Frontend\Assets\csharp.png" />
+    <Resource Include="Frontend\Assets\folder.png" />
+    <Resource Include="Frontend\Assets\logo.png" />
+    <Resource Include="Frontend\Assets\logout.png" />
+    <Resource Include="Frontend\Assets\recommendation.png" />
+    <Resource Include="Frontend\Assets\rocket.png" />
+    <Resource Include="Frontend\Assets\user_icon.png" />
   </ItemGroup>
 
 </Project>
