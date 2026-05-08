@@ -23,8 +23,6 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="380"/>
-                    <ColumnDefinition Width="70"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
 
@@ -39,6 +37,28 @@
                                FontSize="18"
                                Margin="0,8,0,0"/>
                 </StackPanel>
+
+                <Button Grid.Column="1"
+                        Width="60"
+                        Height="60"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="0,2,0,0"
+                        Cursor="Hand"
+                        Click="ProfileButton_Click">
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Image Source="/Assets/user_icon.png"
+                                   Width="60"
+                                   Height="60"
+                                   Stretch="Uniform"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
 
             </Grid>
 
@@ -85,6 +105,7 @@
                                 Height="46"
                                 Background="#5B3DF5"
                                 Foreground="White"
+                                FontWeight="SemiBold"
                                 BorderThickness="0"
                                 Click="ChooseFileButton_Click"/>
                     </StackPanel>
@@ -147,7 +168,7 @@
                                 Background="#5B3DF5"
                                 Foreground="White"
                                 BorderThickness="0"
-                                FontSize="15"
+                                FontSize="14"
                                 FontWeight="SemiBold"
                                 Click="StartScanningButton_Click"/>
                     </StackPanel>
@@ -169,21 +190,21 @@
                         Padding="24"
                         Margin="0,0,12,0">
                     <StackPanel>
-                        <TextBlock Text="SCAN RESULTS"
+                        <TextBlock Text="📇 SCAN RESULTS"
                                    Foreground="White"
                                    FontSize="18"
                                    FontWeight="SemiBold"/>
                         <TextBlock Text="Topics Detected"
-                                   Foreground="#A9C7FF"
-                                   FontSize="28"
+                                   Foreground="White"
+                                   FontSize="25"
                                    FontWeight="Bold"
-                                   Margin="0,20,0,8"/>
-                        <TextBlock Text="Here are the topics found in your code."
-                                   Foreground="#B7C0DD"
-                                   FontSize="16"/>
+                                   Margin="0,13,0,8"/>
+                        <TextBlock Text="Programming concepts identified from your uploaded C# file."
+                                   Foreground="#9BA7D1"
+                                   FontSize="15"/>
 
-                        <StackPanel x:Name="DetectedTopicsPanel" Margin="0,26,0,0"/>
-
+                        <StackPanel x:Name="DetectedTopicsPanel" 
+                                    Margin="0,26,0,0"/>
 
 
                     </StackPanel>
@@ -197,7 +218,7 @@
                         Padding="24"
                         Margin="12,0,0,0">
                     <StackPanel>
-                        <TextBlock Text="CODE PREVIEW"
+                        <TextBlock Text="📑 CODE PREVIEW"
                                    Foreground="White"
                                    FontSize="18"
                                    FontWeight="SemiBold"/>

@@ -93,12 +93,13 @@ namespace ARALyti.cs
         }
 
 
-        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        public void ShowProfilePopup(UIElement sender)
         {
             ProfileNameText.Text = $"🙋🏻 {StudentName}";
             ProfileSkillLevelText.Text = $"🏅 {DashboardPanel.DashboardLevelText.Text}";
             ProfileDateJoinedText.Text = $"🗓️ {DatabaseService.GetDateJoined()}";
 
+            ProfilePopup.PlacementTarget = sender as UIElement;
             ProfilePopup.IsOpen = true;
         }
 
@@ -162,6 +163,7 @@ namespace ARALyti.cs
 
         private void ScanProjectButton_Click(object sender, RoutedEventArgs e)
         {
+            ScanProjectPanel.ClearScanView();
             ShowPanel("ScanProject");
         }
 

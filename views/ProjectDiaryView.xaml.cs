@@ -20,6 +20,16 @@ namespace ARALyti.cs.views
             LoadEntries();
         }
 
+        private void ProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
+
+            if (mainWindow != null)
+            {
+                mainWindow.ShowProfilePopup((UIElement)sender);
+            }
+        }
+
         public void LoadProjectSelector()
         {
             ProjectSelectorComboBox.Items.Clear();

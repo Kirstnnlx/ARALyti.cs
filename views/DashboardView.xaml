@@ -67,8 +67,6 @@
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    
-                    <ColumnDefinition Width="70"/>
                     <ColumnDefinition Width="70"/>
                 </Grid.ColumnDefinitions>
 
@@ -84,6 +82,27 @@
                                FontSize="18"
                                Margin="0,8,0,0"/>
                 </StackPanel>
+
+                <Button Grid.Column="1"
+                        Width="60"
+                        Height="60"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="0,2,0,0"
+                        Cursor="Hand"
+                        Click="ProfileButton_Click">
+
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Image Source="/Assets/user_icon.png"
+                                   Width="60"
+                                   Height="60"
+                                   Stretch="Uniform"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
 
             </Grid>
 
@@ -304,31 +323,50 @@
                         </StackPanel>
 
                         <Border Background="#131A3D"
-                                CornerRadius="18"
-                                Padding="22"
-                                Margin="0,20,0,0">
-                            <StackPanel>
-                                <TextBlock x:Name="RecommendationTitleText"
-                                           Text="Focus on Recursion"
-                                           Foreground="#D14BFF"
-                                           FontSize="24"
-                                           FontWeight="Bold"/>
-                                <TextBlock x:Name="RecommendationDescriptionText"
-                                           Text="Practice recursive functions and understand base cases. Try solving factorial or Fibonacci problems."
-                                           Foreground="#D4DBF4"
-                                           FontSize="17"
-                                           TextWrapping="Wrap"
-                                           Margin="0,16,0,0"/>
-                                <Button Content="View Learning Resources"
-                                        Width="230"
-                                        Height="48"
-                                        Margin="0,26,0,0"
-                                        Background="#5B3DF5"
-                                        Foreground="White"
-                                        BorderThickness="0"
-                                        FontSize="16"
-                                        FontWeight="SemiBold"/>
-                            </StackPanel>
+                                CornerRadius="20"
+                                Margin="0,20,0,0"
+                                Padding="0">
+
+                            <Grid Margin="28">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.5*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Left Side -->
+                                <StackPanel Grid.Column="0"
+                                            VerticalAlignment="Center"
+                                            Margin="0,-12,24,0">
+
+                                    <TextBlock x:Name="RecommendationTitleText"
+                                               Text="Focus on Object-Oriented Programming"
+                                               Foreground="#D14BFF"
+                                               FontSize="22"
+                                               FontWeight="Bold"
+                                               TextWrapping="Wrap"
+                                               MaxWidth="420"/>
+
+                                    <TextBlock x:Name="RecommendationDescriptionText"
+                                               Text="Your lowest detected topic is Object-Oriented Programming with a score of 15%. Practice this area more to improve your overall progress."
+                                               Foreground="#D4DBF4"
+                                               FontSize="15"
+                                               LineHeight="24"
+                                               TextWrapping="Wrap"
+                                               Margin="0,16,0,0"
+                                               MaxWidth="430"/>
+                                </StackPanel>
+
+                                <!-- Right Side Illustration -->
+                                <Image Grid.Column="1"
+                                       Source="/Assets/recommendation.png"
+                                       Width="210"
+                                       Height="210"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="0,-10,10,0"/>
+                   
+                            </Grid>
                         </Border>
                     </StackPanel>
                 </Border>

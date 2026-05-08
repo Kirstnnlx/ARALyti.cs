@@ -14,6 +14,7 @@
     <None Remove="Assets\folder.png" />
     <None Remove="Assets\logo.png" />
     <None Remove="Assets\logout.png" />
+    <None Remove="Assets\recommendation.png" />
     <None Remove="Assets\rocket.png" />
   </ItemGroup>
 
@@ -28,6 +29,7 @@
     <Resource Include="Assets\folder.png" />
     <Resource Include="Assets\logo.png" />
     <Resource Include="Assets\logout.png" />
+    <Resource Include="Assets\recommendation.png" />
     <Resource Include="Assets\rocket.png" />
     <Resource Include="Assets\user_icon.png" />
   </ItemGroup>
