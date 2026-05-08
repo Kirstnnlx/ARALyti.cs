@@ -63,10 +63,16 @@ namespace ARALyti.cs.views
                 .OrderBy(t => t.TopicId)
                 .ToList();
 
+
             int total = topicsToDisplay.Count(t => t.Status != "Not Started");
-            int strong = 0;
-            int developing = 0;
-            int weak = 0;
+            int strong = topicsToDisplay.Count(t => t.Status == "Strong");
+            int developing = topicsToDisplay.Count(t => t.Status == "Developing");
+            int weak = topicsToDisplay.Count(t => t.Status == "Weak");
+
+            double strongPercent = total > 0 ? (strong / (double)total) * 100 : 0;
+            double developingPercent = total > 0 ? (developing / (double)total) * 100 : 0;
+            double weakPercent = total > 0 ? (weak / (double)total) * 100 : 0;
+
 
             if (topicsToDisplay.Count == 0)
             {
@@ -102,13 +108,6 @@ namespace ARALyti.cs.views
                 int score = topic.Score;
                 string status = topic.Status;
                 string difficulty = topic.Difficulty;
-
-                if (status == "Strong")
-                    strong++;
-                else if (status == "Weak")
-                    weak++;
-                else if (status == "Developing")
-                    developing++;
 
 
                 Border rowBorder = new Border
@@ -227,6 +226,10 @@ namespace ARALyti.cs.views
             StrongCountText.Text = strong.ToString();
             DevelopingCountText.Text = developing.ToString();
             WeakCountText.Text = weak.ToString();
+
+            StrongPercentText.Text = $"{strongPercent:F1}% of detected topics";
+            DevelopingPercentText.Text = $"{developingPercent:F1}% of detected topics";
+            WeakPercentText.Text = $"{weakPercent:F1}% of detected topics";
 
             int showingCount = pagedTopics.Count;
 
