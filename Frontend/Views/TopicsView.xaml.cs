@@ -14,6 +14,11 @@ namespace ARALyti.cs.views
             LoadTopics();
         }
 
+        public void UpdateStreakDisplay(int streak)
+        {
+            StreakDaysText.Text = streak.ToString();
+        }
+
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Window.GetWindow(this);

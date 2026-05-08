@@ -52,6 +52,11 @@ namespace ARALyti.cs.views
             DetectedTopicsPanel.Children.Clear();
         }
 
+        public void UpdateStreakDisplay(int streak)
+        {
+            StreakDaysText.Text = streak.ToString();
+        }
+
         private void ChooseFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
