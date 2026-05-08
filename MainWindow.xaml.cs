@@ -23,7 +23,10 @@ namespace ARALyti.cs
             {
                 StudentName = savedName;
 
+                DatabaseService.UpdateUserStreak();
+
                 UpdateHelloTexts();
+                UpdateAllStreakDisplays();
 
                 LoginPage.Visibility = Visibility.Collapsed;
                 AppShell.Visibility = Visibility.Visible;
@@ -56,6 +59,7 @@ namespace ARALyti.cs
             DatabaseService.SaveUserName(StudentName);
 
             UpdateHelloTexts();
+            UpdateAllStreakDisplays();
 
             LoginPage.Visibility = Visibility.Collapsed;
             AppShell.Visibility = Visibility.Visible;
@@ -92,6 +96,16 @@ namespace ARALyti.cs
             }
         }
 
+
+        private void UpdateAllStreakDisplays()
+        {
+            int streak = DatabaseService.GetUserStreak();
+
+            DashboardPanel.UpdateStreakDisplay(streak);
+            ScanProjectPanel.UpdateStreakDisplay(streak);
+            TopicsPanel.UpdateStreakDisplay(streak);
+            ProjectDiaryPanel.UpdateStreakDisplay(streak);
+        }
 
         public void ShowProfilePopup(UIElement sender)
         {

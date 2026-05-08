@@ -61,6 +61,78 @@ namespace ARALyti.cs.Data
             command.ExecuteNonQuery();
         }
 
+        public static int GetUserStreak()
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string query = "SELECT Streak FROM UserProfile LIMIT 1";
+
+            using var command = new SqliteCommand(query, connection);
+
+            object? result = command.ExecuteScalar();
+
+            if (result != null && int.TryParse(result.ToString(), out int streak))
+            {
+                return streak;
+            }
+
+            return 0;
+        }
+
+
+        public static void UpdateUserStreak()
+        {
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            string selectQuery = "SELECT Streak, LastOpenedDate FROM UserProfile LIMIT 1";
+
+            using var selectCommand = new SqliteCommand(selectQuery, connection);
+            using var reader = selectCommand.ExecuteReader();
+
+            if (!reader.Read())
+                return;
+
+            int currentStreak = Convert.ToInt32(reader["Streak"]);
+            string lastOpenedText = reader["LastOpenedDate"].ToString() ?? "";
+
+            if (!DateTime.TryParse(lastOpenedText, out DateTime lastOpenedDate))
+                return;
+
+            DateTime today = DateTime.Today;
+            DateTime lastDate = lastOpenedDate.Date;
+
+            if (lastDate == today)
+            {
+                return;
+            }
+
+            if (lastDate == today.AddDays(-1))
+            {
+                currentStreak++;
+            }
+            else
+            {
+                currentStreak = 1;
+            }
+
+            reader.Close();
+
+            string updateQuery = @"
+                UPDATE UserProfile
+                SET Streak = @streak,
+                    LastOpenedDate = @date;
+            ";
+
+            using var updateCommand = new SqliteCommand(updateQuery, connection);
+            updateCommand.Parameters.AddWithValue("@streak", currentStreak);
+            updateCommand.Parameters.AddWithValue("@date", today.ToString("yyyy-MM-dd"));
+
+            updateCommand.ExecuteNonQuery();
+        }
+
+
         public static void SaveUserName(string name)
         {
             using var connection = new SqliteConnection(ConnectionString);
@@ -70,7 +142,7 @@ namespace ARALyti.cs.Data
                 DELETE FROM UserProfile;
 
                 INSERT INTO UserProfile (Name, Streak, LastOpenedDate)
-                VALUES (@name, 0, @date);
+                VALUES (@name, 1, @date);
             ";
 
             using var command = new SqliteCommand(query, connection);

@@ -29,6 +29,11 @@ namespace ARALyti.cs.views
             }
         }
 
+        public void UpdateStreakDisplay(int streak)
+        {
+            StreakDaysText.Text = streak.ToString();
+        }
+
         private void ViewAllTopicsText_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Window.GetWindow(this);

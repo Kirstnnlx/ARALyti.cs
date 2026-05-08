@@ -30,6 +30,11 @@ namespace ARALyti.cs.views
             }
         }
 
+        public void UpdateStreakDisplay(int streak)
+        {
+            StreakDaysText.Text = streak.ToString();
+        }
+
         public void LoadProjectSelector()
         {
             ProjectSelectorComboBox.Items.Clear();
