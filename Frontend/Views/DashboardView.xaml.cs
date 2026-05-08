@@ -46,7 +46,9 @@ namespace ARALyti.cs.views
 
         public void LoadDashboardData()
         {
-            var topics = ScanProjectView.LastDetectedTopicObjects;
+            // Use overall mastery scores from the Topics tab,
+            // not the latest file-based scan scores.
+            var topics = DatabaseService.GetOverallTopics();
 
             var detectedTopics = topics
                 .Where(t => t.Status != "Not Started")
@@ -245,10 +247,71 @@ namespace ARALyti.cs.views
 
 
 
-            foreach (var topic in topics
+            // =====================================================
+            // DASHBOARD TOPIC STATUS DISPLAY
+            // Round-robin display for more balanced topic levels.
+            // Example:
+            // Developing + Weak only = Developing, Weak, Developing, Weak
+            // Strong + Developing + Weak = Strong, Developing, Weak, Strong
+            // =====================================================
+
+            var detectedTopics = topics
                 .Where(t => t.Status != "Not Started")
+                .ToList();
+
+            var strongTopics = detectedTopics
+                .Where(t => t.Status == "Strong")
                 .OrderByDescending(t => t.Score)
-                .Take(4))
+                .ToList();
+
+            var developingTopics = detectedTopics
+                .Where(t => t.Status == "Developing")
+                .OrderByDescending(t => t.Score)
+                .ToList();
+
+            var weakTopics = detectedTopics
+                .Where(t => t.Status == "Weak")
+                .OrderByDescending(t => t.Score)
+                .ToList();
+
+            var diverseTopics = new List<ARALyti.cs.Models.Topic>();
+
+            int strongIndex = 0;
+            int developingIndex = 0;
+            int weakIndex = 0;
+
+            while (diverseTopics.Count < 4)
+            {
+                bool addedThisRound = false;
+
+                if (strongIndex < strongTopics.Count && diverseTopics.Count < 4)
+                {
+                    diverseTopics.Add(strongTopics[strongIndex]);
+                    strongIndex++;
+                    addedThisRound = true;
+                }
+
+                if (developingIndex < developingTopics.Count && diverseTopics.Count < 4)
+                {
+                    diverseTopics.Add(developingTopics[developingIndex]);
+                    developingIndex++;
+                    addedThisRound = true;
+                }
+
+                if (weakIndex < weakTopics.Count && diverseTopics.Count < 4)
+                {
+                    diverseTopics.Add(weakTopics[weakIndex]);
+                    weakIndex++;
+                    addedThisRound = true;
+                }
+
+                if (!addedThisRound)
+                    break;
+            }
+
+            foreach (var topic in diverseTopics)
+
+
             {
                 Grid row = new Grid
                 {
