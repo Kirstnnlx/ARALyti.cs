@@ -51,7 +51,7 @@
 
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Image Source="/Assets/user_icon.png"
+                            <Image Source="/Frontend/Assets/user_icon.png"
                                    Width="60"
                                    Height="60"
                                    Stretch="Uniform"/>
@@ -80,7 +80,7 @@
                         Padding="24"
                         Margin="0,0,12,0" RenderTransformOrigin="0.497,0.455">
                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="/Assets/folder.png"
+                        <Image Source="/Frontend/Assets/folder.png"
                                Width="100"
                                Height="80"
                                Stretch="Uniform"
@@ -135,7 +135,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Image Source="/Assets/csharp.png"
+                                <Image Source="/Frontend/Assets/csharp.png"
                                        Width="42"
                                        Height="42"
                                        Stretch="Uniform"
