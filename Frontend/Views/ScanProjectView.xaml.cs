@@ -69,8 +69,11 @@ namespace ARALyti.cs.views
             DetectedTopicsPanel.Children.Clear();
         }
 
-        // Opens file dialog, reads the selected .cs file, and displays a preview (first 20 lines)
-        // Opens file picker, reads the selected .cs file, shows a preview (first 20 lines)
+        public void UpdateStreakDisplay(int streak)
+        {
+            StreakDaysText.Text = streak.ToString();
+        }
+
         private void ChooseFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
