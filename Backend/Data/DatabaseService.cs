@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System;
 using System.IO;
 using System.Collections.Generic;
 
@@ -378,49 +379,6 @@ namespace ARALyti.cs.Data
             deleteProjectCommand.ExecuteNonQuery();
         }
 
-        public static List<ARALyti.cs.Models.Topic> GetOverallTopics()
-        {
-            var topics = new List<ARALyti.cs.Models.Topic>();
-
-            using var connection = new SqliteConnection(ConnectionString);
-            connection.Open();
-
-            string query = @"
-                SELECT Name, Difficulty, AVG(Score) AS AverageScore
-                FROM Topics
-                WHERE Status != 'Not Started'
-                GROUP BY Name, Difficulty;
-            ";
-
-            using var command = new SqliteCommand(query, connection);
-            using var reader = command.ExecuteReader();
-
-            while (reader.Read())
-            {
-                int averageScore = Convert.ToInt32(reader["AverageScore"]);
-
-                string status = "Weak";
-
-                if (averageScore >= 60)
-                    status = "Strong";
-                else if (averageScore >= 30)
-                    status = "Developing";
-                else if (averageScore > 0)
-                    status = "Weak";
-                else
-                    status = "Not Started";
-
-                topics.Add(new ARALyti.cs.Models.Topic
-                {
-                    Name = reader["Name"].ToString() ?? "",
-                    Difficulty = reader["Difficulty"].ToString() ?? "",
-                    Status = status,
-                    Score = averageScore
-                });
-            }
-
-            return topics;
-        }
 
         public static void SaveProgressRecord(int progressScore)
         {
@@ -511,6 +469,89 @@ namespace ARALyti.cs.Data
             return data;
         }
 
+        public static List<ARALyti.cs.Models.Topic> GetOverallTopics()
+        {
+            var topics = new List<ARALyti.cs.Models.Topic>();
+
+            using var connection = new SqliteConnection(ConnectionString);
+            connection.Open();
+
+            // Count how many projects/files were scanned
+            string countProjectsQuery = "SELECT COUNT(*) FROM Projects";
+            using var countCommand = new SqliteCommand(countProjectsQuery, connection);
+            int projectCount = Convert.ToInt32(countCommand.ExecuteScalar());
+
+            // =====================================================
+            // Only include meaningful topic usage in mastery.
+            // Scores below 30 are considered minor usage
+            // and will NOT affect overall mastery.
+            // =====================================================
+            string query = @"
+                SELECT Name, Difficulty, AVG(Score) AS AverageScore
+                FROM Topics
+                WHERE Score >= 30
+                GROUP BY Name, Difficulty;
+            ";
+           
+
+            using var command = new SqliteCommand(query, connection);
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                // =====================================================
+                // 1. AVERAGE DETECTION SCORE
+                // This averages only detected topic scores.
+                // If a topic was not used in a file, it is ignored.
+                // =====================================================
+                double averageDetectionScore = Convert.ToDouble(reader["AverageScore"]);
+
+                // =====================================================
+                // 2. EXPERIENCE FACTOR
+                // This prevents one scanned file from instantly becoming
+                // full mastery.
+                // Example:
+                // 1 project = 0.33
+                // 2 projects = 0.50
+                // 3 projects = 0.60
+                // =====================================================
+                double experienceFactor = projectCount > 0
+                    ? projectCount / (projectCount + 2.0)
+                    : 0;
+
+                // =====================================================
+                // 3. FINAL TOPICS TAB SCORE
+                // This is the overall mastery score shown in Topics tab.
+                // =====================================================
+                int masteryScore = (int)Math.Round(averageDetectionScore * experienceFactor);
+
+                // =====================================================
+                // 4. STATUS BASED ON MASTERY SCORE
+                // =====================================================
+                string status;
+
+                if (masteryScore >= 75)
+                    status = "Strong";
+                else if (masteryScore >= 40)
+                    status = "Developing";
+                else if (masteryScore > 0)
+                    status = "Weak";
+                else
+                    status = "Not Started";
+
+                topics.Add(new ARALyti.cs.Models.Topic
+                {
+                    Name = reader["Name"].ToString() ?? "",
+                    Difficulty = reader["Difficulty"].ToString() ?? "",
+                    Status = status,
+                    Score = masteryScore
+                });
+            }
+
+            return topics;
+        }
+
+
         public static List<ARALyti.cs.Models.ProjectDiaryEntry> GetDiaryEntries()
         {
             var entries = new List<ARALyti.cs.Models.ProjectDiaryEntry>();
@@ -527,7 +568,7 @@ namespace ARALyti.cs.Data
                 FROM ProjectDiaryEntries d
                 INNER JOIN Projects p ON d.ProjectId = p.ProjectId
                 ORDER BY d.DateCreated DESC;
-    ";
+            ";
 
             using var command = new SqliteCommand(query, connection);
             using var reader = command.ExecuteReader();
@@ -545,7 +586,6 @@ namespace ARALyti.cs.Data
 
             return entries;
         }
-
 
     }
 }

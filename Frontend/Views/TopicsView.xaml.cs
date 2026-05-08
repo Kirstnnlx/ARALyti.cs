@@ -1,4 +1,5 @@
-﻿using ARALyti.cs.Models;
+﻿using ARALyti.cs.Data;
+using ARALyti.cs.Models;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -38,17 +39,40 @@ namespace ARALyti.cs.views
         {
             TopicsPanel.Children.Clear();
 
-            var topicsToDisplay = ScanProjectView.LastDetectedTopicObjects.Count > 0
-                ? ScanProjectView.LastDetectedTopicObjects
-                : ScanProjectView.StarterTopics;
+            // =====================================================
+            // TOPICS TAB: OVERALL MASTERY SCORE
+            // This is different from the Scan Project file-based score.
+            // Scan Project = score from the latest scanned file.
+            // Topics Tab = average topic performance across scanned projects.
+            // =====================================================
 
-            topicsToDisplay = ScanProjectView.StarterTopics
+            // Get all saved topic results from all scanned projects
+            var savedOverallTopics = DatabaseService.GetOverallTopics();
+
+            // Build the 12 starter topics, but replace their score/status
+            // with the overall mastery result if available.
+            var topicsToDisplay = ScanProjectView.StarterTopics
                 .Select(starter =>
                 {
-                    var match = ScanProjectView.LastDetectedTopicObjects
+                    var match = savedOverallTopics
                         .FirstOrDefault(t => t.Name == starter.Name);
 
-                    return match ?? new Topic
+                    if (match != null)
+                    {
+                        return new Topic
+                        {
+                            TopicId = starter.TopicId,
+                            Name = starter.Name,
+                            Difficulty = starter.Difficulty,
+
+                            // This score is already the overall topic score
+                            // based on previous scanned projects.
+                            Score = match.Score,
+                            Status = match.Status
+                        };
+                    }
+
+                    return new Topic
                     {
                         TopicId = starter.TopicId,
                         Name = starter.Name,
@@ -58,6 +82,7 @@ namespace ARALyti.cs.views
                     };
                 })
                 .ToList();
+
 
             topicsToDisplay = topicsToDisplay
                 .OrderBy(t => t.TopicId)
@@ -105,6 +130,12 @@ namespace ARALyti.cs.views
 
                 string topicId = starterMatch?.TopicId ?? "N/A";
                 string topicName = topic.Name;
+                // =====================================================
+                // MASTERY SCORE FOR TOPICS TAB
+                // This is NOT the file-based detection score.
+                // This estimates the learner's topic mastery over time.
+                // =====================================================
+
                 int score = topic.Score;
                 string status = topic.Status;
                 string difficulty = topic.Difficulty;
