@@ -22,6 +22,19 @@ namespace ARALyti.cs.views
         public static string LastScannedFileName = "";
 
         // Master list of 12 topics we track. Used as baseline before detection.
+
+        // Stores the full topic objects (with Id, difficulty, etc.) from the last scan
+        public static List<Topic> LastDetectedTopicObjects = new List<Topic>();
+
+        // Stores the simplified detection results (Name, Score, Level) from Roslyn analyzer
+        public static List<TopicResult> LastDetectedTopics = new List<TopicResult>();
+
+        // Keeps track of all projects that have been scanned in this session
+        public static List<Project> ScannedProjects = new List<Project>();
+        public static string LastScannedFileName = "";
+
+        // Master list of all 12 topics we track, with default values
+        // Used to initialize the display even before detection
         public static List<Topic> StarterTopics = new List<Topic>
         {
             new Topic { TopicId = "T001", Name = "Object-Oriented Programming", Difficulty = "Medium", Status = "Not Started", Score = 0 },
@@ -45,6 +58,7 @@ namespace ARALyti.cs.views
             InitializeComponent();
         }
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
         // Resets UI elements when clearing or switching away
         public void ClearScanView()
         {
@@ -57,6 +71,9 @@ namespace ARALyti.cs.views
         }
 
         // Opens file dialog, reads the selected .cs file, and displays a preview (first 20 lines)
+=======
+        // Opens file picker, reads the selected .cs file, shows a preview (first 20 lines)
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
         private void ChooseFileButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -84,6 +101,7 @@ namespace ARALyti.cs.views
             }
         }
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
         // Placeholder for profile popup (linked to main window)
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
@@ -101,6 +119,9 @@ namespace ARALyti.cs.views
         /// 3. Calculates overall progress score for the dashboard.
         /// 4. Displays all detected topics (any score > 0) without filtering.
         /// </summary>
+=======
+        // Main scanning logic: runs Roslyn analyzer, updates database, displays all detected topics
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
         private void StartScanningButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(selectedFileContent))
@@ -109,11 +130,19 @@ namespace ARALyti.cs.views
                 return;
             }
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
             // Run Roslyn analyzer (returns List<TopicResult> with Name, Score, Level)
+=======
+            // Run the Roslyn-based keyword detector
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             KeywordDetector detector = new KeywordDetector();
-            var topics = detector.DetectTopics(selectedFileContent);
+            var topics = detector.DetectTopics(selectedFileContent);   // List<TopicResult>
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
             // Save new project to database if not already scanned
+=======
+            // Save project info to database if it's a new file
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             bool projectExists = ScannedProjects.Any(p => p.FilePath == SelectedFileText.Text);
             if (!projectExists)
             {
@@ -128,7 +157,11 @@ namespace ARALyti.cs.views
                 DatabaseService.SaveProject(newProject.Title, newProject.FilePath);
             }
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
             // Reset topic objects with starter list (all scores = 0)
+=======
+            // Reset the cached topic objects with fresh starter list (all scores = 0)
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             LastDetectedTopicObjects.Clear();
             foreach (var starterTopic in StarterTopics)
             {
@@ -142,14 +175,21 @@ namespace ARALyti.cs.views
                 });
             }
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
             // Merge detection results into LastDetectedTopicObjects
             // Note: topics is List<TopicResult>, so we use .Name and .Score (not .Key/.Value)
+=======
+            // Merge detection results into LastDetectedTopicObjects (update score and status)
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             foreach (var detectedTopic in topics)
             {
                 string topicName = detectedTopic.Name;
                 int score = detectedTopic.Score;
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
                 // Determine status based on score thresholds: 75+ = Strong, 40-74 = Developing, 1-39 = Weak
+=======
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
                 string status;
                 if (score >= 75)
                     status = "Strong";
@@ -168,7 +208,11 @@ namespace ARALyti.cs.views
                 }
             }
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
             // Save all topics to database for this project
+=======
+            // Save topics to database for this project
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             int projectId = DatabaseService.GetProjectIdByFilePath(SelectedFileText.Text);
             if (projectId != -1)
             {
@@ -176,10 +220,18 @@ namespace ARALyti.cs.views
                 {
                     DatabaseService.SaveTopic(projectId, topic.Name, topic.Difficulty, topic.Status, topic.Score);
                 }
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
                 LastDetectedTopicObjects = DatabaseService.GetTopicsByProjectId(projectId);
             }
 
             // Calculate daily progress score for dashboard chart
+=======
+                // Reload from database to ensure consistency (optional but safe)
+                LastDetectedTopicObjects = DatabaseService.GetTopicsByProjectId(projectId);
+            }
+
+            // Calculate overall progress score for dashboard (average of detected topics + bonus)
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             var detectedTopics = LastDetectedTopicObjects.Where(t => t.Status != "Not Started").ToList();
             if (detectedTopics.Count > 0)
             {
@@ -191,7 +243,11 @@ namespace ARALyti.cs.views
                 DatabaseService.SaveProgressRecord(progressScore);
             }
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
             // Store raw detection results for potential external use
+=======
+            // Keep a copy of the raw detection results for possible external use
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             LastDetectedTopics = topics;
 
             if (topics.Count == 0)
@@ -201,19 +257,36 @@ namespace ARALyti.cs.views
             }
 
             // --- DISPLAY ALL DETECTED TOPICS ---
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
             // No filtering by score. Every topic with Status != "Not Started" (score > 0) will appear.
+=======
+            // No filtering by score threshold. Every topic that got a score >0 will appear.
+            // The loop uses .Where(t => t.Status != "Not Started") which excludes only zero‑score topics.
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
             DetectedTopicsPanel.Children.Clear();
 
             foreach (var topic in LastDetectedTopicObjects
-                .Where(t => t.Status != "Not Started")
+                .Where(t => t.Status != "Not Started")   // only topics that actually got a score
                 .OrderByDescending(t => t.Score))
             {
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
                 Grid row = new Grid { Margin = new Thickness(0, 0, 0, 18) };
+=======
+                // Each row is a Grid with three columns: Topic Name | Score | Status Badge
+                Grid row = new Grid
+                {
+                    Margin = new Thickness(0, 0, 0, 18)
+                };
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(45) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
                 // Left column: topic name and progress bar
+=======
+                // Left column: topic name + progress bar
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
                 StackPanel leftPanel = new StackPanel();
                 TextBlock nameText = new TextBlock
                 {
@@ -234,7 +307,11 @@ namespace ARALyti.cs.views
                 leftPanel.Children.Add(nameText);
                 leftPanel.Children.Add(progressBar);
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
 
+=======
+                // Middle column: numeric score
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
                 TextBlock scoreText = new TextBlock
                 {
                     Text = topic.Score.ToString(),
@@ -245,7 +322,11 @@ namespace ARALyti.cs.views
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
 
+<<<<<<< Updated upstream:Frontend/Views/ScanProjectView.xaml.cs
 
+=======
+                // Right column: status badge (Strong / Developing / Weak)
+>>>>>>> Stashed changes:views/ScanProjectView.xaml.cs
                 Border statusBadge = new Border
                 {
                     CornerRadius = new CornerRadius(10),
@@ -263,6 +344,7 @@ namespace ARALyti.cs.views
                 };
                 statusBadge.Child = statusText;
 
+                // Place controls in columns
                 Grid.SetColumn(leftPanel, 0);
                 Grid.SetColumn(scoreText, 1);
                 Grid.SetColumn(statusBadge, 2);
@@ -275,6 +357,7 @@ namespace ARALyti.cs.views
             }
         }
 
+        // Helper: returns text color based on status (for the badge text and progress bar)
         private Brush GetStatusColor(string status)
         {
             switch (status)
@@ -286,6 +369,7 @@ namespace ARALyti.cs.views
             }
         }
 
+        // Helper: returns background color for the status badge
         private Brush GetStatusBackground(string status)
         {
             switch (status)
