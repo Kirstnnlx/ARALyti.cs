@@ -43,7 +43,7 @@
                                    FontWeight="Bold"
                                    VerticalAlignment="Center"/>
 
-                        <Image Source="/Assets/logo.png"
+                        <Image Source="/Frontend/Assets/logo.png"
                                Width="420"
                                Margin="0,4,0,0"
                                VerticalAlignment="Center"/>
@@ -59,7 +59,7 @@
 
                         <StackPanel Orientation="Horizontal">
 
-                            <Image Source="/Assets/rocket.png"
+                            <Image Source="/Frontend/Assets/rocket.png"
                                    Width="70"
                                    Height="70"
                                    Margin="0,0,14,0"/>
@@ -163,7 +163,7 @@
                             Margin="6,8,6,28"
                             HorizontalAlignment="Center">
 
-                        <Image Source="/Assets/logo.png"
+                        <Image Source="/Frontend/Assets/logo.png"
                            Height="70"
                            Stretch="Uniform"
                            HorizontalAlignment="Center"/>
@@ -316,7 +316,7 @@
                             VerticalAlignment="Bottom"
                             Margin="0,20,0,60">
 
-                            <Image Source="/Assets/arko.png"
+                            <Image Source="/Frontend/Assets/arko.png"
                            Width="235"
                            HorizontalAlignment="Left"
                            Margin="-3,-24,0,-32"/>
@@ -343,7 +343,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!-- Rocket -->
-                                <Image Source="/Assets/rocket.png"
+                                <Image Source="/Frontend/Assets/rocket.png"
                                    Width="34"
                                    Height="34"
                                    VerticalAlignment="Center"/>
@@ -486,7 +486,7 @@
                                             <ControlTemplate TargetType="Button">
                                                 <Border Background="{TemplateBinding Background}"
                                                         CornerRadius="14">
-                                                    <Image Source="/Assets/logout.png"
+                                                    <Image Source="/Frontend/Assets/logout.png"
                                                            Width="24"
                                                            Height="24"
                                                            Stretch="Uniform"/>

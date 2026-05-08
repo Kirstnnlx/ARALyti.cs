@@ -49,7 +49,7 @@
 
                     <Button.Template>
                         <ControlTemplate TargetType="Button">
-                            <Image Source="/Assets/user_icon.png"
+                            <Image Source="/Frontend/Assets/user_icon.png"
                                    Width="60"
                                    Height="60"
                                    Stretch="Uniform"/>
