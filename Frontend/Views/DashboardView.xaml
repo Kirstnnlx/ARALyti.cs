@@ -361,7 +361,7 @@
 
                                     <TextBlock x:Name="RecommendationTitleText"
                                                Text="Focus on Object-Oriented Programming"
-                                               Foreground="#D14BFF"
+                                               Foreground="#8E58FF"
                                                FontSize="22"
                                                FontWeight="Bold"
                                                TextWrapping="Wrap"
