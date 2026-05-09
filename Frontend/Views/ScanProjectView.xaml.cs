@@ -186,16 +186,23 @@ namespace ARALyti.cs.views
                 LastDetectedTopicObjects = DatabaseService.GetTopicsByProjectId(projectId);
             }
 
-            // Calculate daily progress score for dashboard chart
-            var detectedTopicList = LastDetectedTopicObjects.Where(t => t.Status != "Not Started").ToList();
-            if (detectedTopicList.Count > 0)
+            // =====================================================
+            // LINE GRAPH PROGRESS RECORD
+            // Save the same overall mastery score used by the donut chart.
+            // This makes the line graph show progress history over time.
+            // =====================================================
+
+            var overallTopics = DatabaseService.GetOverallTopics();
+
+            var detectedOverallTopics = overallTopics
+                .Where(t => t.Status != "Not Started")
+                .ToList();
+
+            if (detectedOverallTopics.Count > 0)
             {
-                double average = detectedTopicList.Average(t => t.Score);
-                int projectCount = ScanProjectView.ScannedProjects.Count;
-                double adjustedScore = average * (projectCount / (projectCount + 2.0));
-                int scanBonus = Math.Min(detectedTopicList.Count * 2, 20);
-                int progressScore = (int)Math.Min(100, adjustedScore + scanBonus);
-                DatabaseService.SaveProgressRecord(progressScore);
+                double overallProgress = detectedOverallTopics.Average(t => t.Score);
+
+                DatabaseService.SaveProgressRecord((int)Math.Round(overallProgress));
             }
 
             // Store raw detection results for potential external use

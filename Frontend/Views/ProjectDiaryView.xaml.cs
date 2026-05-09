@@ -257,6 +257,25 @@ namespace ARALyti.cs.views
                             }
                         }
 
+                        // =====================================================
+                        // SAVE PROGRESS AFTER PROJECT DELETE
+                        // The donut chart changes after deleting a project,
+                        // so we also save the new overall progress for the line graph.
+                        // =====================================================
+                        var detectedOverallTopics = remainingTopics
+                            .Where(t => t.Status != "Not Started")
+                            .ToList();
+
+                        if (detectedOverallTopics.Count > 0)
+                        {
+                            double overallProgress = detectedOverallTopics.Average(t => t.Score);
+                            DatabaseService.SaveProgressRecord((int)Math.Round(overallProgress));
+                        }
+                        else
+                        {
+                            DatabaseService.SaveProgressRecord(0);
+                        }
+
                         // refresh UI
                         LoadProjectSelector();
                         LoadEntries();
