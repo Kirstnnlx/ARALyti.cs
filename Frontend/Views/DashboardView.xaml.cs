@@ -72,21 +72,22 @@ namespace ARALyti.cs.views
                 return;
             }
 
+            // =====================================================
+            // DONUT CHART / OVERALL PROGRESS
+            // Uses the average of all overall topic mastery scores.
+            // These scores already come from DatabaseService.GetOverallTopics().
+            // Do NOT apply experience factor again here.
+            // =====================================================
             double averageScore = detectedTopics.Average(t => t.Score);
 
-            int projectCount = ScanProjectView.ScannedProjects.Count;
-            double adjustedScore = averageScore * (projectCount / (projectCount + 2.0));
-
-            if (adjustedScore >= 70)
+            if (averageScore >= 70)
                 DashboardLevelText.Text = "Advanced";
-            else if (adjustedScore >= 40)
+            else if (averageScore >= 40)
                 DashboardLevelText.Text = "Intermediate";
             else
                 DashboardLevelText.Text = "Beginner";
 
             DashboardMessageText.Text = "Keep going! You're making great progress.";
-
-            averageScore = adjustedScore;
 
             var weakestTopic = detectedTopics
                 .OrderBy(t => t.Score)
@@ -96,7 +97,7 @@ namespace ARALyti.cs.views
             RecommendationDescriptionText.Text =
                 $"Your lowest detected topic is {weakestTopic.Name} with a score of {weakestTopic.Score}%. Practice this area more to improve your overall progress.";
 
-            DashboardProgressText.Text = $"{(int)averageScore}%";
+            DashboardProgressText.Text = $"{(int)Math.Round(averageScore)}%";
 
             UpdateProgressChart(averageScore);
             LoadDashboardTopics(topics);
