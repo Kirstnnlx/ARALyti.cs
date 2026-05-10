@@ -47,6 +47,8 @@ It serves as a personal learning companion that bridges the gap between **writin
 
 </div>
 
+<br>
+
 ## 🎯𝐏𝐔𝐑𝐏𝐎𝐒𝐄
 
 <div align="Left">
@@ -72,10 +74,6 @@ Therefore, ARALyti.cs transforms coding practice into a **guided learning experi
 </div>
 
 ![How ARALyti.cs Works](Frontend/Assets/uml.svg)
-
-
-
-
 
 
 
