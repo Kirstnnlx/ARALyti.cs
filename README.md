@@ -35,14 +35,22 @@
 </div>
 <br>
 
-# 🌟 Project Description
+## 🌟 𝐏𝐑𝐎𝐉𝐄𝐂𝐓 𝐃𝐄𝐒𝐂𝐑𝐈𝐏𝐓𝐈𝐎𝐍
+
+<div align="Left">
+
 ARALyti.cs is an intelligent Study and Project Insight System designed to **analyze C# programming projects** and transform them into meaningful learning insights.
 
 Instead of just storing code, the system *understands it* — identifying programming concepts, tracking skill development, and revealing how a developer is growing over time.
 
 It serves as a personal learning companion that bridges the gap between **writing code** and **mastering it**.
 
-# 🎯Purpose
+</div>
+
+## 🎯𝐏𝐔𝐑𝐏𝐎𝐒𝐄
+
+<div align="Left">
+
 The purpose of ARALyti.cs is to empower programmers to take control of their learning journey by turning real projects into actionable insights.
 
 Through intelligent analysis, the system:
@@ -52,6 +60,16 @@ Through intelligent analysis, the system:
 - 🚀 Recommends what to learn next for continuous improvement  
 
 Therefore, ARALyti.cs transforms coding practice into a **guided learning experience**, helping developers grow smarter with every project they build.
+
+</div>
+
+<br>
+
+<div align="center">
+
+## 🧩 𝐔𝐌𝐋 𝐃𝐈𝐀𝐆𝐑𝐀𝐌
+
+</div>
 
 ![How ARALyti.cs Works](Frontend/Assets/uml.svg)
 
