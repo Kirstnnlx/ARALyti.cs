@@ -17,10 +17,11 @@ namespace ARALyti.cs.Data
 
             string createTablesQuery = @"
                 CREATE TABLE IF NOT EXISTS UserProfile (
-                    UserId INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Name TEXT NOT NULL,
-                    Streak INTEGER NOT NULL,
-                    LastOpenedDate TEXT NOT NULL
+                UserId INTEGER PRIMARY KEY AUTOINCREMENT,
+                Name TEXT NOT NULL,
+                Streak INTEGER NOT NULL,
+                LastOpenedDate TEXT NOT NULL,
+                DateJoined TEXT NOT NULL
                 );
 
                 CREATE TABLE IF NOT EXISTS Projects (
@@ -142,12 +143,14 @@ namespace ARALyti.cs.Data
             string query = @"
                 DELETE FROM UserProfile;
 
-                INSERT INTO UserProfile (Name, Streak, LastOpenedDate)
-                VALUES (@name, 1, @date);
+                INSERT INTO UserProfile (Name, Streak, LastOpenedDate, DateJoined)
+                VALUES (@name, 1, @date, @joinedDate);
             ";
 
             using var command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@name", name);
+            command.Parameters.AddWithValue("@joinedDate",
+                DateTime.Now.ToString("yyyy-MM-dd"));
             command.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd"));
 
             command.ExecuteNonQuery();
@@ -173,7 +176,7 @@ namespace ARALyti.cs.Data
             using var connection = new SqliteConnection(ConnectionString);
             connection.Open();
 
-            string query = "SELECT LastOpenedDate FROM UserProfile LIMIT 1";
+            string query = "SELECT DateJoined FROM UserProfile LIMIT 1";
 
             using var command = new SqliteCommand(query, connection);
             object? result = command.ExecuteScalar();

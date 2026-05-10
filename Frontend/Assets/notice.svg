@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="110" viewBox="0 0 780 110">
+  <defs>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6A3EFF;stop-opacity:0"/>
+      <stop offset="30%" style="stop-color:#6A3EFF;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#8E58FF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#8E58FF;stop-opacity:0"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0A0F2A;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0D1230;stop-opacity:1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect x="2" y="2" width="776" height="106" rx="10" ry="10" fill="url(#bgGrad)"/>
+
+  <!-- Purple border -->
+  <rect x="2" y="2" width="776" height="106" rx="10" ry="10"
+        fill="none" stroke="url(#borderGrad)" stroke-width="1.5"/>
+
+  <!-- Left accent bar — purple -->
+  <rect x="2" y="2" width="4" height="106" rx="2" fill="#6A3EFF"/>
+
+  <!-- Warning icon circle — orange kept -->
+  <circle cx="42" cy="55" r="18" fill="#EF9F2720" stroke="#EF9F27" stroke-width="1.5"/>
+  <text x="42" y="61" font-family="Arial" font-size="18" fill="#EF9F27"
+        text-anchor="middle">⚠</text>
+
+  <!-- NOT AI label — purple toned -->
+  <rect x="70" y="18" width="72" height="22" rx="4" fill="#6A3EFF25" stroke="#6A3EFF80" stroke-width="1"/>
+  <text x="106" y="33" font-family="'Courier New', monospace" font-size="10"
+        font-weight="bold" fill="#AFA9EC" text-anchor="middle" letter-spacing="1">NOT AI</text>
+
+  <!-- Title text — purple light -->
+  <text x="152" y="34" font-family="Arial" font-size="13" font-weight="bold" fill="#AFA9EC">
+    Transparency Notice
+  </text>
+
+  <!-- Divider — purple toned -->
+  <line x1="70" y1="48" x2="755" y2="48" stroke="#6A3EFF40" stroke-width="1"/>
+
+  <!-- Body text line 1 -->
+  <text x="70" y="66" font-family="Arial" font-size="12" fill="#B7C0DD">
+    ARALyti.cs uses
+    <tspan font-weight="bold" fill="#AFA9EC">rule-based logic</tspan>,
+    <tspan font-weight="bold" fill="#AFA9EC">keyword detection</tspan>, and a
+    <tspan font-weight="bold" fill="#AFA9EC">scoring algorithm</tspan>
+    to generate insights.
+  </text>
+
+  <!-- Body text line 2 -->
+  <text x="70" y="86" font-family="Arial" font-size="12" fill="#B7C0DD">
+    No machine learning. No black boxes.
+    <tspan font-weight="bold" fill="#AFA9EC">Pure transparent logic</tspan>
+    — every result is fully traceable.
+  </text>
+</svg>
