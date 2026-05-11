@@ -185,8 +185,10 @@ namespace ARALyti.cs.views
                 StackPanel projectContent = new StackPanel();
 
                 Grid headerGrid = new Grid();
+
                 headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) }); // dropdown
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) }); // delete
 
                 // Project title
                 TextBlock projectTitleText = new TextBlock
@@ -282,10 +284,24 @@ namespace ARALyti.cs.views
                     }
                 };
 
+                Button dropdownButton = new Button
+                {
+                    Content = "▼",
+                    Width = 30,
+                    Height = 30,
+                    Background = Brushes.Transparent,
+                    Foreground = Brushes.White,
+                    BorderBrush = Brushes.Transparent,
+                    FontSize = 16,
+                    Cursor = System.Windows.Input.Cursors.Hand
+                };
+
                 Grid.SetColumn(projectTitleText, 0);
-                Grid.SetColumn(deleteButton, 1);
+                Grid.SetColumn(dropdownButton, 1);
+                Grid.SetColumn(deleteButton, 2);
 
                 headerGrid.Children.Add(projectTitleText);
+                headerGrid.Children.Add(dropdownButton);
                 headerGrid.Children.Add(deleteButton);
 
                 TextBlock projectPathText = new TextBlock
@@ -312,6 +328,44 @@ namespace ARALyti.cs.views
                 projectContent.Children.Add(projectPathText);
                 projectContent.Children.Add(entryCountText);
 
+                // ===============================
+                // DROPDOWN HEADER BUTTON
+                // ===============================
+
+                Grid.SetColumn(dropdownButton, 1);
+
+                // ===============================
+                // ENTRIES CONTAINER
+                // ===============================
+
+                StackPanel entriesContainer = new StackPanel
+                {
+                    Visibility = Visibility.Collapsed,
+                    Margin = new Thickness(0, 12, 0, 0)
+                };
+
+                // ===============================
+                // DROPDOWN TOGGLE LOGIC
+                // ===============================
+
+                dropdownButton.Click += (s, e) =>
+                {
+                    if (entriesContainer.Visibility == Visibility.Collapsed)
+                    {
+                        entriesContainer.Visibility = Visibility.Visible;
+                        dropdownButton.Content = "▲";
+                    }
+                    else
+                    {
+                        entriesContainer.Visibility = Visibility.Collapsed;
+                        dropdownButton.Content = "▼";
+                    }
+                };
+
+                // ===============================
+                // EMPTY ENTRIES
+                // ===============================
+
                 if (projectEntries.Count == 0)
                 {
                     TextBlock noEntriesText = new TextBlock
@@ -322,7 +376,7 @@ namespace ARALyti.cs.views
                         Margin = new Thickness(0, 8, 0, 0)
                     };
 
-                    projectContent.Children.Add(noEntriesText);
+                    entriesContainer.Children.Add(noEntriesText);
                 }
                 else
                 {
@@ -377,9 +431,13 @@ namespace ARALyti.cs.views
                         entryContent.Children.Add(dateText);
 
                         entryCard.Child = entryContent;
-                        projectContent.Children.Add(entryCard);
+
+                        entriesContainer.Children.Add(entryCard);
                     }
                 }
+
+                // ADD CONTAINER
+                projectContent.Children.Add(entriesContainer);
 
                 projectCard.Child = projectContent;
                 DiaryEntriesPanel.Children.Add(projectCard);
