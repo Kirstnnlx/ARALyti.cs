@@ -11,11 +11,11 @@
         <Grid Margin="28">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="18"/>
+                <RowDefinition Height="8"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="18"/>
+                <RowDefinition Height="8"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="18"/>
+                <RowDefinition Height="24"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -96,46 +96,72 @@
                 <Border Grid.Column="0"
                         Background="#15103F"
                         BorderBrush="#6B42FF"
-                        BorderThickness="1"
-                        CornerRadius="22"
-                        Padding="24"
-                        Margin="0,0,12,0" RenderTransformOrigin="0.497,0.455">
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="/Frontend/Assets/folder.png"
-                               Width="100"
-                               Height="80"
-                               Stretch="Uniform"
-                               Margin="0,0,0,0"/>
+                        BorderThickness="1.5"
+                        CornerRadius="26"
+                        Padding="20"
+                        Margin="0,0,12,0">
+
+                    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+
+                        <Border Width="100"
+                                Height="100"
+                                Background="#22195F"
+                                CornerRadius="50"
+                                Padding="16">
+
+                            <Image Source="/Frontend/Assets/folder.png"
+                                    Stretch="Uniform"/>
+                        </Border>
 
                         <TextBlock Text="Upload C# File"
                                    Foreground="White"
-                                   FontSize="23"
+                                   FontSize="20"
                                    FontWeight="Bold"
                                    HorizontalAlignment="Center"
-                                   Margin="0,10,0,10"/>
+                                   Margin="0,16,0,10"/>
 
-                        <TextBlock Text="Drag and drop your .cs file here&#10;or click to browse"
-                                   Foreground="#B7C0DD"
-                                   FontSize="12"
+                        <TextBlock Text="Analyze your project structure,&#10;coding concepts, and detected skills."
+                                   Foreground="#9DA8D6"
+                                   FontSize="14"
                                    TextAlignment="Center"
-                                   Margin="0,0,0,16"/>
+                                   Margin="0,-2,0,17"/>
 
                         <Button x:Name="ChooseFileButton"
                                 Content="Choose File"
-                                Width="160"
-                                Height="46"
-                                Background="#5B3DF5"
+                                Width="180"
+                                Height="50"
+                                Background="#6B42FF"
                                 Foreground="White"
                                 FontWeight="SemiBold"
+                                FontSize="15"
                                 BorderThickness="0"
-                                Click="ChooseFileButton_Click"/>
+                                Cursor="Hand"
+                                Click="ChooseFileButton_Click">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                        CornerRadius="14">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                 </Border>
 
                 <!-- Right Selected File Area -->
                 <Border Grid.Column="1"
-                        Background="#0D1230"
-                        BorderBrush="#1E2A59"
+                        Background="#101735"
+                        BorderBrush="#2B3774"
                         BorderThickness="1"
                         CornerRadius="22"
                         Padding="24"
@@ -145,7 +171,9 @@
                                    Foreground="#B7C0DD"
                                    FontSize="16"/>
 
-                        <Border Background="#11183A"
+                        <Border Background="#141D45"
+                                BorderBrush="#25306B"
+                                BorderThickness="1"
                                 CornerRadius="16"
                                 Padding="18"
                                 Margin="0,14,0,28">
@@ -184,14 +212,33 @@
                         <Button x:Name="StartScanningButton"
                                 Content="Start Scanning"
                                 Width="190"
-                                Height="48"
-                                HorizontalAlignment="Center"
-                                Background="#5B3DF5"
+                                Height="50"
+                                Background="#6B42FF"
                                 Foreground="White"
-                                BorderThickness="0"
-                                FontSize="14"
                                 FontWeight="SemiBold"
-                                Click="StartScanningButton_Click"/>
+                                FontSize="15"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                HorizontalAlignment="Center"
+                                Click="StartScanningButton_Click">
+
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        CornerRadius="14">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
                     </StackPanel>
                 </Border>
             </Grid>
@@ -204,8 +251,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Grid.Column="0"
-                        Background="#0D1230"
-                        BorderBrush="#1E2A59"
+                        Background="#101735"
+                        BorderBrush="#2B3774"
                         BorderThickness="1"
                         CornerRadius="22"
                         Padding="24"
@@ -216,13 +263,13 @@
                                    FontSize="18"
                                    FontWeight="SemiBold"/>
                         <TextBlock Text="Topics Detected"
-                                   Foreground="White"
+                                   Foreground="#6B42FF"
                                    FontSize="25"
                                    FontWeight="Bold"
                                    Margin="0,13,0,8"/>
                         <TextBlock Text="Programming concepts identified from your uploaded C# file."
                                    Foreground="#9BA7D1"
-                                   FontSize="15"/>
+                                   FontSize="14"/>
 
                         <StackPanel x:Name="DetectedTopicsPanel" 
                                     Margin="0,26,0,0"/>
@@ -232,8 +279,8 @@
                 </Border>
 
                 <Border Grid.Column="1"
-                        Background="#0D1230"
-                        BorderBrush="#1E2A59"
+                        Background="#101735"
+                        BorderBrush="#2B3774"
                         BorderThickness="1"
                         CornerRadius="22"
                         Padding="24"
@@ -244,17 +291,43 @@
                                    FontSize="18"
                                    FontWeight="SemiBold"/>
 
-                        <Border Background="#090E27"
+                        <Border Background="#070B1F"
+                                BorderBrush="#1E2A59"
+                                BorderThickness="1"
                                 CornerRadius="16"
                                 Padding="18"
                                 Margin="0,18,0,0">
-                            <TextBlock x:Name="CodePreviewText"
-                                       Foreground="#D8E0FF"
-                                       FontFamily="Consolas"
-                                       FontSize="14"
-                                       TextWrapping="Wrap"
-                                       Text="Code preview will appear here..."/>
 
+                            <StackPanel>
+
+                                <!-- Fake editor header dots -->
+                                <StackPanel Orientation="Horizontal"
+                                            Margin="0,0,0,12">
+
+                                    <Ellipse Width="10"
+                                             Height="10"
+                                             Fill="#FF5F56"
+                                             Margin="0,0,6,0"/>
+
+                                    <Ellipse Width="10"
+                                             Height="10"
+                                             Fill="#FFBD2E"
+                                             Margin="0,0,6,0"/>
+
+                                    <Ellipse Width="10"
+                                             Height="10"
+                                             Fill="#27C93F"/>
+                                </StackPanel>
+
+                                <!-- Code Preview -->
+                                <TextBlock x:Name="CodePreviewText"
+                                           Foreground="#D8E0FF"
+                                           FontFamily="Consolas"
+                                           FontSize="14"
+                                           TextWrapping="Wrap"
+                                           Text="Code preview will appear here..."/>
+
+                            </StackPanel>
                         </Border>
                     </StackPanel>
                 </Border>

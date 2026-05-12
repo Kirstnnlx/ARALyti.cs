@@ -41,6 +41,7 @@ namespace ARALyti.cs.views
 
             foreach (var project in ScanProjectView.ScannedProjects)
             {
+
                 ProjectSelectorComboBox.Items.Add(project.Title);
             }
 
@@ -174,6 +175,10 @@ namespace ARALyti.cs.views
 
             foreach (var project in ScanProjectView.ScannedProjects)
             {
+                var projectEntries = DiaryEntries
+                    .Where(entry => entry.ProjectTitle == project.Title)
+                    .ToList();
+
                 Border projectCard = new Border
                 {
                     Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#11183A")),
@@ -190,15 +195,76 @@ namespace ARALyti.cs.views
                 headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) }); // dropdown
                 headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) }); // delete
 
+
+
+                StackPanel projectHeaderPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    VerticalAlignment = VerticalAlignment.Top
+                };
+
+                // Folder icon
+                Image folderIcon = new Image
+                {
+                    Source = new System.Windows.Media.Imaging.BitmapImage(
+                        new Uri("pack://application:,,,/Frontend/Assets/project.png")),
+                    Width = 46,
+                    Height = 46,
+                    Margin = new Thickness(0, 2, 12, 0)
+                };
+
+                // Right-side content
+                StackPanel projectInfoPanel = new StackPanel
+                {
+                    Orientation = Orientation.Vertical
+                };
+
                 // Project title
                 TextBlock projectTitleText = new TextBlock
                 {
                     Text = project.Title,
                     Foreground = Brushes.White,
-                    FontSize = 20,
-                    FontWeight = FontWeights.Bold,
-                    VerticalAlignment = VerticalAlignment.Center
+                    FontSize = 16,
+                    FontWeight = FontWeights.SemiBold
                 };
+
+                // File path
+                TextBlock projectPathText = new TextBlock
+                {
+                    Text = project.FilePath,
+                    Foreground = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#8F9BC7")),
+                    FontSize = 12,
+                    Margin = new Thickness(0, 2, 0, 6)
+                };
+
+                // Entry badge
+                Border entryBadge = new Border
+                {
+                    Background = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#24167A")),
+                    CornerRadius = new CornerRadius(10),
+                    Padding = new Thickness(10, 3, 10, 3),
+                    HorizontalAlignment = HorizontalAlignment.Left
+                };
+
+                TextBlock entryBadgeText = new TextBlock
+                {
+                    Text = $"{projectEntries.Count} Entr{(projectEntries.Count == 1 ? "y" : "ies")}",
+                    Foreground = Brushes.White,
+                    FontSize = 11,
+                    FontWeight = FontWeights.SemiBold
+                };
+
+                entryBadge.Child = entryBadgeText;
+
+                // Add items
+                projectInfoPanel.Children.Add(projectTitleText);
+                projectInfoPanel.Children.Add(projectPathText);
+                projectInfoPanel.Children.Add(entryBadge);
+
+                projectHeaderPanel.Children.Add(folderIcon);
+                projectHeaderPanel.Children.Add(projectInfoPanel);
 
                 // Delete button
                 Button deleteButton = new Button
@@ -207,7 +273,7 @@ namespace ARALyti.cs.views
                     Width = 30,
                     Height = 30,
                     Background = Brushes.Transparent,
-                    Foreground = Brushes.White,
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7C0D0E")),
                     BorderBrush = Brushes.Transparent,
                     FontSize = 16,
                     Cursor = System.Windows.Input.Cursors.Hand
@@ -296,58 +362,29 @@ namespace ARALyti.cs.views
                     Cursor = System.Windows.Input.Cursors.Hand
                 };
 
-                Grid.SetColumn(projectTitleText, 0);
+                Grid.SetColumn(projectHeaderPanel, 0);
                 Grid.SetColumn(dropdownButton, 1);
                 Grid.SetColumn(deleteButton, 2);
 
-                headerGrid.Children.Add(projectTitleText);
+
+                headerGrid.Children.Add(projectHeaderPanel);
                 headerGrid.Children.Add(dropdownButton);
                 headerGrid.Children.Add(deleteButton);
 
-                TextBlock projectPathText = new TextBlock
-                {
-                    Text = project.FilePath,
-                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B7C0DD")),
-                    FontSize = 14,
-                    Margin = new Thickness(0, 6, 0, 0)
-                };
-
-                var projectEntries = DiaryEntries
-                    .Where(entry => entry.ProjectTitle == project.Title)
-                    .ToList();
-
-                TextBlock entryCountText = new TextBlock
-                {
-                    Text = $"{projectEntries.Count} entr{(projectEntries.Count == 1 ? "y" : "ies")}",
-                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B7C0DD")),
-                    FontSize = 14,
-                    Margin = new Thickness(0, 6, 0, 12)
-                };
 
                 projectContent.Children.Add(headerGrid);
-                projectContent.Children.Add(projectPathText);
-                projectContent.Children.Add(entryCountText);
 
-                // ===============================
                 // DROPDOWN HEADER BUTTON
-                // ===============================
-
                 Grid.SetColumn(dropdownButton, 1);
 
-                // ===============================
                 // ENTRIES CONTAINER
-                // ===============================
-
                 StackPanel entriesContainer = new StackPanel
                 {
                     Visibility = Visibility.Collapsed,
                     Margin = new Thickness(0, 12, 0, 0)
                 };
 
-                // ===============================
                 // DROPDOWN TOGGLE LOGIC
-                // ===============================
-
                 dropdownButton.Click += (s, e) =>
                 {
                     if (entriesContainer.Visibility == Visibility.Collapsed)
@@ -362,10 +399,7 @@ namespace ARALyti.cs.views
                     }
                 };
 
-                // ===============================
                 // EMPTY ENTRIES
-                // ===============================
-
                 if (projectEntries.Count == 0)
                 {
                     TextBlock noEntriesText = new TextBlock
@@ -446,10 +480,6 @@ namespace ARALyti.cs.views
 
         private void ProjectSelectorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProjectSelectorPlaceholder.Visibility =
-                ProjectSelectorComboBox.SelectedItem == null
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
         }
     }
 }
