@@ -101,13 +101,12 @@ namespace ARALyti.cs.views
             }
         }
 
-        /// <summary>
+
         /// Core scanning logic:
         /// 1. Runs Roslyn-based keyword detector (returns List<TopicResult>)
         /// 2. Saves project and topic results to local database
         /// 3. Calculates overall progress score for the dashboard
         /// 4. Displays all detected topics (score > 0) without filtering
-        /// </summary>
         private void StartScanningButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(selectedFileContent))
@@ -214,7 +213,7 @@ namespace ARALyti.cs.views
                 return;
             }
 
-            // --- DISPLAY ALL DETECTED TOPICS (no filtering by score) ---
+            // DISPLAY ALL DETECTED TOPICS (no filtering by score)
             DetectedTopicsPanel.Children.Clear();
 
             foreach (var topic in LastDetectedTopicObjects
@@ -285,7 +284,28 @@ namespace ARALyti.cs.views
                 row.Children.Add(scoreText);
                 row.Children.Add(statusBadge);
 
-                DetectedTopicsPanel.Children.Add(row);
+
+
+                Border topicCard = new Border
+                {
+                    Background = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#121A3D")),
+
+                    BorderBrush = new SolidColorBrush(
+                        (Color)ColorConverter.ConvertFromString("#26306A")),
+
+                    BorderThickness = new Thickness(1),
+
+                    CornerRadius = new CornerRadius(14),
+
+                    Padding = new Thickness(16),
+
+                    Margin = new Thickness(0, 0, 0, 14)
+                };
+
+                topicCard.Child = row;
+
+                DetectedTopicsPanel.Children.Add(topicCard);
             }
         }
 

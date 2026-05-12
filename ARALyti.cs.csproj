@@ -15,12 +15,14 @@
     <None Remove="Frontend\Assets\folder.png" />
     <None Remove="Frontend\Assets\logo.png" />
     <None Remove="Frontend\Assets\logout.png" />
+    <None Remove="Frontend\Assets\project.png" />
     <None Remove="Frontend\Assets\recommendation.png" />
     <None Remove="Frontend\Assets\rocket.png" />
     <None Remove="Frontend\Assets\user_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Frontend\Assets\project.png" />
     <Resource Include="Frontend\Assets\streak.png" />
   </ItemGroup>
 

@@ -570,7 +570,7 @@ namespace ARALyti.cs.Data
                     d.DateCreated
                 FROM ProjectDiaryEntries d
                 INNER JOIN Projects p ON d.ProjectId = p.ProjectId
-                ORDER BY d.DateCreated DESC;
+                ORDER BY d.DateCreated ASC;
             ";
 
             using var command = new SqliteCommand(query, connection);
@@ -580,7 +580,7 @@ namespace ARALyti.cs.Data
             {
                 entries.Add(new ARALyti.cs.Models.ProjectDiaryEntry
                 {
-                    EntryId = $"D{Convert.ToInt32(reader["EntryId"]):000}",
+                    EntryId = $"D{entries.Count + 1:000}",
                     ProjectTitle = reader["ProjectTitle"].ToString() ?? "",
                     Note = reader["Note"].ToString() ?? "",
                     DateCreated = DateTime.Parse(reader["DateCreated"].ToString() ?? DateTime.Now.ToString())
