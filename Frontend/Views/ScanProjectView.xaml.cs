@@ -6,6 +6,7 @@ using ARALyti.cs.Data;
 using ARALyti.cs.Models;
 using ARALyti.cs.Services;
 using Microsoft.Win32;
+using System.Linq;
 
 namespace ARALyti.cs.views
 {
@@ -80,14 +81,7 @@ namespace ARALyti.cs.views
                 LastScannedFileName = Path.GetFileName(openFileDialog.FileName);
                 selectedFileContent = File.ReadAllText(openFileDialog.FileName);
 
-                var lines = selectedFileContent.Split('\n');
-                int maxLines = 20;
-                string preview = "";
-                for (int i = 0; i < lines.Length && i < maxLines; i++)
-                {
-                    preview += lines[i] + "\n";
-                }
-                CodePreviewText.Text = preview;
+                CodePreviewText.Text = "File loaded. Start scanning to view preview.";
             }
         }
 
@@ -215,13 +209,15 @@ namespace ARALyti.cs.views
 
             // DISPLAY ALL DETECTED TOPICS (no filtering by score)
             DetectedTopicsPanel.Children.Clear();
+            int detectedCount = 0;
 
             foreach (var topic in LastDetectedTopicObjects
                 .Where(t => t.Status != "Not Started")
                 .OrderByDescending(t => t.Score))
             {
+                detectedCount++;
 
-                Grid row = new Grid { Margin = new Thickness(0, 0, 0, 18) };
+                Grid row = new Grid { Margin = new Thickness(0, 0, 0, 10) };
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(45) });
                 row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(95) });
@@ -232,14 +228,14 @@ namespace ARALyti.cs.views
                 {
                     Text = topic.Name,
                     Foreground = Brushes.White,
-                    FontSize = 15,
+                    FontSize = 14,
                     Margin = new Thickness(0, 0, 0, 8)
                 };
                 ProgressBar progressBar = new ProgressBar
                 {
                     Value = topic.Score,
                     Maximum = 100,
-                    Height = 7,
+                    Height = 6,
                     Margin = new Thickness(0, 0, 12, 0),
                     Foreground = GetStatusColor(topic.Status),
                     Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#151B45"))
@@ -262,7 +258,7 @@ namespace ARALyti.cs.views
                 Border statusBadge = new Border
                 {
                     CornerRadius = new CornerRadius(10),
-                    Padding = new Thickness(12, 7, 12, 7),
+                    Padding = new Thickness(10, 5, 10, 5),
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
                     Background = GetStatusBackground(topic.Status)
@@ -286,26 +282,24 @@ namespace ARALyti.cs.views
 
 
 
-                Border topicCard = new Border
+                DetectedTopicsPanel.Children.Add(row);
+
+                // Fixed code preview size
+                var codeLines = selectedFileContent.Split('\n');
+
+                int previewLines = 20;
+
+                if (previewLines > codeLines.Length)
                 {
-                    Background = new SolidColorBrush(
-                        (Color)ColorConverter.ConvertFromString("#121A3D")),
+                    previewLines = codeLines.Length;
+                }
 
-                    BorderBrush = new SolidColorBrush(
-                        (Color)ColorConverter.ConvertFromString("#26306A")),
+                string previewText = string.Join(
+                    "\n",
+                    codeLines.Take(previewLines)
+                );
 
-                    BorderThickness = new Thickness(1),
-
-                    CornerRadius = new CornerRadius(14),
-
-                    Padding = new Thickness(16),
-
-                    Margin = new Thickness(0, 0, 0, 14)
-                };
-
-                topicCard.Child = row;
-
-                DetectedTopicsPanel.Children.Add(topicCard);
+                CodePreviewText.Text = previewText;
             }
         }
 

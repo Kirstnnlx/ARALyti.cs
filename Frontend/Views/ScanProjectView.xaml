@@ -7,7 +7,8 @@
              mc:Ignorable="d"
              Background="Transparent">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="Transparent">
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" Background="Transparent">
         <Grid Margin="28">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -130,7 +131,7 @@
                         <Button x:Name="ChooseFileButton"
                                 Content="Choose File"
                                 Width="180"
-                                Height="50"
+                                Height="45"
                                 Background="#6B42FF"
                                 Foreground="White"
                                 FontWeight="SemiBold"
@@ -212,7 +213,7 @@
                         <Button x:Name="StartScanningButton"
                                 Content="Start Scanning"
                                 Width="190"
-                                Height="50"
+                                Height="45"
                                 Background="#6B42FF"
                                 Foreground="White"
                                 FontWeight="SemiBold"
@@ -258,12 +259,20 @@
                         Padding="24"
                         Margin="0,0,12,0">
                     <StackPanel>
-                        <TextBlock Text="📇 SCAN RESULTS"
-                                   Foreground="White"
-                                   FontSize="18"
-                                   FontWeight="SemiBold"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Source="/Frontend/Assets/scan_results.png"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="0,0,8,0"
+                                   VerticalAlignment="Center"/>
+                            <TextBlock Text="SCAN RESULTS"
+                                       Foreground="White"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
                         <TextBlock Text="Topics Detected"
-                                   Foreground="#6B42FF"
+                                   Foreground="White"
                                    FontSize="25"
                                    FontWeight="Bold"
                                    Margin="0,13,0,8"/>
@@ -286,10 +295,18 @@
                         Padding="24"
                         Margin="12,0,0,0">
                     <StackPanel>
-                        <TextBlock Text="📑 CODE PREVIEW"
-                                   Foreground="White"
-                                   FontSize="18"
-                                   FontWeight="SemiBold"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Image Source="/Frontend/Assets/code_preview.png"
+                                   Width="24"
+                                   Height="24"
+                                   Margin="0,0,8,0"
+                                   VerticalAlignment="Center"/>
+                            <TextBlock Text="CODE PREVIEW"
+                                       Foreground="White"
+                                       FontSize="18"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
 
                         <Border Background="#070B1F"
                                 BorderBrush="#1E2A59"
