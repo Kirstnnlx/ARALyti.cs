@@ -3,417 +3,739 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:ARALyti.cs"
              mc:Ignorable="d"
              Background="Transparent">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="Transparent">
-        <Grid Margin="28">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
 
-            <!-- Header -->
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="90"/>
-                    <ColumnDefinition Width="70"/>
-                </Grid.ColumnDefinitions>
+    <Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" Background="Transparent">
+            <Grid Margin="28">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <StackPanel>
-                    <TextBlock x:Name="HelloUserText"
-                                Text="Hello, User!"
-                                Foreground="White"
-                                FontSize="36"
-                                FontWeight="Bold"/>
-                    <TextBlock Text="Review your learning journey and reflect on your progress."
-                               Foreground="#B7C0DD"
-                               FontSize="18"
-                               Margin="0,8,0,0"/>
-                </StackPanel>
+                <!-- ─── Header ─── -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="70"/>
+                    </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="1"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Margin="0,14,8,0">
+                    <StackPanel>
+                        <TextBlock x:Name="HelloUserText"
+                                   Text="Hello, User!"
+                                   Foreground="White"
+                                   FontSize="36"
+                                   FontWeight="Bold"/>
+                        <TextBlock Text="Review your learning journey and reflect on your progress."
+                                   Foreground="#B7C0DD"
+                                   FontSize="18"
+                                   Margin="0,8,0,0"/>
+                    </StackPanel>
 
-                    <TextBlock x:Name="StreakDaysText"
-                               Text="0"
-                               Foreground="#8E58FF"
-                               FontSize="18"
-                               FontWeight="Bold"
-                               VerticalAlignment="Center"
-                               Margin="0,0,4,0"/>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Margin="0,14,8,0">
+                        <TextBlock x:Name="StreakDaysText"
+                                   Text="0"
+                                   Foreground="#8E58FF"
+                                   FontSize="18"
+                                   FontWeight="Bold"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,4,0"/>
+                        <Image Source="/Frontend/Assets/streak.png"
+                               Width="35" Height="35" Stretch="Uniform"/>
+                    </StackPanel>
 
-                    <Image Source="/Frontend/Assets/streak.png"
-                           Width="35"
-                           Height="35"
-                           Stretch="Uniform"/>
-                </StackPanel>
+                    <Button Grid.Column="2"
+                            Width="60" Height="60"
+                            Background="Transparent" BorderThickness="0"
+                            HorizontalAlignment="Center" VerticalAlignment="Top"
+                            Margin="0,2,0,0" Cursor="Hand"
+                            Click="ProfileButton_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Image Source="/Frontend/Assets/user_icon.png"
+                                       Width="60" Height="60" Stretch="Uniform"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </Grid>
 
-                <Button Grid.Column="2"
-                        Width="60"
-                        Height="60"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Top"
-                        Margin="0,2,0,0"
-                        Cursor="Hand"
-                        Click="ProfileButton_Click">
+                <!-- ─── Stat Cards ─── -->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                    <Button.Template>
-                        <ControlTemplate TargetType="Button">
-                            <Image Source="/Frontend/Assets/user_icon.png"
-                                   Width="60"
-                                   Height="60"
-                                   Stretch="Uniform"/>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                    <!-- Total Entries -->
+                    <Border Grid.Column="0"
+                            Background="#080D28" BorderBrush="#171F54"
+                            BorderThickness="1" CornerRadius="8" Padding="16">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="66"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="40" Height="40" Background="White"
+                                    CornerRadius="7" VerticalAlignment="Top" Margin="0,0,10,0">
+                                <Image Source="/Frontend/Assets/total_entries.png"
+                                       Width="28" Height="28" Stretch="Uniform"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="TOTAL ENTRIES" Foreground="White"
+                                           FontSize="15" FontWeight="Bold"/>
+                                <TextBlock x:Name="TotalEntriesText" Text="0"
+                                           Foreground="White" FontSize="32"
+                                           FontWeight="Bold" Margin="0,2,0,2"/>
+                                <TextBlock Text="Across all projects"
+                                           Foreground="#8B95B8" FontSize="13"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
 
+                    <!-- This Week -->
+                    <Border Grid.Column="2"
+                            Background="#080D28" BorderBrush="#171F54"
+                            BorderThickness="1" CornerRadius="8" Padding="16">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="66"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="40" Height="40" Background="White"
+                                    CornerRadius="7" VerticalAlignment="Top" Margin="0,0,10,0">
+                                <Image Source="/Frontend/Assets/this_week.png"
+                                       Width="28" Height="28" Stretch="Uniform"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="THIS WEEK" Foreground="White"
+                                           FontSize="15" FontWeight="Bold"/>
+                                <TextBlock x:Name="ThisWeekEntriesText" Text="0"
+                                           Foreground="White" FontSize="32"
+                                           FontWeight="Bold" Margin="0,2,0,2"/>
+                                <TextBlock Text="Diary entries logged"
+                                           Foreground="#8B95B8" FontSize="13"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
 
-            </Grid>
+                    <!-- Most Active Project -->
+                    <Border Grid.Column="4"
+                            Background="#080D28" BorderBrush="#171F54"
+                            BorderThickness="1" CornerRadius="8" Padding="16">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="66"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Border Width="40" Height="40" Background="White"
+                                    CornerRadius="7" VerticalAlignment="Top" Margin="0,0,10,0">
+                                <Image Source="/Frontend/Assets/most_active.png"
+                                       Width="28" Height="28" Stretch="Uniform"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock Text="MOST ACTIVE PROJECT" Foreground="White"
+                                           FontSize="15" FontWeight="Bold"/>
+                                <TextBlock x:Name="MostActiveProjectText" Text="No Project"
+                                           Foreground="White" FontSize="20"
+                                           FontWeight="Bold" Margin="0,4,0,4"
+                                           TextWrapping="Wrap"
+                                           TextTrimming="CharacterEllipsis" MaxHeight="52"/>
+                                <TextBlock x:Name="MostActiveProjectCountText" Text="0 entries"
+                                           Foreground="#8B95B8" FontSize="13"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
 
-            <!-- top cards -->
-            <Grid Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="12"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="12"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Total Entries -->
-                <Border Grid.Column="0"
+                <!-- ─── Diary Area ─── -->
+                <Border Grid.Row="4"
                         Background="#080D28"
-                        BorderBrush="#171F54"
+                        BorderBrush="#1E2A59"
                         BorderThickness="1"
-                        CornerRadius="8"
-                        Padding="16">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="56"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                        CornerRadius="22"
+                        Padding="24">
+                    <StackPanel>
 
-                        <Border Width="40" Height="40"
-                                Background="#4B2EFF"
-                                CornerRadius="7"
-                                VerticalAlignment="Top">
-                            <TextBlock Text="🗃️"
-                                       Foreground="White"
-                                       FontSize="22"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
+                        <!-- Diary header row with action buttons -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="TOTAL ENTRIES"
-                                       Foreground="White"
-                                       FontSize="15"
-                                       FontWeight="Bold"/>
-                            <TextBlock x:Name="TotalEntriesText"
-                                       Text="0"
-                                       Foreground="White"
-                                       FontSize="32"
-                                       FontWeight="Bold"
-                                       Margin="0,2,0,2"/>
-                            <TextBlock Text="Across all projects"
-                                       Foreground="#8B95B8"
-                                       FontSize="13"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- This Week -->
-                <Border Grid.Column="2"
-                        Background="#080D28"
-                        BorderBrush="#171F54"
-                        BorderThickness="1"
-                        CornerRadius="8"
-                        Padding="16">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="56"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Border Width="40" Height="40"
-                                Background="#4B2EFF"
-                                CornerRadius="7"
-                                VerticalAlignment="Top">
-                            <TextBlock Text="📂"
-                                       Foreground="White"
-                                       FontSize="24"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="THIS WEEK"
-                                       Foreground="White"
-                                       FontSize="15"
-                                       FontWeight="Bold"/>
-                            <TextBlock x:Name="ThisWeekEntriesText"
-                                       Text="0"
-                                       Foreground="White"
-                                       FontSize="32"
-                                       FontWeight="Bold"
-                                       Margin="0,2,0,2"/>
-                            <TextBlock Text="Diary entries logged"
-                                       Foreground="#8B95B8"
-                                       FontSize="13"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Most Active Project -->
-                <Border Grid.Column="4"
-                        Background="#080D28"
-                        BorderBrush="#171F54"
-                        BorderThickness="1"
-                        CornerRadius="8"
-                        Padding="16">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="56"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Border Width="40" Height="40"
-                                Background="#4B2EFF"
-                                CornerRadius="7"
-                                VerticalAlignment="Top">
-                            <TextBlock Text="📈"
-                                       Foreground="White"
-                                       FontSize="21"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                        </Border>
-
-                        <StackPanel Grid.Column="1">
-                            <TextBlock Text="MOST ACTIVE PROJECT"
-                                       Foreground="White"
-                                       FontSize="15"
-                                       FontWeight="Bold"/>
-                            <TextBlock x:Name="MostActiveProjectText"
-                                       Text="No Project"
-                                       Foreground="White"
-                                       FontSize="20"
-                                       FontWeight="Bold"
-                                       Margin="0,4,0,4"
-                                       TextWrapping="Wrap"
-                                       TextTrimming="CharacterEllipsis"
-                                       MaxHeight="52"/>
-                            <TextBlock x:Name="MostActiveProjectCountText"
-                                       Text="0 entries"
-                                       Foreground="#8B95B8"
-                                       FontSize="13"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </Grid>
-
-            <!-- diary area -->
-            <Border Grid.Row="4"
-                    Background="#080D28" 
-                    BorderBrush="#1E2A59"
-                    BorderThickness="1"
-                    CornerRadius="22"
-                    Padding="24">
-                <StackPanel>
-                    <TextBlock Text="PROJECT DIARY"
-                               Foreground="White"
-                               FontSize="20"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="Browse your learning journey grouped by project."
-                               Foreground="#B7C0DD"
-                               FontSize="15"
-                               Margin="0,6,0,4"/>
-
-                    <Grid Margin="0,18,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <!-- Write Entry Panel -->
-                        <Border Background="#11183A"
-                                CornerRadius="16"
-                                Padding="18">
-                            <StackPanel>
-                                <TextBlock Text="WRITE ENTRY"
+                            <!-- Left: title + subtitle -->
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock Text="PROJECT DIARY"
                                            Foreground="White"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           Margin="0,4,0,14"/>
+                                           FontSize="20"
+                                           FontWeight="Bold"/>
+                                <TextBlock Text="Browse your learning journey grouped by project."
+                                           Foreground="#B7C0DD"
+                                           FontSize="15"
+                                           Margin="0,6,0,0"/>
+                            </StackPanel>
 
-                                <Grid Margin="0,0,0,12">
+                            <!-- Right: Add Entry + Delete Project buttons -->
+                            <StackPanel Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
 
-                                    <ComboBox x:Name="ProjectSelectorComboBox"
-                                              Height="42"
-                                              Background="#131A3D"
-                                              Foreground="White"
-                                              BorderBrush="#1E2A59"
-                                              BorderThickness="1"
-                                              Padding="8"
-                                              SelectionChanged="ProjectSelectorComboBox_SelectionChanged">
-
-                                        <ComboBox.Style>
-                                            <Style TargetType="ComboBox">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="ComboBox">
-                                                            <Grid>
-                                                                <Border Background="White"
-                                                                        BorderBrush="#3D52B0"
-                                                                        BorderThickness="1"
-                                                                        CornerRadius="8">
-                                                                    <Grid>
-                                                                        <ContentPresenter x:Name="ContentSite"
-                                                                                          IsHitTestVisible="False"
-                                                                                          Content="{TemplateBinding SelectionBoxItem}"
-                                                                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                                                                          Margin="10,0,30,0"
-                                                                                          VerticalAlignment="Center"
-                                                                                          TextBlock.Foreground="Black"/>
-                                                                        <TextBlock x:Name="PlaceholderText"
-                                                                                   Text="Select a project..."
-                                                                                   Foreground="#8B95B8"
-                                                                                   Margin="10,0,0,0"
-                                                                                   VerticalAlignment="Center"
-                                                                                   IsHitTestVisible="False"
-                                                                                   Visibility="Collapsed"/>
-                                                                        <ToggleButton Focusable="False"
-                                                                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                                                                      Background="Transparent"
-                                                                                      BorderThickness="0"
-                                                                                      HorizontalAlignment="Stretch"
-                                                                                      VerticalAlignment="Stretch">
-                                                                            <ToggleButton.Template>
-                                                                                <ControlTemplate TargetType="ToggleButton">
-                                                                                    <Border Background="Transparent">
-                                                                                        <Path Data="M 0 0 L 6 6 L 12 0"
-                                                                                              Stroke="#6B7BB8"
-                                                                                              StrokeThickness="2"
-                                                                                              HorizontalAlignment="Right"
-                                                                                              VerticalAlignment="Center"
-                                                                                              Margin="0,0,12,0"/>
-                                                                                    </Border>
-                                                                                </ControlTemplate>
-                                                                            </ToggleButton.Template>
-                                                                        </ToggleButton>
-                                                                    </Grid>
-                                                                </Border>
-                                                                <Popup x:Name="Popup"
-                                                                       Placement="Bottom"
-                                                                       IsOpen="{TemplateBinding IsDropDownOpen}"
-                                                                       AllowsTransparency="True"
-                                                                       Focusable="False"
-                                                                       PopupAnimation="Slide">
-                                                                    <Border Background="#222D65"
-                                                                            BorderBrush="#3D52B0"
-                                                                            BorderThickness="1"
-                                                                            CornerRadius="8"
-                                                                            MinWidth="{TemplateBinding ActualWidth}"
-                                                                            MaxHeight="200">
-                                                                        <ScrollViewer>
-                                                                            <ItemsPresenter/>
-                                                                        </ScrollViewer>
-                                                                    </Border>
-                                                                </Popup>
-                                                            </Grid>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="SelectedIndex" Value="-1">
-                                                                    <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </ComboBox.Style>
-
-                                        <ComboBox.Resources>
-                                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#131A3D"/>
-                                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
-                                        </ComboBox.Resources>
-
-                                        <ComboBox.ItemContainerStyle>
-                                            <Style TargetType="ComboBoxItem">
-                                                <Setter Property="Foreground" Value="White"/>
-                                                <Setter Property="Background" Value="#131A3D"/>
-                                                <Setter Property="Padding" Value="6"/>
-                                            </Style>
-                                        </ComboBox.ItemContainerStyle>
-
-                                    </ComboBox>
-
-
-                                </Grid>
-
-                                <TextBox x:Name="DiaryInputTextBox"
-                                         Height="120"
-                                         TextWrapping="Wrap"
-                                         AcceptsReturn="True"
-                                         Background="#131A3D"
-                                         Foreground="White"
-                                         BorderBrush="#1E2A59"
-                                         BorderThickness="3"
-                                         Padding="12"
-                                         Margin="0,0,0,14"
-                                         Tag="Write your diary entry here..."
-                                         Loaded="DiaryInputTextBox_Loaded"
-                                         GotFocus="DiaryInputTextBox_GotFocus"
-                                         LostFocus="DiaryInputTextBox_LostFocus"/>
-
-                                <Button x:Name="SaveEntryButton"
-                                        Content="Save Entry"
-                                        Height="42"
-                                        Width="150"
-                                        HorizontalAlignment="Left"
-                                        Background="#5B3DF5"
-                                        Foreground="White"
-                                        BorderThickness="0"
-                                        FontSize="15"
-                                        FontWeight="SemiBold"
+                                <!-- Add Diary Entry (primary) -->
+                                <Button x:Name="AddEntryCardButton"
+                                        Click="AddEntryCardButton_Click"
                                         Cursor="Hand"
-                                        Click="SaveEntryButton_Click">
-
+                                        Margin="0,0,10,0">
                                     <Button.Style>
                                         <Style TargetType="Button">
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="Button">
-                                                        <Border Background="{TemplateBinding Background}"
-                                                                CornerRadius="14">
-                                                            <ContentPresenter HorizontalAlignment="Center"
-                                                                              VerticalAlignment="Center"/>
+                                                        <Border x:Name="Bg"
+                                                                Background="#5B3DF5"
+                                                                CornerRadius="10"
+                                                                Padding="16,10">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="✏"
+                                                                           Foreground="White"
+                                                                           FontSize="14"
+                                                                           VerticalAlignment="Center"
+                                                                           Margin="0,0,8,0"/>
+                                                                <TextBlock Text="Add Entry"
+                                                                           Foreground="White"
+                                                                           FontSize="13"
+                                                                           FontWeight="SemiBold"
+                                                                           VerticalAlignment="Center"/>
+                                                            </StackPanel>
                                                         </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="Bg" Property="Background" Value="#4A2FD4"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter TargetName="Bg" Property="Background" Value="#3B24A8"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
                                                     </ControlTemplate>
                                                 </Setter.Value>
                                             </Setter>
                                         </Style>
                                     </Button.Style>
                                 </Button>
-                            </StackPanel>
-                        </Border>
 
+                                <!-- Delete Project (secondary destructive) -->
+                                <Button x:Name="DeleteProjectCardButton"
+                                        Click="DeleteProjectCardButton_Click"
+                                        Cursor="Hand">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border x:Name="Bg"
+                                                                Background="Transparent"
+                                                                BorderBrush="#7C0D0E"
+                                                                BorderThickness="1"
+                                                                CornerRadius="10"
+                                                                Padding="16,10">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="🗑"
+                                                                           Foreground="#FF6B6B"
+                                                                           FontSize="13"
+                                                                           VerticalAlignment="Center"
+                                                                           Margin="0,0,8,0"/>
+                                                                <TextBlock Text="Delete Project"
+                                                                           Foreground="#FF6B6B"
+                                                                           FontSize="13"
+                                                                           FontWeight="SemiBold"
+                                                                           VerticalAlignment="Center"/>
+                                                            </StackPanel>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter TargetName="Bg" Property="Background" Value="#1C0A0A"/>
+                                                                <Setter TargetName="Bg" Property="BorderBrush" Value="#A01010"/>
+                                                            </Trigger>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter TargetName="Bg" Property="Background" Value="#2A0C0C"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Divider -->
+                        <Border Height="1"
+                                Background="#1E2A59"
+                                Margin="0,16,0,0"/>
+
+                        <StackPanel x:Name="DiaryEntriesPanel"
+                                    Margin="0,16,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+
+
+        <!--   ADD DIARY ENTRY POPUP OVERLAY   -->
+        <Grid x:Name="AddEntryOverlay"
+              Visibility="Collapsed"
+              Background="#AA000010">
+
+            <Rectangle Fill="Transparent" MouseDown="Overlay_MouseDown"/>
+
+            <Border x:Name="AddEntryModal"
+                    Width="480"
+                    Background="#0D1235"
+                    BorderBrush="#2A3A80"
+                    BorderThickness="1"
+                    CornerRadius="20"
+                    Padding="32,28"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect Color="#000000" BlurRadius="40"
+                                      ShadowDepth="0" Opacity="0.7"/>
+                </Border.Effect>
+                <StackPanel>
+                    <Grid Margin="0,0,0,22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+
+                            <TextBlock Text="New Entry"
+                                       Foreground="White"
+                                       FontSize="22"
+                                       FontWeight="Bold"/>
+                        </StackPanel>
+                        <Button Grid.Column="1"
+                                Content="✕"
+                                Width="32" Height="32"
+                                VerticalAlignment="Top"
+                                Foreground="#6B7BB8" FontSize="14"
+                                Background="Transparent" BorderThickness="0"
+                                Cursor="Hand" Click="CloseModal_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="Bg" Background="Transparent" CornerRadius="8">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#1A2050"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </Grid>
 
-                    
-                    <StackPanel x:Name="DiaryEntriesPanel"
-                               Margin="0,20,0,0"/>
+                    <Border Height="1" Background="#1E2A59" Margin="0,0,0,22"/>
 
+                    <TextBlock Text="PROJECT"
+                               Foreground="#6B7BB8" FontSize="11" FontWeight="Bold"
+                               Margin="0,0,0,8"/>
+
+                    <ComboBox x:Name="ProjectSelectorComboBox"
+                              Height="46" Margin="0,0,0,20"
+                              SelectionChanged="ProjectSelectorComboBox_SelectionChanged">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ComboBox">
+                                            <Grid>
+                                                <Border Background="#131A3D" BorderBrush="#2A3A80"
+                                                        BorderThickness="1" CornerRadius="10">
+                                                    <Grid>
+                                                        <ContentPresenter x:Name="ContentSite"
+                                                                          IsHitTestVisible="False"
+                                                                          Content="{TemplateBinding SelectionBoxItem}"
+                                                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                                          Margin="14,0,36,0" VerticalAlignment="Center"
+                                                                          TextBlock.Foreground="White" TextBlock.FontSize="14"/>
+                                                        <TextBlock x:Name="PlaceholderText"
+                                                                   Text="Select a project..."
+                                                                   Foreground="#4A5578" Margin="14,0,0,0"
+                                                                   FontSize="14" VerticalAlignment="Center"
+                                                                   IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                        <ToggleButton Focusable="False"
+                                                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                      Background="Transparent" BorderThickness="0"
+                                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                            <ToggleButton.Template>
+                                                                <ControlTemplate TargetType="ToggleButton">
+                                                                    <Border Background="Transparent">
+                                                                        <Path Data="M 0 0 L 6 6 L 12 0"
+                                                                              Stroke="#5B3DF5" StrokeThickness="2"
+                                                                              HorizontalAlignment="Right"
+                                                                              VerticalAlignment="Center"
+                                                                              Margin="0,0,14,0"/>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </ToggleButton.Template>
+                                                        </ToggleButton>
+                                                    </Grid>
+                                                </Border>
+                                                <Popup x:Name="Popup" Placement="Bottom"
+                                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                       AllowsTransparency="True" Focusable="False"
+                                                       PopupAnimation="Slide">
+                                                    <Border Background="#131A3D" BorderBrush="#2A3A80"
+                                                            BorderThickness="1" CornerRadius="10"
+                                                            MinWidth="{TemplateBinding ActualWidth}" MaxHeight="200">
+                                                        <ScrollViewer>
+                                                            <ItemsPresenter/>
+                                                        </ScrollViewer>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="SelectedIndex" Value="-1">
+                                                    <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.Style>
+                        <ComboBox.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#131A3D"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="#131A3D"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="Padding" Value="14,8"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+
+                    <TextBlock Text="NOTES"
+                               Foreground="#6B7BB8" FontSize="11" FontWeight="Bold"
+                               Margin="0,0,0,8"/>
+
+                    <Border BorderBrush="#2A3A80" BorderThickness="1"
+                            CornerRadius="10" Margin="0,0,0,24">
+                        <TextBox x:Name="DiaryInputTextBox"
+                                 Height="110" TextWrapping="Wrap" AcceptsReturn="True"
+                                 Background="#131A3D" Foreground="White"
+                                 BorderThickness="0" Padding="14,12" FontSize="14"
+                                 Tag="Write your diary entry here..."
+                                 Loaded="DiaryInputTextBox_Loaded"
+                                 GotFocus="DiaryInputTextBox_GotFocus"
+                                 LostFocus="DiaryInputTextBox_LostFocus"
+                                 CaretBrush="White"/>
+                    </Border>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Cancel" Height="44"
+                                Background="Transparent" Foreground="#8B95B8"
+                                BorderBrush="#2A3A80" BorderThickness="1"
+                                FontSize="14" Cursor="Hand" Click="CloseModal_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="Bg"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="10">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#131A3D"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="2" x:Name="SaveEntryButton"
+                                Content="Save" Height="44"
+                                Background="#5B3DF5" Foreground="White"
+                                BorderThickness="0" FontSize="14" FontWeight="SemiBold"
+                                Cursor="Hand" Click="SaveEntryButton_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="10">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#4A2FD4"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#3B24A8"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
                 </StackPanel>
             </Border>
         </Grid>
-    </ScrollViewer>
+
+
+        <!--   DELETE PROJECT POPUP OVERLAY     -->
+        <Grid x:Name="DeleteProjectOverlay"
+              Visibility="Collapsed"
+              Background="#AA000010">
+
+            <Rectangle Fill="Transparent" MouseDown="DeleteOverlay_MouseDown"/>
+
+            <Border Width="440"
+                    Background="#0D1235" BorderBrush="#2A3A80"
+                    BorderThickness="1" CornerRadius="20"
+                    Padding="32,28"
+                    HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect Color="#000000" BlurRadius="40" ShadowDepth="0" Opacity="0.7"/>
+                </Border.Effect>
+                <StackPanel>
+                    <Grid Margin="0,0,0,22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel>
+
+                            <TextBlock Text="Remove Project"
+                                       Foreground="White" FontSize="22" FontWeight="Bold"/>
+                        </StackPanel>
+                        <Button Grid.Column="1" Content="✕"
+                                Width="32" Height="32" VerticalAlignment="Top"
+                                Foreground="#6B7BB8" FontSize="14"
+                                Background="Transparent" BorderThickness="0"
+                                Cursor="Hand" Click="CloseDeleteModal_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="Bg" Background="Transparent" CornerRadius="8">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#1A2050"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+
+                    <Border Height="1" Background="#1E2A59" Margin="0,0,0,22"/>
+
+                    <TextBlock Text="PROJECT"
+                               Foreground="#6B7BB8" FontSize="11" FontWeight="Bold"
+                               Margin="0,0,0,8"/>
+
+                    <ComboBox x:Name="DeleteProjectSelectorComboBox"
+                              Height="46" Margin="0,0,0,20">
+                        <ComboBox.Style>
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ComboBox">
+                                            <Grid>
+                                                <Border Background="#131A3D" BorderBrush="#2A3A80"
+                                                        BorderThickness="1" CornerRadius="10">
+                                                    <Grid>
+                                                        <ContentPresenter x:Name="ContentSite"
+                                                                          IsHitTestVisible="False"
+                                                                          Content="{TemplateBinding SelectionBoxItem}"
+                                                                          ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                                          Margin="14,0,36,0" VerticalAlignment="Center"
+                                                                          TextBlock.Foreground="White" TextBlock.FontSize="14"/>
+                                                        <TextBlock x:Name="PlaceholderText"
+                                                                   Text="Select a project..."
+                                                                   Foreground="#4A5578" Margin="14,0,0,0"
+                                                                   FontSize="14" VerticalAlignment="Center"
+                                                                   IsHitTestVisible="False" Visibility="Collapsed"/>
+                                                        <ToggleButton Focusable="False"
+                                                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                      Background="Transparent" BorderThickness="0"
+                                                                      HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                            <ToggleButton.Template>
+                                                                <ControlTemplate TargetType="ToggleButton">
+                                                                    <Border Background="Transparent">
+                                                                        <Path Data="M 0 0 L 6 6 L 12 0"
+                                                                              Stroke="#FF5555" StrokeThickness="2"
+                                                                              HorizontalAlignment="Right"
+                                                                              VerticalAlignment="Center"
+                                                                              Margin="0,0,14,0"/>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </ToggleButton.Template>
+                                                        </ToggleButton>
+                                                    </Grid>
+                                                </Border>
+                                                <Popup x:Name="Popup" Placement="Bottom"
+                                                       IsOpen="{TemplateBinding IsDropDownOpen}"
+                                                       AllowsTransparency="True" Focusable="False"
+                                                       PopupAnimation="Slide">
+                                                    <Border Background="#131A3D" BorderBrush="#2A3A80"
+                                                            BorderThickness="1" CornerRadius="10"
+                                                            MinWidth="{TemplateBinding ActualWidth}" MaxHeight="200">
+                                                        <ScrollViewer>
+                                                            <ItemsPresenter/>
+                                                        </ScrollViewer>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="SelectedIndex" Value="-1">
+                                                    <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ComboBox.Style>
+                        <ComboBox.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#131A3D"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.ControlTextBrushKey}" Color="White"/>
+                        </ComboBox.Resources>
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Background" Value="#131A3D"/>
+                                <Setter Property="FontSize" Value="14"/>
+                                <Setter Property="Padding" Value="14,8"/>
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                    </ComboBox>
+
+                    <Border Background="#1C0A0A" BorderBrush="#5C1111"
+                            BorderThickness="1" CornerRadius="10"
+                            Padding="14,10" Margin="0,0,0,24">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="⚠" Foreground="#FF5555" FontSize="14"
+                                       VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBlock Text="This will permanently remove the project and all its diary entries."
+                                       Foreground="#FF8888" FontSize="11" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="12"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="Cancel" Height="44"
+                                Background="Transparent" Foreground="#8B95B8"
+                                BorderBrush="#2A3A80" BorderThickness="1"
+                                FontSize="14" Cursor="Hand" Click="CloseDeleteModal_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="Bg"
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        CornerRadius="10">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#131A3D"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Grid.Column="2" x:Name="ConfirmDeleteButton"
+                                Content="Delete" Height="44"
+                                Background="#7C0D0E" Foreground="White"
+                                BorderThickness="0" FontSize="14" FontWeight="SemiBold"
+                                Cursor="Hand" Click="ConfirmDeleteButton_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="Bg" Background="{TemplateBinding Background}" CornerRadius="10">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#A01010"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="Bg" Property="Background" Value="#5C0A0A"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+    </Grid>
 </UserControl>
