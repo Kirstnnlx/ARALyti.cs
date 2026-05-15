@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace ARALyti.cs.views
@@ -23,11 +24,7 @@ namespace ARALyti.cs.views
         private void ProfileButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = (MainWindow)Window.GetWindow(this);
-
-            if (mainWindow != null)
-            {
-                mainWindow.ShowProfilePopup((UIElement)sender);
-            }
+            mainWindow?.ShowProfilePopup((UIElement)sender);
         }
 
         public void UpdateStreakDisplay(int streak)
@@ -38,13 +35,126 @@ namespace ARALyti.cs.views
         public void LoadProjectSelector()
         {
             ProjectSelectorComboBox.Items.Clear();
+            DeleteProjectSelectorComboBox.Items.Clear();
 
             foreach (var project in ScanProjectView.ScannedProjects)
             {
-
                 ProjectSelectorComboBox.Items.Add(project.Title);
+                DeleteProjectSelectorComboBox.Items.Add(project.Title);
+            }
+        }
+
+        private void AddEntryCardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ScanProjectView.ScannedProjects.Count == 0)
+            {
+                MessageBox.Show("Please scan a project first before adding a diary entry.");
+                return;
             }
 
+            ProjectSelectorComboBox.SelectedIndex = -1;
+            DiaryInputTextBox.Text = DiaryInputTextBox.Tag.ToString();
+            DiaryInputTextBox.Foreground = Brushes.Gray;
+
+            AddEntryOverlay.Visibility = Visibility.Visible;
+        }
+
+        private void CloseModal_Click(object sender, RoutedEventArgs e)
+        {
+            AddEntryOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private void Overlay_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            AddEntryOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private void DeleteProjectCardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ScanProjectView.ScannedProjects.Count == 0)
+            {
+                MessageBox.Show("No projects to delete.");
+                return;
+            }
+
+            DeleteProjectSelectorComboBox.SelectedIndex = -1;
+            DeleteProjectOverlay.Visibility = Visibility.Visible;
+        }
+
+        private void CloseDeleteModal_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteProjectOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private void DeleteOverlay_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DeleteProjectOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private void ConfirmDeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DeleteProjectSelectorComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a project to delete.");
+                return;
+            }
+
+            string selectedTitle = DeleteProjectSelectorComboBox.SelectedItem.ToString() ?? "";
+            var project = ScanProjectView.ScannedProjects
+                .FirstOrDefault(p => p.Title == selectedTitle);
+
+            if (project == null) return;
+
+            DeleteProjectOverlay.Visibility = Visibility.Collapsed;
+
+            DatabaseService.DeleteProjectByFilePath(project.FilePath);
+            ScanProjectView.ScannedProjects.Remove(project);
+            DiaryEntries.RemoveAll(d => d.ProjectTitle == project.Title);
+
+            ScanProjectView.LastDetectedTopicObjects.Clear();
+
+            foreach (var starterTopic in ScanProjectView.StarterTopics)
+            {
+                ScanProjectView.LastDetectedTopicObjects.Add(new Topic
+                {
+                    TopicId = starterTopic.TopicId,
+                    Name = starterTopic.Name,
+                    Difficulty = starterTopic.Difficulty,
+                    Status = "Not Started",
+                    Score = 0
+                });
+            }
+
+            var remainingTopics = DatabaseService.GetOverallTopics();
+
+            foreach (var savedTopic in remainingTopics)
+            {
+                var matchingTopic = ScanProjectView.LastDetectedTopicObjects
+                    .FirstOrDefault(t => t.Name == savedTopic.Name);
+
+                if (matchingTopic != null)
+                {
+                    matchingTopic.Score = savedTopic.Score;
+                    matchingTopic.Status = savedTopic.Status;
+                }
+            }
+
+            var detectedOverallTopics = remainingTopics
+                .Where(t => t.Status != "Not Started")
+                .ToList();
+
+            if (detectedOverallTopics.Count > 0)
+            {
+                double overallProgress = detectedOverallTopics.Average(t => t.Score);
+                DatabaseService.SaveProgressRecord((int)Math.Round(overallProgress));
+            }
+            else
+            {
+                DatabaseService.SaveProgressRecord(0);
+            }
+
+            LoadProjectSelector();
+            LoadEntries();
         }
 
         private void SaveEntryButton_Click(object sender, RoutedEventArgs e)
@@ -61,7 +171,9 @@ namespace ARALyti.cs.views
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(DiaryInputTextBox.Text))
+            string entryText = DiaryInputTextBox.Text;
+            if (string.IsNullOrWhiteSpace(entryText) ||
+                entryText == DiaryInputTextBox.Tag.ToString())
             {
                 MessageBox.Show("Please write a diary entry first.");
                 return;
@@ -71,7 +183,7 @@ namespace ARALyti.cs.views
             {
                 EntryId = $"D{DiaryEntries.Count + 1:000}",
                 ProjectTitle = ProjectSelectorComboBox.SelectedItem?.ToString() ?? "",
-                Note = DiaryInputTextBox.Text,
+                Note = entryText,
                 DateCreated = DateTime.Now
             };
 
@@ -83,11 +195,9 @@ namespace ARALyti.cs.views
             );
 
             if (projectId != -1)
-            {
                 DatabaseService.SaveDiaryEntry(projectId, entry.Note);
-            }
 
-            DiaryInputTextBox.Text = "";
+            AddEntryOverlay.Visibility = Visibility.Collapsed;
             LoadEntries();
         }
 
@@ -116,15 +226,12 @@ namespace ARALyti.cs.views
             }
         }
 
-
         public void LoadEntries()
         {
             DiaryEntries = DatabaseService.GetDiaryEntries();
-
             DiaryEntriesPanel.Children.Clear();
 
             int totalEntries = DiaryEntries.Count;
-
             int thisWeekEntries = DiaryEntries.Count(entry =>
                 entry.DateCreated >= DateTime.Now.AddDays(-7));
 
@@ -140,14 +247,12 @@ namespace ARALyti.cs.views
                 MostActiveProjectText.Text = "No Project";
                 MostActiveProjectCountText.Text = "0 entries";
 
-                TextBlock emptyText = new TextBlock
+                DiaryEntriesPanel.Children.Add(new TextBlock
                 {
                     Text = "No scanned projects yet.",
                     Foreground = Brushes.White,
                     FontSize = 16
-                };
-
-                DiaryEntriesPanel.Children.Add(emptyText);
+                });
                 return;
             }
 
@@ -157,13 +262,9 @@ namespace ARALyti.cs.views
             if (mostActiveProject != null)
             {
                 string projectName = mostActiveProject.Key;
-
-                string displayName = projectName.Length > 30
+                MostActiveProjectText.Text = projectName.Length > 30
                     ? projectName.Substring(0, 30) + "..."
                     : projectName;
-
-                MostActiveProjectText.Text = displayName;
-
                 MostActiveProjectCountText.Text =
                     $"{mostActiveProject.Count()} entr{(mostActiveProject.Count() == 1 ? "y" : "ies")}";
             }
@@ -189,13 +290,10 @@ namespace ARALyti.cs.views
 
                 StackPanel projectContent = new StackPanel();
 
+                // Header: info | dropdown
                 Grid headerGrid = new Grid();
-
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) }); // dropdown
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) }); // delete
-
-
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(40) });
 
                 StackPanel projectHeaderPanel = new StackPanel
                 {
@@ -203,7 +301,6 @@ namespace ARALyti.cs.views
                     VerticalAlignment = VerticalAlignment.Top
                 };
 
-                // Folder icon
                 Image folderIcon = new Image
                 {
                     Source = new System.Windows.Media.Imaging.BitmapImage(
@@ -213,42 +310,32 @@ namespace ARALyti.cs.views
                     Margin = new Thickness(0, 2, 12, 0)
                 };
 
-                // Right-side content
-                StackPanel projectInfoPanel = new StackPanel
-                {
-                    Orientation = Orientation.Vertical
-                };
+                StackPanel projectInfoPanel = new StackPanel();
 
-                // Project title
-                TextBlock projectTitleText = new TextBlock
+                projectInfoPanel.Children.Add(new TextBlock
                 {
                     Text = project.Title,
                     Foreground = Brushes.White,
                     FontSize = 16,
                     FontWeight = FontWeights.SemiBold
-                };
+                });
 
-                // File path
-                TextBlock projectPathText = new TextBlock
+                projectInfoPanel.Children.Add(new TextBlock
                 {
                     Text = project.FilePath,
-                    Foreground = new SolidColorBrush(
-                        (Color)ColorConverter.ConvertFromString("#8F9BC7")),
+                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#8F9BC7")),
                     FontSize = 12,
                     Margin = new Thickness(0, 2, 0, 6)
-                };
+                });
 
-                // Entry badge
                 Border entryBadge = new Border
                 {
-                    Background = new SolidColorBrush(
-                        (Color)ColorConverter.ConvertFromString("#24167A")),
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#24167A")),
                     CornerRadius = new CornerRadius(10),
                     Padding = new Thickness(10, 3, 10, 3),
                     HorizontalAlignment = HorizontalAlignment.Left
                 };
-
-                TextBlock entryBadgeText = new TextBlock
+                entryBadge.Child = new TextBlock
                 {
                     Text = $"{projectEntries.Count} Entr{(projectEntries.Count == 1 ? "y" : "ies")}",
                     Foreground = Brushes.White,
@@ -256,99 +343,9 @@ namespace ARALyti.cs.views
                     FontWeight = FontWeights.SemiBold
                 };
 
-                entryBadge.Child = entryBadgeText;
-
-                // Add items
-                projectInfoPanel.Children.Add(projectTitleText);
-                projectInfoPanel.Children.Add(projectPathText);
                 projectInfoPanel.Children.Add(entryBadge);
-
                 projectHeaderPanel.Children.Add(folderIcon);
                 projectHeaderPanel.Children.Add(projectInfoPanel);
-
-                // Delete button
-                Button deleteButton = new Button
-                {
-                    Content = "🗑",
-                    Width = 30,
-                    Height = 30,
-                    Background = Brushes.Transparent,
-                    Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#7C0D0E")),
-                    BorderBrush = Brushes.Transparent,
-                    FontSize = 16,
-                    Cursor = System.Windows.Input.Cursors.Hand
-                };
-
-                // Click event
-                deleteButton.Click += (s, e) =>
-                {
-                    var result = MessageBox.Show(
-                        "Delete this project and all its data?",
-                        "Confirm Delete",
-                        MessageBoxButton.YesNo,
-                        MessageBoxImage.Warning
-                    );
-
-                    if (result == MessageBoxResult.Yes)
-                    {
-                        DatabaseService.DeleteProjectByFilePath(project.FilePath);
-
-                        // remove from memory
-                        ScanProjectView.ScannedProjects.Remove(project);
-                        DiaryEntries.RemoveAll(d => d.ProjectTitle == project.Title);
-
-                        ScanProjectView.LastDetectedTopicObjects.Clear();
-
-                        foreach (var starterTopic in ScanProjectView.StarterTopics)
-                        {
-                            ScanProjectView.LastDetectedTopicObjects.Add(new Topic
-                            {
-                                TopicId = starterTopic.TopicId,
-                                Name = starterTopic.Name,
-                                Difficulty = starterTopic.Difficulty,
-                                Status = "Not Started",
-                                Score = 0
-                            });
-                        }
-
-                        var remainingTopics = DatabaseService.GetOverallTopics();
-
-                        foreach (var savedTopic in remainingTopics)
-                        {
-                            var matchingTopic = ScanProjectView.LastDetectedTopicObjects
-                                .FirstOrDefault(t => t.Name == savedTopic.Name);
-
-                            if (matchingTopic != null)
-                            {
-                                matchingTopic.Score = savedTopic.Score;
-                                matchingTopic.Status = savedTopic.Status;
-                            }
-                        }
-
-                        // =====================================================
-                        // SAVE PROGRESS AFTER PROJECT DELETE
-                        // The donut chart changes after deleting a project,
-                        // so we also save the new overall progress for the line graph.
-                        // =====================================================
-                        var detectedOverallTopics = remainingTopics
-                            .Where(t => t.Status != "Not Started")
-                            .ToList();
-
-                        if (detectedOverallTopics.Count > 0)
-                        {
-                            double overallProgress = detectedOverallTopics.Average(t => t.Score);
-                            DatabaseService.SaveProgressRecord((int)Math.Round(overallProgress));
-                        }
-                        else
-                        {
-                            DatabaseService.SaveProgressRecord(0);
-                        }
-
-                        // refresh UI
-                        LoadProjectSelector();
-                        LoadEntries();
-                    }
-                };
 
                 Button dropdownButton = new Button
                 {
@@ -359,33 +356,23 @@ namespace ARALyti.cs.views
                     Foreground = Brushes.White,
                     BorderBrush = Brushes.Transparent,
                     FontSize = 16,
-                    Cursor = System.Windows.Input.Cursors.Hand
+                    Cursor = System.Windows.Input.Cursors.Hand,
+                    VerticalAlignment = VerticalAlignment.Center
                 };
 
                 Grid.SetColumn(projectHeaderPanel, 0);
                 Grid.SetColumn(dropdownButton, 1);
-                Grid.SetColumn(deleteButton, 2);
-
-
                 headerGrid.Children.Add(projectHeaderPanel);
                 headerGrid.Children.Add(dropdownButton);
-                headerGrid.Children.Add(deleteButton);
-
-
                 projectContent.Children.Add(headerGrid);
 
-                // DROPDOWN HEADER BUTTON
-                Grid.SetColumn(dropdownButton, 1);
-
-                // ENTRIES CONTAINER
                 StackPanel entriesContainer = new StackPanel
                 {
                     Visibility = Visibility.Collapsed,
                     Margin = new Thickness(0, 12, 0, 0)
                 };
 
-                // DROPDOWN TOGGLE LOGIC
-                dropdownButton.Click += (s, e) =>
+                dropdownButton.Click += (s, ev) =>
                 {
                     if (entriesContainer.Visibility == Visibility.Collapsed)
                     {
@@ -399,18 +386,15 @@ namespace ARALyti.cs.views
                     }
                 };
 
-                // EMPTY ENTRIES
                 if (projectEntries.Count == 0)
                 {
-                    TextBlock noEntriesText = new TextBlock
+                    entriesContainer.Children.Add(new TextBlock
                     {
                         Text = "No diary entries yet for this project.",
-                        Foreground = Brushes.White,
-                        FontSize = 15,
+                        Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#6B7BB8")),
+                        FontSize = 14,
                         Margin = new Thickness(0, 8, 0, 0)
-                    };
-
-                    entriesContainer.Children.Add(noEntriesText);
+                    });
                 }
                 else
                 {
@@ -433,8 +417,7 @@ namespace ARALyti.cs.views
                             Padding = new Thickness(12, 5, 12, 5),
                             HorizontalAlignment = HorizontalAlignment.Left
                         };
-
-                        TextBlock idText = new TextBlock
+                        idBadge.Child = new TextBlock
                         {
                             Text = entry.EntryId,
                             Foreground = Brushes.White,
@@ -442,37 +425,28 @@ namespace ARALyti.cs.views
                             FontSize = 13
                         };
 
-                        idBadge.Child = idText;
-
-                        TextBlock noteText = new TextBlock
+                        entryContent.Children.Add(idBadge);
+                        entryContent.Children.Add(new TextBlock
                         {
                             Text = entry.Note,
                             Foreground = Brushes.White,
                             FontSize = 15,
                             TextWrapping = TextWrapping.Wrap,
                             Margin = new Thickness(0, 8, 0, 8)
-                        };
-
-                        TextBlock dateText = new TextBlock
+                        });
+                        entryContent.Children.Add(new TextBlock
                         {
                             Text = entry.DateCreated.ToString("MMM dd, yyyy • hh:mm tt"),
                             Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B7C0DD")),
                             FontSize = 13
-                        };
-
-                        entryContent.Children.Add(idBadge);
-                        entryContent.Children.Add(noteText);
-                        entryContent.Children.Add(dateText);
+                        });
 
                         entryCard.Child = entryContent;
-
                         entriesContainer.Children.Add(entryCard);
                     }
                 }
 
-                // ADD CONTAINER
                 projectContent.Children.Add(entriesContainer);
-
                 projectCard.Child = projectContent;
                 DiaryEntriesPanel.Children.Add(projectCard);
             }
@@ -480,6 +454,7 @@ namespace ARALyti.cs.views
 
         private void ProjectSelectorComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // reserved for future use
         }
     }
 }

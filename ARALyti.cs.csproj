@@ -10,7 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Frontend\Assets\arko.png" />
     <None Remove="Frontend\Assets\csharp.png" />
     <None Remove="Frontend\Assets\folder.png" />
     <None Remove="Frontend\Assets\logo.png" />
@@ -18,10 +17,16 @@
     <None Remove="Frontend\Assets\project.png" />
     <None Remove="Frontend\Assets\recommendation.png" />
     <None Remove="Frontend\Assets\rocket.png" />
-    <None Remove="Frontend\Assets\user_icon.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Frontend\Assets\user_icon.png" />
+    <Resource Include="Frontend\Assets\total_topics.png" />
+    <Resource Include="Frontend\Assets\code_preview.png" />
+    <Resource Include="Frontend\Assets\scan_results.png" />
+    <Resource Include="Frontend\Assets\total_entries.png" />
+    <Resource Include="Frontend\Assets\this_week.png" />
+    <Resource Include="Frontend\Assets\most_active.png" />
     <Resource Include="Frontend\Assets\project.png" />
     <Resource Include="Frontend\Assets\streak.png" />
   </ItemGroup>
@@ -33,14 +38,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Frontend\Assets\arko.png" />
     <Resource Include="Frontend\Assets\csharp.png" />
     <Resource Include="Frontend\Assets\folder.png" />
     <Resource Include="Frontend\Assets\logo.png" />
     <Resource Include="Frontend\Assets\logout.png" />
     <Resource Include="Frontend\Assets\recommendation.png" />
     <Resource Include="Frontend\Assets\rocket.png" />
-    <Resource Include="Frontend\Assets\user_icon.png" />
   </ItemGroup>
 
 </Project>

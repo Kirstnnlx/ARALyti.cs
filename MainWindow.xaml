@@ -15,131 +15,256 @@
     <Grid Background="#050816">
 
 
-        <!-- LOGIN PAGE -->
-    <Grid x:Name="LoginPage"
-            Background="#050816">
+ <!-- LOGIN PAGE -->
+        <Grid x:Name="LoginPage">
+
+            <Grid.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#050816" Offset="0"/>
+                    <GradientStop Color="#0A1030" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="0.85*"/>
+                <ColumnDefinition Width="1.1*"/>
+                <ColumnDefinition Width="0.9*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Left Side -->
-            <Grid Grid.Column="0"
-                  VerticalAlignment="Center"
-                  Margin="170,0,-40,0">
+    <!-- Left Side -->
+    <Grid Grid.Column="0"
+          VerticalAlignment="Center"
+          Margin="130,0,60,0">
 
-                <StackPanel HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Width="700">
+        <StackPanel HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Width="560">
 
-                    <!-- Logo + Welcome -->
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center">
+            <!-- Logo -->
+            <Image Source="/Frontend/Assets/logo.png"
+                   Width="390"
+                   HorizontalAlignment="Left"
+                   Margin="0,0,0,24"/>
 
-                        <TextBlock Text="Welcome to "
-                                   Foreground="White"
-                                   FontSize="45"
-                                   FontWeight="Bold"
-                                   VerticalAlignment="Center"/>
+            <!-- Headline -->
+            <TextBlock Foreground="White"
+                       FontSize="37"
+                       FontWeight="Bold"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,10">
+                <Run Text="Your C# Learning"/>
+                <LineBreak/>
+                <Run Text="Journey Starts Here."/>
+            </TextBlock>
 
-                        <Image Source="/Frontend/Assets/logo.png"
-                               Width="420"
-                               Margin="0,4,0,0"
-                               VerticalAlignment="Center"/>
-                    </StackPanel>
+            <TextBlock Text="Scan your projects, track your topics, and grow as a developer."
+                       Foreground="#7B8EC8"
+                       FontSize="16"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,36"/>
 
-                    <Border Background="#111734"
-                            BorderBrush="#1E2A59"
+            <!-- Feature highlights -->
+            <StackPanel Margin="0,0,0,8">
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <Border Background="#1A1147"
+                            BorderBrush="#3B2A8A"
                             BorderThickness="1"
-                            CornerRadius="18"
-                            Padding="18"
-                            Width="620"
-                            Margin="0,34,0,0">
-
-                        <StackPanel Orientation="Horizontal">
-
-                            <Image Source="/Frontend/Assets/rocket.png"
-                                   Width="70"
-                                   Height="70"
-                                   Margin="0,0,14,0"/>
-
-                            <StackPanel VerticalAlignment="Center">
-
-                                <TextBlock Text="Track your learning journey, scan your projects, and monitor your programming growth through interactive insights."
-                                           Foreground="#B7C0DD"
-                                           FontSize="18"
-                                           Width="480"
-                                           TextWrapping="Wrap"
-                                           Margin="12,4,0,0"/>
-
-                            </StackPanel>
-
-                        </StackPanel>
+                            CornerRadius="12"
+                            Width="42" Height="42"
+                            Margin="0,0,14,0">
+                        <TextBlock Text="📁"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
                     </Border>
-
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Scan C# Projects"
+                                   Foreground="White"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"/>
+                        <TextBlock Text="Detect topics and concepts automatically"
+                                   Foreground="#5A6A9A"
+                                   FontSize="12"/>
+                    </StackPanel>
                 </StackPanel>
-            </Grid>
 
-            <!-- Right Login Card -->
-        <Border Grid.Column="1"
-            Width="420"
-            Height="370"
-            Background="#0D1230"
-            BorderBrush="#1E2A59"
-            BorderThickness="1"
-            CornerRadius="26"
-            Padding="34"
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <Border Background="#1A1147"
+                            BorderBrush="#3B2A8A"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Width="42" Height="42"
+                            Margin="0,0,14,0">
+                        <TextBlock Text="📈"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Track Your Progress"
+                                   Foreground="White"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"/>
+                        <TextBlock Text="Visualize growth with charts and insights"
+                                   Foreground="#5A6A9A"
+                                   FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Border Background="#1A1147"
+                            BorderBrush="#3B2A8A"
+                            BorderThickness="1"
+                            CornerRadius="12"
+                            Width="42" Height="42"
+                            Margin="0,0,14,0">
+                        <TextBlock Text="📝"
+                                   Foreground="White"
+                                   FontSize="16"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="Log Your Journey"
+                                   Foreground="White"
+                                   FontSize="14"
+                                   FontWeight="SemiBold"/>
+                        <TextBlock Text="Keep a diary of what you've built and learned"
+                                   Foreground="#5A6A9A"
+                                   FontSize="12"/>
+                    </StackPanel>
+                </StackPanel>
+
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+
+    <!-- Right Login Card — gradient border wrapper -->
+    <Border Grid.Column="1"
+            Width="460"
             VerticalAlignment="Center"
-            HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            CornerRadius="24"
+            Padding="2">
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#2A1F6B" Offset="0"/>
+                <GradientStop Color="#1A2560" Offset="0.5"/>
+                <GradientStop Color="#2A1F6B" Offset="1"/>
+            </LinearGradientBrush>
+        </Border.Background>
+
+                <Border CornerRadius="23"
+                        Padding="42">
+
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#0D1230" Offset="0"/>
+                            <GradientStop Color="#0A0D24" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+
+                    <Border.Effect>
+                        <DropShadowEffect
+                            BlurRadius="30"
+                            ShadowDepth="0"
+                            Color="#000000"
+                            Opacity="0.35"/>
+                    </Border.Effect>
+
 
             <StackPanel>
 
+
+
                 <TextBlock Text="Get Started"
-                       Foreground="White"
-                       FontSize="32"
-                       FontWeight="Bold"/>
+                           Foreground="White"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Margin="0,8,0,10"/>
 
                 <TextBlock Text="Enter your name to continue to your dashboard."
-                       Foreground="#B7C0DD"
-                       FontSize="15"
-                       Margin="0,8,0,30"/>
+                           Foreground="#7B8EC8"
+                           FontSize="14"
+                           Margin="0,0,0,28"
+                           TextWrapping="Wrap"/>
 
-                <TextBlock Text="Name"
-                       Foreground="#B7C0DD"
-                       FontSize="14"
-                       Margin="0,0,0,8"/>
+                <TextBlock Text="Your Name"
+                           Foreground="#7B8EC8"
+                           FontSize="13"
+                           FontWeight="Bold"
+                           Margin="0,0,0,8"/>
 
-                <TextBox x:Name="LoginNameTextBox"
-                     Height="46"
-                     Background="#131A3D"
-                     Foreground="White"
-                     BorderBrush="#1E2A59"
-                     BorderThickness="1"
-                     Padding="12"
-                     FontSize="15"
-                     CaretBrush="White"/>
+                <!-- Input field -->
+                <Border Background="#131A3D"
+                        BorderBrush="#2A3570"
+                        BorderThickness="1"
+                        CornerRadius="12"
+                        Margin="0,0,0,6">
+                    <TextBox x:Name="LoginNameTextBox"
+                             Height="52"
+                             Background="Transparent"
+                             Foreground="White"
+                             BorderThickness="0"
+                             Padding="14,0"
+                             FontSize="15.5"
+                             CaretBrush="White"
+                             VerticalContentAlignment="Center"/>
+                </Border>
 
                 <TextBlock x:Name="LoginErrorText"
-                       Text="Please enter your name."
-                       Foreground="#FF5FA5"
-                       FontSize="13"
-                       Visibility="Collapsed"
-                       Margin="0,10,0,0"/>
+                           Text="Please enter your name."
+                           Foreground="#FF5FA5"
+                           FontSize="13"
+                           Visibility="Collapsed"
+                           Margin="0,8,0,0"/>
 
+                <!-- Button -->
                 <Button Content="Enter Dashboard"
-                    Height="50"
-                    Margin="0,34,0,0"
-                    Background="#5B3DF5"
-                    Foreground="White"
-                    BorderThickness="0"
-                    FontSize="16"
-                    FontWeight="SemiBold"
-                    Click="LoginButton_Click"/>
+                        Height="50"
+                        Margin="0,28,0,0"
+                        Background="#5B3DF5"
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="15"
+                        FontWeight="SemiBold"
+                        Cursor="Hand"
+                        Click="LoginButton_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
 
+                                    <Setter Property="Background" Value="#5B3DF5"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}"
+                                                        CornerRadius="14">
+                                                    <ContentPresenter HorizontalAlignment="Center"
+                                                                      VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#6D52FF"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
             </StackPanel>
         </Border>
-    </Grid>
+    </Border>
+
+</Grid>
 
 
         <Grid x:Name="AppShell" Visibility="Collapsed">
@@ -308,58 +433,107 @@
                     </StackPanel>
 
                     <!-- Motivation section -->
-                    <Grid Grid.Row="2"
-                      VerticalAlignment="Bottom"
-                      Margin="-22,20,-22,60">
-
-                        <StackPanel Grid.Row="2"
+                    <Border Grid.Row="2"
                             VerticalAlignment="Bottom"
-                            Margin="0,20,0,60">
+                            Margin="0,0,0,16"
+                            CornerRadius="20"
+                            Padding="1.5">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#2A1F6B" Offset="0"/>
+                                <GradientStop Color="#1E2A59" Offset="0.5"/>
+                                <GradientStop Color="#2A1F6B" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
 
-                            <Image Source="/Frontend/Assets/arko.png"
-                           Width="235"
-                           HorizontalAlignment="Left"
-                           Margin="-3,-24,0,-32"/>
+                        <Border CornerRadius="19">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#0D1230" Offset="0"/>
+                                    <GradientStop Color="#130D2E" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
 
-                        </StackPanel>
+                            <StackPanel Margin="18,20,18,20">
 
+                                <!-- Glow orb + rocket -->
+                                <Grid HorizontalAlignment="Center"
+                                      Width="110"
+                                      Height="110"
+                                      Margin="0,0,0,14">
 
-                        <!-- Small floating card -->
-                        <Border Width="190"
-                            Height="60"
-                            Background="#111734"
-                            BorderBrush="#1E2A59"
-                            BorderThickness="1"
-                            CornerRadius="16"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Bottom"
-                            Margin="0,0,0,-45"
-                            Padding="12,8">
+                                    <Ellipse Width="110"
+                                             Height="110"
+                                             HorizontalAlignment="Center"
+                                             VerticalAlignment="Center">
+                                        <Ellipse.Fill>
+                                            <RadialGradientBrush>
+                                                <GradientStop Color="#4B2EFF" Offset="0"/>
+                                                <GradientStop Color="#00000000" Offset="1"/>
+                                            </RadialGradientBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
 
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Image Source="/Frontend/Assets/rocket.png"
+                                           Width="100"
+                                           Height="100"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                                </Grid>
 
-                                <!-- Rocket -->
-                                <Image Source="/Frontend/Assets/rocket.png"
-                                   Width="34"
-                                   Height="34"
-                                   VerticalAlignment="Center"/>
+                                <!-- Accent divider line -->
+                                <Border Height="2"
+                                        CornerRadius="2"
+                                        Margin="20,0,20,14">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                            <GradientStop Color="#00000000" Offset="0"/>
+                                            <GradientStop Color="#6B42FF" Offset="0.5"/>
+                                            <GradientStop Color="#00000000" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                </Border>
 
-                                <!-- Text -->
-                                <TextBlock Grid.Column="1"
-                                       Text="Scan projects and track your progress"
-                                       Foreground="White"
-                                       FontSize="10.5"
-                                       TextWrapping="Wrap"
-                                       VerticalAlignment="Center"
-                                       Margin="6,0,0,0"/>
-                            </Grid>
+                                <!-- Pill tag -->
+                                <Border Background="#1A1147"
+                                        BorderBrush="#3B2A8A"
+                                        BorderThickness="1"
+                                        CornerRadius="20"
+                                        Padding="10,4"
+                                        HorizontalAlignment="Center"
+                                        Margin="0,0,0,10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Ellipse Width="6"
+                                                 Height="6"
+                                                 Fill="#6B42FF"
+                                                 VerticalAlignment="Center"
+                                                 Margin="0,0,6,0"/>
+                                        <TextBlock Text="Active Learner"
+                                                   Foreground="#8E6FFF"
+                                                   FontSize="11"
+                                                   FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <!-- Heading -->
+                                <TextBlock Text="Keep Coding!"
+                                           Foreground="White"
+                                           FontSize="15"
+                                           FontWeight="Bold"
+                                           HorizontalAlignment="Center"
+                                           Margin="0,0,0,6"/>
+
+                                <!-- Subtitle -->
+                                <TextBlock Text="Scan projects and track your progress."
+                                           Foreground="#6B7BB8"
+                                           FontSize="11.5"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           HorizontalAlignment="Center"/>
+
+                            </StackPanel>
                         </Border>
-
-                    </Grid>
+                    </Border>
 
                     <TextBlock Grid.Row="3"
                            Text="ARALyti.cs v1.0.0"
@@ -487,8 +661,8 @@
                                                 <Border Background="{TemplateBinding Background}"
                                                         CornerRadius="14">
                                                     <Image Source="/Frontend/Assets/logout.png"
-                                                           Width="24"
-                                                           Height="24"
+                                                           Width="34"
+                                                           Height="34"
                                                            Stretch="Uniform"/>
                                                 </Border>
                                             </ControlTemplate>
