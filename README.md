@@ -251,6 +251,8 @@ Therefore, ARALyti.cs transforms coding practice into a **guided learning experi
 
 ## 👩🏻‍💻 𝐎𝐁𝐉𝐄𝐂𝐓-𝐎𝐑𝐈𝐄𝐍𝐓𝐄𝐃 𝐏𝐑𝐈𝐍𝐂𝐈𝐏𝐋𝐄𝐒
 
+</div>
+
 <table>
 <tr>
 <td width="100%" align="center">
@@ -482,6 +484,8 @@ Press F5 —or— click the ▶ Start button
 </div>
 
 <br>
+
+<div align="center">
 
 ## 𝐌𝐄𝐄𝐓 𝐓𝐇𝐄 𝐓𝐄𝐀𝐌
 
