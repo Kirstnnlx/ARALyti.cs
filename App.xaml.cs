@@ -1,9 +1,6 @@
-﻿using ARALyti.cs.Data;
+﻿using System.Windows;
+using ARALyti.cs.Data;
 using ARALyti.cs.views;
-using System.Configuration;
-using System.Data;
-using System.Windows;
-using System.Linq;
 
 namespace ARALyti.cs
 {
@@ -11,25 +8,33 @@ namespace ARALyti.cs
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            // Ensure database tables exist
             DatabaseService.InitializeDatabase();
 
+            // Load all scanned projects from database into static list
             ScanProjectView.ScannedProjects = DatabaseService.GetProjects();
 
-            if (ScanProjectView.ScannedProjects.Count > 0)
+            // If there are existing projects, load the latest one's topics
+            if (ScanProjectView.ScannedProjects != null && ScanProjectView.ScannedProjects.Count > 0)
             {
                 var latestProject = ScanProjectView.ScannedProjects.Last();
 
-                int projectId = DatabaseService.GetProjectIdByFilePath(latestProject.FilePath);
-
-                if (projectId != -1)
+                if (latestProject != null && !string.IsNullOrEmpty(latestProject.FilePath))
                 {
-                    ScanProjectView.LastDetectedTopicObjects =
-                        DatabaseService.GetTopicsByProjectId(projectId);
+                    int projectId = DatabaseService.GetProjectIdByFilePath(latestProject.FilePath);
+
+                    if (projectId != -1)
+                    {
+                        var topics = DatabaseService.GetTopicsByProjectId(projectId);
+                        if (topics != null)
+                        {
+                            ScanProjectView.LastDetectedTopicObjects = topics;
+                        }
+                    }
                 }
             }
 
             base.OnStartup(e);
-
         }
     }
 }

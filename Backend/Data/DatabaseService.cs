@@ -1,7 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
-using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using ARALyti.cs.Services;
+using Microsoft.Data.Sqlite;
 
 namespace ARALyti.cs.Data
 {
@@ -56,7 +54,6 @@ namespace ARALyti.cs.Data
                     ProgressScore INTEGER NOT NULL,
                     DateRecorded TEXT NOT NULL
                 );
-
             ";
 
             using SqliteCommand command = new SqliteCommand(createTablesQuery, connection);
@@ -71,17 +68,13 @@ namespace ARALyti.cs.Data
             string query = "SELECT Streak FROM UserProfile LIMIT 1";
 
             using var command = new SqliteCommand(query, connection);
-
             object? result = command.ExecuteScalar();
 
             if (result != null && int.TryParse(result.ToString(), out int streak))
-            {
                 return streak;
-            }
 
             return 0;
         }
-
 
         public static void UpdateUserStreak()
         {
@@ -106,18 +99,12 @@ namespace ARALyti.cs.Data
             DateTime lastDate = lastOpenedDate.Date;
 
             if (lastDate == today)
-            {
                 return;
-            }
 
             if (lastDate == today.AddDays(-1))
-            {
                 currentStreak++;
-            }
             else
-            {
                 currentStreak = 1;
-            }
 
             reader.Close();
 
@@ -130,10 +117,8 @@ namespace ARALyti.cs.Data
             using var updateCommand = new SqliteCommand(updateQuery, connection);
             updateCommand.Parameters.AddWithValue("@streak", currentStreak);
             updateCommand.Parameters.AddWithValue("@date", today.ToString("yyyy-MM-dd"));
-
             updateCommand.ExecuteNonQuery();
         }
-
 
         public static void SaveUserName(string name)
         {
@@ -142,15 +127,13 @@ namespace ARALyti.cs.Data
 
             string query = @"
                 DELETE FROM UserProfile;
-
                 INSERT INTO UserProfile (Name, Streak, LastOpenedDate, DateJoined)
                 VALUES (@name, 1, @date, @joinedDate);
             ";
 
             using var command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@joinedDate",
-                DateTime.Now.ToString("yyyy-MM-dd"));
+            command.Parameters.AddWithValue("@joinedDate", DateTime.Now.ToString("yyyy-MM-dd"));
             command.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd"));
 
             command.ExecuteNonQuery();
@@ -164,12 +147,10 @@ namespace ARALyti.cs.Data
             string query = "SELECT Name FROM UserProfile LIMIT 1";
 
             using var command = new SqliteCommand(query, connection);
-
             object? result = command.ExecuteScalar();
 
             return result?.ToString() ?? "";
         }
-
 
         public static string GetDateJoined()
         {
@@ -184,7 +165,6 @@ namespace ARALyti.cs.Data
             return result?.ToString() ?? DateTime.Now.ToString("yyyy-MM-dd");
         }
 
-
         public static void ResetAllData()
         {
             using var connection = new SqliteConnection(ConnectionString);
@@ -196,7 +176,6 @@ namespace ARALyti.cs.Data
                 DELETE FROM Topics;
                 DELETE FROM Projects;
                 DELETE FROM UserProfile;
-
                 DELETE FROM sqlite_sequence WHERE name='ProjectDiaryEntries';
                 DELETE FROM sqlite_sequence WHERE name='ProgressHistory';
                 DELETE FROM sqlite_sequence WHERE name='Topics';
@@ -219,7 +198,6 @@ namespace ARALyti.cs.Data
             ";
 
             using var command = new SqliteCommand(query, connection);
-
             command.Parameters.AddWithValue("@title", title);
             command.Parameters.AddWithValue("@filePath", filePath);
             command.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy-MM-dd"));
@@ -237,7 +215,7 @@ namespace ARALyti.cs.Data
             using var command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@filePath", filePath);
 
-            object? result = command.ExecuteScalar(); // 👈 add ?
+            object? result = command.ExecuteScalar();
 
             if (result == null)
                 return -1;
@@ -261,7 +239,6 @@ namespace ARALyti.cs.Data
             ";
 
             using var command = new SqliteCommand(query, connection);
-
             command.Parameters.AddWithValue("@projectId", projectId);
             command.Parameters.AddWithValue("@name", name);
             command.Parameters.AddWithValue("@difficulty", difficulty);
@@ -271,8 +248,11 @@ namespace ARALyti.cs.Data
             command.ExecuteNonQuery();
         }
 
+        // ==================== DIARY ENTRY WITH ENCRYPTION ====================
         public static void SaveDiaryEntry(int projectId, string note)
         {
+            string encryptedNote = EncryptionHelper.Encrypt(note);
+
             using var connection = new SqliteConnection(ConnectionString);
             connection.Open();
 
@@ -282,11 +262,9 @@ namespace ARALyti.cs.Data
             ";
 
             using var command = new SqliteCommand(query, connection);
-
             command.Parameters.AddWithValue("@projectId", projectId);
-            command.Parameters.AddWithValue("@note", note);
+            command.Parameters.AddWithValue("@note", encryptedNote);
             command.Parameters.AddWithValue("@dateCreated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
             command.ExecuteNonQuery();
         }
 
@@ -368,11 +346,7 @@ namespace ARALyti.cs.Data
             deleteDiaryCommand.Parameters.AddWithValue("@projectId", projectId);
             deleteDiaryCommand.ExecuteNonQuery();
 
-            string resetDiaryIdQuery = @"
-                DELETE FROM sqlite_sequence 
-                WHERE name = 'ProjectDiaryEntries';
-            ";
-
+            string resetDiaryIdQuery = @"DELETE FROM sqlite_sequence WHERE name = 'ProjectDiaryEntries';";
             using var resetDiaryIdCommand = new SqliteCommand(resetDiaryIdQuery, connection);
             resetDiaryIdCommand.ExecuteNonQuery();
 
@@ -381,7 +355,6 @@ namespace ARALyti.cs.Data
             deleteProjectCommand.Parameters.AddWithValue("@projectId", projectId);
             deleteProjectCommand.ExecuteNonQuery();
         }
-
 
         public static void SaveProgressRecord(int progressScore)
         {
@@ -396,7 +369,6 @@ namespace ARALyti.cs.Data
             using var command = new SqliteCommand(query, connection);
             command.Parameters.AddWithValue("@progressScore", progressScore);
             command.Parameters.AddWithValue("@dateRecorded", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-
             command.ExecuteNonQuery();
         }
 
@@ -479,60 +451,27 @@ namespace ARALyti.cs.Data
             using var connection = new SqliteConnection(ConnectionString);
             connection.Open();
 
-            // Count how many projects/files were scanned
             string countProjectsQuery = "SELECT COUNT(*) FROM Projects";
             using var countCommand = new SqliteCommand(countProjectsQuery, connection);
             int projectCount = Convert.ToInt32(countCommand.ExecuteScalar());
 
-            // =====================================================
-            // Only include meaningful topic usage in mastery.
-            // Scores below 30 are considered minor usage
-            // and will NOT affect overall mastery.
-            // =====================================================
             string query = @"
                 SELECT Name, Difficulty, AVG(Score) AS AverageScore
                 FROM Topics
                 WHERE Score >= 30
                 GROUP BY Name, Difficulty;
             ";
-           
 
             using var command = new SqliteCommand(query, connection);
             using var reader = command.ExecuteReader();
 
             while (reader.Read())
             {
-                // =====================================================
-                // 1. AVERAGE DETECTION SCORE
-                // This averages only detected topic scores.
-                // If a topic was not used in a file, it is ignored.
-                // =====================================================
                 double averageDetectionScore = Convert.ToDouble(reader["AverageScore"]);
-
-                // =====================================================
-                // 2. EXPERIENCE FACTOR
-                // This prevents one scanned file from instantly becoming
-                // full mastery.
-                // Example:
-                // 1 project = 0.33
-                // 2 projects = 0.50
-                // 3 projects = 0.60
-                // =====================================================
-                double experienceFactor = projectCount > 0
-                    ? projectCount / (projectCount + 2.0)
-                    : 0;
-
-                // =====================================================
-                // 3. FINAL TOPICS TAB SCORE
-                // This is the overall mastery score shown in Topics tab.
-                // =====================================================
+                double experienceFactor = projectCount > 0 ? projectCount / (projectCount + 2.0) : 0;
                 int masteryScore = (int)Math.Round(averageDetectionScore * experienceFactor);
 
-                // =====================================================
-                // 4. STATUS BASED ON MASTERY SCORE
-                // =====================================================
                 string status;
-
                 if (masteryScore >= 75)
                     status = "Strong";
                 else if (masteryScore >= 40)
@@ -554,7 +493,7 @@ namespace ARALyti.cs.Data
             return topics;
         }
 
-
+        // ==================== DIARY ENTRIES WITH DECRYPTION (supports old plain text) ====================
         public static List<ARALyti.cs.Models.ProjectDiaryEntry> GetDiaryEntries()
         {
             var entries = new List<ARALyti.cs.Models.ProjectDiaryEntry>();
@@ -578,17 +517,30 @@ namespace ARALyti.cs.Data
 
             while (reader.Read())
             {
+                string noteText = reader["Note"].ToString() ?? "";
+                string decryptedNote = noteText;
+
+                // Try to decrypt; if it fails, assume it's plain text (old entry)
+                try
+                {
+                    decryptedNote = EncryptionHelper.Decrypt(noteText);
+                }
+                catch
+                {
+                    // Not encrypted (old plain text) – keep as is
+                    decryptedNote = noteText;
+                }
+
                 entries.Add(new ARALyti.cs.Models.ProjectDiaryEntry
                 {
                     EntryId = $"D{entries.Count + 1:000}",
                     ProjectTitle = reader["ProjectTitle"].ToString() ?? "",
-                    Note = reader["Note"].ToString() ?? "",
+                    Note = decryptedNote,
                     DateCreated = DateTime.Parse(reader["DateCreated"].ToString() ?? DateTime.Now.ToString())
                 });
             }
 
             return entries;
         }
-
     }
 }
