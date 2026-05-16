@@ -331,32 +331,6 @@
                                        FontSize="22"
                                        FontWeight="Bold"/>
                         </StackPanel>
-                        <Button Grid.Column="1"
-                                Content="✕"
-                                Width="32" Height="32"
-                                VerticalAlignment="Top"
-                                Foreground="#6B7BB8" FontSize="14"
-                                Background="Transparent" BorderThickness="0"
-                                Cursor="Hand" Click="CloseModal_Click">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="Bg" Background="Transparent" CornerRadius="8">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="Bg" Property="Background" Value="#1A2050"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
                     </Grid>
 
                     <Border Height="1" Background="#1E2A59" Margin="0,0,0,22"/>
@@ -552,30 +526,6 @@
                             <TextBlock Text="Remove Project"
                                        Foreground="White" FontSize="22" FontWeight="Bold"/>
                         </StackPanel>
-                        <Button Grid.Column="1" Content="✕"
-                                Width="32" Height="32" VerticalAlignment="Top"
-                                Foreground="#6B7BB8" FontSize="14"
-                                Background="Transparent" BorderThickness="0"
-                                Cursor="Hand" Click="CloseDeleteModal_Click">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border x:Name="Bg" Background="Transparent" CornerRadius="8">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="Bg" Property="Background" Value="#1A2050"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
                     </Grid>
 
                     <Border Height="1" Background="#1E2A59" Margin="0,0,0,22"/>
