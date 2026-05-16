@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./Frontend/Assets/readme_logo.png" alt="ARALyti.cs" width="560"/>
+<img src="./Frontend/Assets/readme_logo.png" alt="ARALyti.cs" width="570"/>
 
 <br>
 
@@ -558,6 +558,25 @@ Press F5 —or— click the ▶ Start button
 
 </tr>
 </table>
+
+<br>
+
+<div align="center">
+
+### 🫶🏻 𝐀𝐂𝐊𝐍𝐎𝐖𝐋𝐄𝐃𝐆𝐄𝐌𝐄𝐍𝐓
+
+</div>
+
+<div align="left">
+
+
+We would like to express our sincere gratitude to **Ms. Darlene Opeña** for her guidance, patience, support, and valuable feedback throughout the development of ARALyti.cs. Her teachings and encouragement helped us improve both our system and our skills as student developers.
+
+We would also like to thank every member of the **ARALyti.cs team** for the teamwork, effort, creativity, and late-night debugging sessions that made this project possible. Every contribution played an important role in building and improving the system.
+
+Lastly, we would like to thank every scanned **.cs file** that humbled us along the way. Every syntax error, failed build, unexpected output, and debugging struggle became part of our learning experience and helped us better understand programming concepts while developing this project.
+
+</div>
 
 <br>
 
