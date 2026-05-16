@@ -489,14 +489,14 @@ Press F5 —or— click the ▶ Start button
 
 ## 𝐌𝐄𝐄𝐓 𝐓𝐇𝐄 𝐓𝐄𝐀𝐌
 
-</div>
+<div align="center">
 
 <table>
 <tr>
 
 <td align="center" width="33%">
 
-<img src="Frontend/Assets/niela.png" width="160">
+<img src="Frontend/Assets/niela.png" width="100">
 
 
 
@@ -516,7 +516,7 @@ Press F5 —or— click the ▶ Start button
 
 <td align="center" width="33%">
 
-<img src="Frontend/Assets/kirsten.jpg" width="160">
+<img src="Frontend/Assets/kirsten.jpg" width="100">
 
 
 
@@ -538,7 +538,7 @@ Press F5 —or— click the ▶ Start button
 
 <td align="center" width="33%">
 
-<img src="Frontend/Assets/mark.png" width="160">
+<img src="Frontend/Assets/mark.png" width="100">
 
 <br>
 
@@ -578,7 +578,7 @@ Lastly, we would like to thank every scanned **.cs file** that humbled us along 
 
 </div>
 
-<br>
+<br><br>
 
 <div align="center">
 
